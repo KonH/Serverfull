@@ -1,0 +1,11 @@
+{
+    "name": "Scripts",
+    "references": [
+        "UDBase.Scripts",
+        "UDBase.Extensions"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
