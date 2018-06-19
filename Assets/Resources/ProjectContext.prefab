@@ -68,5 +68,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LogSettings:
-    EnabledByDefault: 0
+    EnabledByDefault: 1
     Nodes: []
