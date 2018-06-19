@@ -55,10 +55,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Settings:
     TimeScale: 1
-    RequestSpawnInterval: 0.5
+    RequestSpawnInterval: 0.25
     NetworkTime: 1
-    ProcessTime: 0.33
-    MoodDecrease: 20
+    ProcessTime: 1
+    MoodDecrease: 5
+    WantedNetwork: 1
+    WantedCPU: 1
+    WantedRAM: 1
+    ServerNetwork: 5
+    ServerCPU: 2
+    ServerRAM: 2
 --- !u!114 &114688784914229706
 MonoBehaviour:
   m_ObjectHideFlags: 1

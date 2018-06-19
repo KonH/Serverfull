@@ -4,9 +4,13 @@ using Zenject;
 
 public class ProcessingController : IInitializable, IDisposable {
 	readonly IEvent _events;
+	readonly ServerController _server;
+	readonly UserController _user;
 
-	public ProcessingController(IEvent events) {
+	public ProcessingController(IEvent events, ServerController server, UserController user) {
 		_events = events;
+		_server = server;
+		_user = user;
 	}
 
 	public void Initialize() {
@@ -18,8 +22,26 @@ public class ProcessingController : IInitializable, IDisposable {
 	}
 
 	void OnRequestReady(RequestReady e) {
-		if ( e.Status == RequestStatus.Incoming ) {
-			e.Request.ToProcessing(e.Request.Target.NetworkTime);
+		var req = e.Request;
+		var target = req.Target;
+		switch ( e.Status ) {
+			case RequestStatus.Incoming: {
+					if ( _server.TryLockResource(target, Server.CPU, req.WantedCPU) ) {
+						if ( _server.TryLockResource(target, Server.RAM, req.WantedRAM) ) {
+							req.ToProcessing(req.Target.NetworkTime);
+							return;
+						}
+					}
+					_user.OnRequestFailed(req.Owner);
+					req.ToOutgoing(req.Target.NetworkTime);
+				}
+				break;
+
+			case RequestStatus.Processing: {
+					_server.ReleaseResource(target, Server.CPU, req.WantedCPU);
+					_server.ReleaseResource(target, Server.RAM, req.WantedRAM);
+				}
+				break;
 		}
 	}
 }

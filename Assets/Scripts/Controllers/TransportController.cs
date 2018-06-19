@@ -24,7 +24,14 @@ public class TransportController : IInitializable, IDisposable {
 		switch ( e.Status ) {
 			case RequestStatus.Awaiting: {
 					var target = _server.GetServerForRequest(req);
-					req.ToIncoming(target, target.NetworkTime);
+					if ( _server.TryLockResource(target, Server.Network, req.WantedNetwork) ) {
+						req.ToIncoming(target, target.NetworkTime);
+					}
+				}
+				break;
+
+			case RequestStatus.Incoming: {
+					_server.ReleaseResource(req.Target, Server.Network, req.WantedNetwork);
 				}
 				break;
 

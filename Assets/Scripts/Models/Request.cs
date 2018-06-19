@@ -1,6 +1,9 @@
 ﻿public class Request {
 	public long Index { get; }
 	public User Owner { get; }
+	public int WantedNetwork { get; }
+	public int WantedCPU { get; }
+	public int WantedRAM { get; }
 	public RequestStatus Status { get; private set; } 
 	public Server Target { get; private set; }
 	public float CurProgress { get; private set; }
@@ -8,9 +11,12 @@
 	public float NormalizedProgress => MaxProgress > 0 ? CurProgress / MaxProgress : 0.0f;
 	public bool IsFinished => Status == RequestStatus.Finished;
 
-	public Request(long index, User owner) {
+	public Request(long index, User owner, int wantedNetwork, int wantedCpu, int wantedRam) {
 		Index = index;
 		Owner = owner;
+		WantedNetwork = wantedNetwork;
+		WantedCPU = wantedCpu;
+		WantedRAM = wantedRam; 
 	}
 
 	public void ToIncoming(Server server, float time) {

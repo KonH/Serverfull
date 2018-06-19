@@ -35,7 +35,7 @@ public class RequestController : ITickable, ILogContext {
 
 	void InitiateRequest() {
 		var owner = _user.CreateUser();
-		var req = new Request(_requests.Count, owner);
+		var req = new Request(_requests.Count, owner, _settings.WantedNetwork, _settings.WantedCPU, _settings.WantedRAM);
 		_log.MessageFormat("InitiateRequest: {0}", req);
 		_requests.Add(req);
 	}
