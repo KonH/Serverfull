@@ -1,5 +1,6 @@
 ﻿public class Request {
 	public long Index { get; }
+	public User Owner { get; }
 	public RequestStatus Status { get; private set; } 
 	public Server Target { get; private set; }
 	public float CurProgress { get; private set; }
@@ -7,8 +8,9 @@
 	public float NormalizedProgress => MaxProgress > 0 ? CurProgress / MaxProgress : 0.0f;
 	public bool IsFinished => Status == RequestStatus.Finished;
 
-	public Request(long index) {
+	public Request(long index, User owner) {
 		Index = index;
+		Owner = owner;
 	}
 
 	public void ToIncoming(Server server, float time) {
@@ -40,7 +42,7 @@
 	}
 
 	public override string ToString() {
-		return string.Format("[{0}] Status: {1}, Progress: {2}", Index, Status, NormalizedProgress);
+		return string.Format("[{0}] Status: {1}, Progress: {2}, Owner.Mood: {3:0.00}", Index, Status, NormalizedProgress, Owner.Mood);
 	}
 
 	public override int GetHashCode() {

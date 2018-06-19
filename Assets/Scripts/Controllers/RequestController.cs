@@ -5,19 +5,21 @@ using Zenject;
 
 public class RequestController : ITickable, ILogContext {
 	readonly ULogger _log;
+	readonly IEvent _events;
 	readonly GameSettings _settings;
 	readonly TimeController _time;
-	readonly IEvent _events;
+	readonly UserController _user;
 
 	float _spawnTimer = 0.0f;
 
 	List<Request> _requests = new List<Request>(); 
 
-	public RequestController(ILog log, GameSettings settings, TimeController time, IEvent events) {
+	public RequestController(ILog log, IEvent events, GameSettings settings, TimeController time, UserController user) {
 		_log = log.CreateLogger(this);
+		_events = events;
 		_settings = settings;
 		_time = time;
-		_events = events;
+		_user = user;
 		_spawnTimer = _settings.RequestSpawnInterval;
 	}
 
@@ -32,7 +34,8 @@ public class RequestController : ITickable, ILogContext {
 	}
 
 	void InitiateRequest() {
-		var req = new Request(_requests.Count);
+		var owner = _user.CreateUser();
+		var req = new Request(_requests.Count, owner);
 		_log.MessageFormat("InitiateRequest: {0}", req);
 		_requests.Add(req);
 	}
@@ -46,6 +49,7 @@ public class RequestController : ITickable, ILogContext {
 				if ( req.Status != status ) {
 					_events.Fire(new RequestNewStatus(req));
 				}
+				_user.UpdateMood(req.Owner, timeDelta);
 			}
 		}
 	}

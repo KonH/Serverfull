@@ -69,7 +69,9 @@ public class RequestSpawner : MonoBehaviour {
 		foreach ( var pair in _views ) {
 			var req = pair.Key;
 			var view = pair.Value;
-			view.transform.position = Vector3.Lerp(view.StartPos, view.EndPos, req.NormalizedProgress);
+			var progress = req.Status != RequestStatus.Processing ? req.NormalizedProgress : 1.0f;
+			view.transform.position = Vector3.Lerp(view.StartPos, view.EndPos, progress);
+			view.MoodRenderer.material.color = Color.Lerp(view.BadMoodColor, view.GoodMoodColor, req.Owner.Mood);
 		}
 	}
 }

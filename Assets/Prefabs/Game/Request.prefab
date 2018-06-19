@@ -124,3 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ece8e21cb1b22f4d9fb1d6a0f51c8da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GoodMoodColor: {r: 0, g: 1, b: 0, a: 0}
+  BadMoodColor: {r: 1, g: 0, b: 0, a: 0}
+  MoodRenderer: {fileID: 23021365902393260}
