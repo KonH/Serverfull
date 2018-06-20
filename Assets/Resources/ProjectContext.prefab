@@ -68,5 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LogSettings:
-    EnabledByDefault: 1
-    Nodes: []
+    EnabledByDefault: 0
+    Nodes:
+    - Context:
+        classRef: Serverfull.Controllers.TimeController, Scripts
+      Enabled: 1
