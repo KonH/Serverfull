@@ -15,5 +15,6 @@ namespace Serverfull.Game {
 		public int   ServerNetwork        = 1;
 		public int   ServerCPU            = 1;
 		public int   ServerRAM            = 1;
+		public int   ServerMaintenance    = 1;
 	}
 }

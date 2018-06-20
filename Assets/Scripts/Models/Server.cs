@@ -7,12 +7,14 @@ namespace Serverfull.Models {
 		public const string RAM     = "RAM";
 
 		public ServerId                Id          { get; }
-		public float                   NetworkTime { get; private set; }
-		public float                   ProcessTime { get; private set; }
+		public float                   NetworkTime { get; }
+		public float                   ProcessTime { get; }
+		public Money                   Maintenance { get; }
 		public Dictionary<string, int> Resources   { get; private set; }
 
-		public Server(ServerId id, float networkTime, float processTime, Dictionary<string, int> resources) {
+		public Server(ServerId id, Money maintenance, float networkTime, float processTime, Dictionary<string, int> resources) {
 			Id          = id;
+			Maintenance = maintenance;
 			NetworkTime = networkTime;
 			ProcessTime = processTime;
 			Resources   = resources;

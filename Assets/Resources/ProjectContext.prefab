@@ -73,3 +73,6 @@ MonoBehaviour:
     - Context:
         classRef: Serverfull.Controllers.TimeController, Scripts
       Enabled: 1
+    - Context:
+        classRef: Serverfull.Controllers.FinanceController, Scripts
+      Enabled: 1

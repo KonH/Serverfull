@@ -6,9 +6,9 @@ using Serverfull.Game;
 
 namespace Serverfull.Controllers {
 	public class ServerController : ILogContext {
-		readonly ULogger _log;
+		public List<Server> Servers { get; }
 
-		List<Server> _servers;
+		readonly ULogger _log;
 
 		public ServerController(ILog log, GameSettings settings) {
 			_log = log.CreateLogger(this);
@@ -17,14 +17,14 @@ namespace Serverfull.Controllers {
 				{ Server.RAM,     settings.ServerRAM     },
 				{ Server.CPU,     settings.ServerCPU     }
 			};
-			_servers = new List<Server>();
+			Servers = new List<Server>();
 			for ( var i = 0; i < 3; i++ ) {
-				_servers.Add(new Server(ServerId.Create(), settings.NetworkTime, settings.ProcessTime, resources));
+				Servers.Add(new Server(ServerId.Create(), new Money(settings.ServerMaintenance), settings.NetworkTime, settings.ProcessTime, resources));
 			}
 		}
 
 		public Server GetServerForRequest(Request request) {
-			return RandomUtils.GetItem(_servers);
+			return RandomUtils.GetItem(Servers);
 		}
 
 		public bool TryLockResource(Server server, string key, int value) {

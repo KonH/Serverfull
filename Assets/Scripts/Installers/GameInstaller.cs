@@ -17,6 +17,7 @@ namespace Serverfull.Installers {
 			Container.Bind(typeof(TransportController), typeof(IInitializable), typeof(IDisposable)).To<TransportController>().AsSingle();
 			Container.Bind(typeof(ProcessingController), typeof(IInitializable), typeof(IDisposable)).To<ProcessingController>().AsSingle();
 			Container.Bind<ServerController>().ToSelf().AsSingle();
+			Container.Bind(typeof(FinanceController), typeof(IInitializable), typeof(IDisposable)).To<FinanceController>().AsSingle();
 			Container.BindInstance(ServerManager);
 		}
 	}
