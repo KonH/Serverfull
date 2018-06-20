@@ -1,19 +1,24 @@
-﻿public class UserController {
-	GameSettings _settings;
+﻿using Serverfull.Game;
+using Serverfull.Models;
 
-	public UserController(GameSettings settings) {
-		_settings = settings;
-	}
+namespace Serverfull.Controllers {
+	public class UserController {
+		GameSettings _settings;
 
-	public User CreateUser() {
-		return new User();
-	}
+		public UserController(GameSettings settings) {
+			_settings = settings;
+		}
 
-	public void UpdateMood(User user, float deltaTime) {
-		user.UpdateMood(-deltaTime * _settings.MoodDecrease);
-	}
+		public User CreateUser() {
+			return new User();
+		}
 
-	public void OnRequestFailed(User user) {
-		user.UpdateMood(-user.Mood);
+		public void UpdateMood(User user, float deltaTime) {
+			user.UpdateMood(-deltaTime * _settings.MoodDecrease);
+		}
+
+		public void OnRequestFailed(User user) {
+			user.UpdateMood(-user.Mood);
+		}
 	}
 }
