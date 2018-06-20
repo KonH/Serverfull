@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 using Serverfull.Models;
 using Serverfull.Game;
 
 namespace Serverfull.Controllers {
 	public class ServerController : ILogContext {
-		ULogger _log;
-		Server  _instance;
+		readonly ULogger _log;
+
+		List<Server> _servers;
 
 		public ServerController(ILog log, GameSettings settings) {
 			_log = log.CreateLogger(this);
@@ -15,11 +17,14 @@ namespace Serverfull.Controllers {
 				{ Server.RAM,     settings.ServerRAM     },
 				{ Server.CPU,     settings.ServerCPU     }
 			};
-			_instance = new Server(settings.NetworkTime, settings.ProcessTime, resources);
+			_servers = new List<Server>();
+			for ( var i = 0; i < 3; i++ ) {
+				_servers.Add(new Server(ServerId.Create(), settings.NetworkTime, settings.ProcessTime, resources));
+			}
 		}
 
 		public Server GetServerForRequest(Request request) {
-			return _instance;
+			return RandomUtils.GetItem(_servers);
 		}
 
 		public bool TryLockResource(Server server, string key, int value) {

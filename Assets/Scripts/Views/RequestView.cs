@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Serverfull.Views {
 	public class RequestView : MonoBehaviour {
-		public Color    GoodMoodColor;
-		public Color    BadMoodColor;
-		public Renderer MoodRenderer;
+		public Color          GoodMoodColor;
+		public Color          BadMoodColor;
+		public List<Renderer> MoodRenderers;
 
 		[NonSerialized]
 		public Vector3 StartPos;

@@ -50,7 +50,10 @@
 		}
 
 		public override string ToString() {
-			return string.Format("[{0}] Status: {1}, Progress: {2}, Owner.Mood: {3:0.00}", Id, Status, NormalizedProgress, Owner.Mood);
+			return string.Format(
+				"[{0}] Status: {1}, Target: {2}, Progress: {3}, Owner.Mood: {4:0.00}",
+				Id, Status, Target?.Id, NormalizedProgress, Owner.Mood
+			);
 		}
 	}
 }

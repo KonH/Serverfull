@@ -6,7 +6,8 @@ using Zenject;
 
 namespace Serverfull.Installers {
 	public class GameInstaller : UDBaseInstaller {
-		public GameSettings Settings;
+		public GameSettings  Settings;
+		public ServerManager ServerManager;
 
 		public override void InstallBindings() {
 			Container.BindInstance(Settings);
@@ -16,6 +17,7 @@ namespace Serverfull.Installers {
 			Container.Bind(typeof(TransportController), typeof(IInitializable), typeof(IDisposable)).To<TransportController>().AsSingle();
 			Container.Bind(typeof(ProcessingController), typeof(IInitializable), typeof(IDisposable)).To<ProcessingController>().AsSingle();
 			Container.Bind<ServerController>().ToSelf().AsSingle();
+			Container.BindInstance(ServerManager);
 		}
 	}
 }
