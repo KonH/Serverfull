@@ -14,7 +14,8 @@ namespace Serverfull.Installers {
 			Container.Bind(typeof(TimeController), typeof(ITickable)).To<TimeController>().AsSingle();
 			Container.Bind<ClientController>().ToSelf().AsSingle();
 			Container.Bind<UserController>().ToSelf().AsSingle();
-			Container.Bind(typeof(RequestController), typeof(ITickable)).To<RequestController>().AsSingle().NonLazy();
+			Container.Bind(typeof(RequestController), typeof(ITickable)).To<RequestController>().AsSingle();
+			Container.Bind(typeof(RequestSpawnController), typeof(ITickable)).To<RequestSpawnController>().AsSingle().NonLazy();
 			Container.Bind(typeof(TransportController), typeof(IInitializable), typeof(IDisposable)).To<TransportController>().AsSingle();
 			Container.Bind(typeof(ProcessingController), typeof(IInitializable), typeof(IDisposable)).To<ProcessingController>().AsSingle();
 			Container.Bind<ServerController>().ToSelf().AsSingle();

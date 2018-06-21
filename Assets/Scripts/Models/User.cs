@@ -2,10 +2,11 @@
 
 namespace Serverfull.Models {
 	public class User {
-		public float Mood { get; private set; }
+		public ClientId Client { get; }
+		public float    Mood   { get; private set; } = 1.0f;
 
-		public User() {
-			Mood = 1.0f;
+		public User(ClientId client) {
+			Client = client;
 		}
 
 		public void UpdateMood(float inc) {

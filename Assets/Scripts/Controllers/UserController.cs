@@ -9,8 +9,8 @@ namespace Serverfull.Controllers {
 			_settings = settings;
 		}
 
-		public User CreateUser() {
-			return new User();
+		public User CreateUser(ClientId owner) {
+			return new User(owner);
 		}
 
 		public void UpdateMood(User user, float deltaTime) {

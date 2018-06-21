@@ -26,7 +26,7 @@ namespace Serverfull.Controllers {
 		Server Get(ServerId id) => _servers.GetOrDefault(id);
 
 		public Server GetServerForRequest(Request request) {
-			return RandomUtils.GetItem(_servers);
+			return GetClientServer(request.Owner.Client);
 		}
 
 		public void AddClientToServer(ClientId clientId, ServerId serverId) {
