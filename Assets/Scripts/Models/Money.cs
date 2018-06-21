@@ -1,5 +1,7 @@
 ﻿namespace Serverfull.Models {
 	public struct Money {
+		public static Money Zero => new Money(0);
+
 		public int Value { get; private set; }
 
 		public Money(int value) {

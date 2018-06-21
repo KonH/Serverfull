@@ -28,9 +28,7 @@ namespace Serverfull.Controllers {
 		}
 
 		void OnNewHour(Time_NewGameHour e) {
-			foreach ( var server in _server.Servers ) {
-				Balance -= server.Maintenance;
-			}
+			Balance -= _server.GetTotalMaintenance();
 			_log.MessageFormat("New balance: {0}", Balance);
 		}
 	}
