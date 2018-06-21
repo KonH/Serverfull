@@ -27,7 +27,7 @@ namespace Serverfull.Controllers {
 		public Request Get(RequestId id) => _requests.GetOrDefault(id);
 
 		public void Add(Request request) {
-			_log.MessageFormat("InitiateRequest: {0}", request);
+			_log.MessageFormat("Add: {0}", request);
 			_requests.Add(request.Id, request);
 		}
 
@@ -46,7 +46,7 @@ namespace Serverfull.Controllers {
 			if ( req.Status != status ) {
 				_events.Fire(new Request_NewStatus(req));
 			}
-			_user.UpdateMood(req.Owner, _time.DeltaTime);
+			_user.UpdateMood(req.Owner, deltaTime);
 		}
 	}
 }

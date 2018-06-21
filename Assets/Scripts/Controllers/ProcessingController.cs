@@ -33,7 +33,7 @@ namespace Serverfull.Controllers {
 				case RequestStatus.Incoming: {
 						if ( _server.TryLockResource(target, Server.CPU, req.WantedCPU) ) {
 							if ( _server.TryLockResource(target, Server.RAM, req.WantedRAM) ) {
-								req.ToProcessing(req.Target.NetworkTime);
+								req.ToProcessing(req.Target.ProcessTime);
 								return;
 							}
 						}

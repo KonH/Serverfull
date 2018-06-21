@@ -28,7 +28,7 @@ namespace Serverfull.Controllers {
 
 		public void Tick() {
 			DeltaTime = Time.deltaTime * _settings.TimeScale;
-			GameTime = GameTime.AddSeconds(DeltaTime * _settings.GameTimeScale);
+			GameTime = GameTime.AddSeconds(DeltaTime);
 			var hoursDelta = (int)(GameTime - _startTime).TotalHours;
 			while ( hoursDelta > _prevHours ) {
 				_log.MessageFormat("New game hour: {0}", GameTime);

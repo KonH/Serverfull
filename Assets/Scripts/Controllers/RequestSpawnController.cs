@@ -1,32 +1,47 @@
-﻿using Serverfull.Models;
+﻿using System.Collections.Generic;
+using Serverfull.Game;
+using Serverfull.Models;
 using Zenject;
 
 namespace Serverfull.Controllers {
 	public class RequestSpawnController : ITickable {
+		const float SecondsInHour = 60 * 60;
+		
 		readonly TimeController    _time;
 		readonly ClientController  _client;
 		readonly UserController    _user;
 		readonly RequestController _request;
 
-		float _spawnTimer = 0.0f;
+		Dictionary<ClientId, float> _spawnTimers = new Dictionary<ClientId, float>();
 
 		public RequestSpawnController(TimeController time, ClientController client, UserController user, RequestController request) {
-			_time       = time;
-			_client     = client;
-			_user       = user;
-			_request    = request;
-			_spawnTimer = 1;
+			_time     = time;
+			_client   = client;
+			_user     = user;
+			_request  = request;
 		}
 
 		public void Tick() {
-			_spawnTimer += _time.DeltaTime;
-			var interval = 1;
-			while ( _spawnTimer > interval ) {
-				var clientId = new ClientId("Client1");
-				var client = _client.Get(clientId);
-				InitiateRequest(client);
-				_spawnTimer -= interval;
+			foreach ( var client in _client.All ) {
+				var curTimer = 0.0f;
+				var spawnDelta = GetSpawnDelta(client.UserRate);
+				if ( !_spawnTimers.TryGetValue(client.Id, out curTimer) ) {
+					curTimer = spawnDelta;
+					_spawnTimers.Add(client.Id, curTimer);
+				} else {
+					curTimer += _time.DeltaTime;
+				}
+				while ( curTimer >= spawnDelta ) {
+					curTimer -= spawnDelta;
+					InitiateRequest(client);
+				}
+				_spawnTimers[client.Id] = curTimer;
 			}
+		}
+
+		float GetSpawnDelta(int userRatePerHour) {
+			var secPerUser = SecondsInHour / userRatePerHour;
+			return secPerUser;
 		}
 
 		void InitiateRequest(Client client) {
