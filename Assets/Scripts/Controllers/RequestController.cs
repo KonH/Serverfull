@@ -15,7 +15,8 @@ namespace Serverfull.Controllers {
 		readonly TimeController _time;
 		readonly UserController _user;
 
-		Dictionary<RequestId, Request> _requests = new Dictionary<RequestId, Request>();
+		Dictionary<RequestId, Request> _requests         = new Dictionary<RequestId, Request>();
+		List<RequestId>                _finishedRequests = new List<RequestId>();
 
 		public RequestController(ILog log, IEvent events, TimeController time, UserController user) {
 			_log        = log.CreateLogger(this);
@@ -34,9 +35,14 @@ namespace Serverfull.Controllers {
 		public void Tick() {
 			var deltaTime = _time.DeltaTime;
 			foreach ( var req in _requests.Values ) {
-				if ( !req.IsFinished && req.UpdateProgress(deltaTime) ) {
+				if ( req.IsFinished ) {
+					_finishedRequests.Add(req.Id);
+				} else if ( req.UpdateProgress(deltaTime) ) {
 					UpdateRequest(req, deltaTime);
 				}
+			}
+			foreach ( var req in _finishedRequests ) {
+				_requests.Remove(req);
 			}
 		}
 

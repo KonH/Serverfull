@@ -59,8 +59,8 @@ MonoBehaviour:
     ProcessTime: 900
     MoodDecrease: 0.01
     ServerNetwork: 100
-    ServerCPU: 50
-    ServerRAM: 50
+    ServerCPU: 20
+    ServerRAM: 20
     ServerMaintenance: 1
   ServerManager: {fileID: 0}
 --- !u!114 &114688784914229706
