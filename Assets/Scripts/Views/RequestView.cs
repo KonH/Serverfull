@@ -7,6 +7,7 @@ namespace Serverfull.Views {
 		public Color          GoodMoodColor;
 		public Color          BadMoodColor;
 		public List<Renderer> MoodRenderers;
+		public TrailRenderer  Trail;
 
 		[NonSerialized]
 		public Vector3 StartPos;

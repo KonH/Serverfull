@@ -53,6 +53,7 @@ namespace Serverfull.Game {
 								var view = ObjectPool.Spawn(RequestPrefab, pos);
 								view.StartPos = pos;
 								view.EndPos = targetServerView.transform.position;
+								view.Trail.Clear();
 								_views.Add(id, view);
 							}
 						}

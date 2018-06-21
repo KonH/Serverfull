@@ -259,3 +259,4 @@ MonoBehaviour:
   MoodRenderers:
   - {fileID: 23021365902393260}
   - {fileID: 96024727377429180}
+  Trail: {fileID: 96024727377429180}
