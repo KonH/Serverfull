@@ -12,11 +12,13 @@ namespace Serverfull.Controllers {
 		readonly ULogger          _log;
 		readonly IEvent           _event;
 		readonly ServerController _server;
+		readonly ClientController _client;
 
-		public FinanceController(ILog log, IEvent events, ServerController server) {
+		public FinanceController(ILog log, IEvent events, ServerController server, ClientController client) {
 			_log    = log.CreateLogger(this);
 			_event  = events;
 			_server = server;
+			_client = client;
 		}
 
 		public void Initialize() {
@@ -29,6 +31,7 @@ namespace Serverfull.Controllers {
 
 		void OnNewHour(Time_NewGameHour e) {
 			Balance -= _server.GetTotalMaintenance();
+			Balance += _client.GetTotalIncome();
 			_log.MessageFormat("New balance: {0}", Balance);
 		}
 	}

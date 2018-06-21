@@ -11,6 +11,7 @@ namespace Serverfull.Models {
 		public float                   ProcessTime { get; }
 		public Money                   Maintenance { get; }
 		public Dictionary<string, int> Resources   { get; private set; }
+		public List<ClientId>          Clients     { get; private set; } = new List<ClientId>();
 
 		public Server(ServerId id, Money maintenance, float networkTime, float processTime, Dictionary<string, int> resources) {
 			Id          = id;

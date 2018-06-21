@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.LogSystem;
 using Serverfull.Game;
@@ -36,11 +37,7 @@ namespace Serverfull.Controllers {
 			UpdateRequests();
 		}
 
-		public Request Get(RequestId id) {
-			Request req;
-			_requests.TryGetValue(id, out req);
-			return req;
-		}
+		public Request Get(RequestId id) => _requests.GetOrDefault(id);
 
 		void InitiateRequest() {
 			var owner = _user.CreateUser();

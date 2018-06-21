@@ -6,7 +6,7 @@ using Serverfull.Game;
 
 namespace Serverfull.Controllers {
 	public class ServerController : ILogContext {
-		List<Server> _servers = new List<Server>();
+		Dictionary<ServerId, Server> _servers = new Dictionary<ServerId, Server>();
 
 		readonly ULogger _log;
 
@@ -18,12 +18,29 @@ namespace Serverfull.Controllers {
 				{ Server.CPU,     settings.ServerCPU     }
 			};
 			for ( var i = 0; i < 3; i++ ) {
-				_servers.Add(new Server(ServerId.Create(), new Money(settings.ServerMaintenance), settings.NetworkTime, settings.ProcessTime, resources));
+				var id = ServerId.Create();
+				_servers.Add(id, new Server(id, new Money(settings.ServerMaintenance), settings.NetworkTime, settings.ProcessTime, resources));
 			}
 		}
 
+		Server Get(ServerId id) => _servers.GetOrDefault(id);
+
 		public Server GetServerForRequest(Request request) {
 			return RandomUtils.GetItem(_servers);
+		}
+
+		public void AddClientToServer(ClientId clientId, ServerId serverId) {
+			var server = Get(serverId);
+			server?.Clients.Add(clientId);
+		}
+
+		public Server GetClientServer(ClientId clientId) {
+			foreach ( var server in _servers.Values ) {
+				if ( server.Clients.Contains(clientId) ) {
+					return server;
+				}
+			}
+			return null;
 		}
 
 		public bool TryLockResource(Server server, string key, int value) {
@@ -47,7 +64,7 @@ namespace Serverfull.Controllers {
 
 		public Money GetTotalMaintenance() {
 			var result = Money.Zero;
-			foreach ( var server in _servers ) {
+			foreach ( var server in _servers.Values ) {
 				result += server.Maintenance;
 			}
 			return result;
