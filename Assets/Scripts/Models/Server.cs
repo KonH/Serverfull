@@ -6,19 +6,33 @@ namespace Serverfull.Models {
 		public const string CPU     = "CPU";
 		public const string RAM     = "RAM";
 
-		public ServerId                Id          { get; }
-		public float                   NetworkTime { get; }
-		public float                   ProcessTime { get; }
-		public Money                   Maintenance { get; }
-		public Dictionary<string, int> Resources   { get; private set; }
-		public List<ClientId>          Clients     { get; private set; } = new List<ClientId>();
+		public class Resource {
+			public int   Max  { get; }
+			public int   Free { get; set; }
+
+			public float NormalizedFree => (float)Free / Max;
+
+			public Resource(int value) {
+				Max  = value;
+				Free = value;
+			}
+		}
+
+		public ServerId                     Id          { get; }
+		public float                        NetworkTime { get; }
+		public float                        ProcessTime { get; }
+		public Money                        Maintenance { get; }
+		public Dictionary<string, Resource> Resources   { get; private set; } = new Dictionary<string, Resource>();
+		public List<ClientId>               Clients     { get; private set; } = new List<ClientId>();
 
 		public Server(ServerId id, Money maintenance, float networkTime, float processTime, Dictionary<string, int> resources) {
 			Id          = id;
 			Maintenance = maintenance;
 			NetworkTime = networkTime;
 			ProcessTime = processTime;
-			Resources   = resources;
+			foreach ( var res in resources ) {
+				Resources.Add(res.Key, new Resource(res.Value));
+			}
 		}
 
 		public override string ToString() {

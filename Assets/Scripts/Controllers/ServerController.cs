@@ -23,7 +23,7 @@ namespace Serverfull.Controllers {
 			}
 		}
 
-		Server Get(ServerId id) => _servers.GetOrDefault(id);
+		public Server Get(ServerId id) => _servers.GetOrDefault(id);
 
 		public Server GetServerForRequest(Request request) {
 			return GetClientServer(request.Owner.Client);
@@ -44,10 +44,10 @@ namespace Serverfull.Controllers {
 		}
 
 		public bool TryLockResource(Server server, string key, int value) {
-			int freeValue;
-			if ( server.Resources.TryGetValue(key, out freeValue) ) {
-				if ( freeValue >= value ) {
-					server.Resources[key] -= value;
+			Server.Resource res;
+			if ( server.Resources.TryGetValue(key, out res) ) {
+				if ( res.Free >= value ) {
+					res.Free -= value;
 					_log.MessageFormat("TryLockResource: {0}", server);
 					return true;
 				}
@@ -57,7 +57,7 @@ namespace Serverfull.Controllers {
 
 		public void ReleaseResource(Server server, string key, int value) {
 			if ( server.Resources.ContainsKey(key) ) {
-				server.Resources[key] += value;
+				server.Resources[key].Free += value;
 				_log.MessageFormat("ReleaseResource: {0}", server);
 			}
 		}
