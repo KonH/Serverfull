@@ -5,6 +5,9 @@ using Serverfull.Models;
 
 namespace Serverfull.Controllers {
 	public class ClientController {
+		static List<ClientId> _tempIds     = new List<ClientId>();
+		static List<Client>   _tempClients = new List<Client>();
+
 		public IEnumerable<Client> All => _clients.Values;
 
 		readonly ULogger          _log;
@@ -32,7 +35,8 @@ namespace Serverfull.Controllers {
 		public Client Get(ClientId id) => _clients.GetOrDefault(id);
 
 		public List<Client> Get(List<ClientId> ids) {
-			var result = new List<Client>(ids.Count);
+			_tempClients.Clear();
+			var result = _tempClients;
 			foreach ( var id in ids ) {
 				var client = Get(id);
 				if ( client != null ) {
@@ -42,10 +46,25 @@ namespace Serverfull.Controllers {
 			return result;
 		}
 
+		bool IsAssignedToServer(ClientId id) {
+			return _server.GetClientServer(id) != null;
+		}
+
+		public List<ClientId> GetAwaitingClients() {
+			_tempIds.Clear();
+			var result = _tempIds;
+			foreach ( var id in _clients.Keys ) {
+				if ( !IsAssignedToServer(id) ) {
+					result.Add(id);
+				}
+			}
+			return result;
+		}
+
 		public Money GetTotalIncome() {
 			var result = Money.Zero;
 			foreach ( var client in _clients ) {
-				if ( _server.GetClientServer(client.Key) != null ) {
+				if ( IsAssignedToServer(client.Key)) {
 					result += client.Value.Income;
 				}
 			}

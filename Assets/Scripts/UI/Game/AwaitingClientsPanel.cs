@@ -1,16 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Serverfull.Controllers;
+using Zenject;
 
-public class AwaitingClientsPanel : MonoBehaviour {
+namespace Serverfull.UI.Game {
+	[RequireComponent(typeof(ClientsPanel))]
+	public class AwaitingClientsPanel : MonoBehaviour {
+		ClientController _client;
+		ClientsPanel     _clientsPanel;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		[Inject]
+		public void Init(ClientController client) {
+			_client = client;
+		}
+
+		void Start() {
+			_clientsPanel = GetComponent<ClientsPanel>();
+		}
+
+		void Update() {
+			var clientIds = _client.GetAwaitingClients();
+			if ( _clientsPanel.NeedToUpdate(clientIds) ) {
+				_clientsPanel.Hide();
+				var fullClients = _client.Get(clientIds);
+				_clientsPanel.Show(fullClients);
+			}
+		}
 	}
 }
