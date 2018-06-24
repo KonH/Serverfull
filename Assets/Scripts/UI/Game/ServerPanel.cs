@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Utils;
+using UDBase.Controllers.EventSystem;
+using Serverfull.Events;
 using Serverfull.Models;
 using Serverfull.Controllers;
 using Zenject;
@@ -17,16 +19,36 @@ namespace Serverfull.UI.Game {
 			public Slider Slider;
 		}
 
-		public int                       ServerIndex;
 		public GameObject                Root;
 		public List<ServerResourcePanel> Resources;
 
 		ServerController _server;
+		IEvent           _event;
 		float            _timer;
+		ServerId         _selectedId;
 
 		[Inject]
-		public void Init(ServerController server) {
+		public void Init(IEvent events, ServerController server) {
+			_event  = events;
 			_server = server;
+		}
+
+		void OnEnable() {
+			_event?.Subscribe<UI_ServerSelected> (this, OnServerSelected);
+			_event?.Subscribe<UI_NothingSelected>(this, OnNothingSelected);
+		}
+
+		void OnDisable() {
+			_event?.Unsubscribe<UI_ServerSelected> (OnServerSelected);
+			_event?.Unsubscribe<UI_NothingSelected>(OnNothingSelected);
+		}
+
+		void OnServerSelected(UI_ServerSelected e) {
+			_selectedId = e.Id;
+		}
+
+		void OnNothingSelected(UI_NothingSelected e) {
+			_selectedId = new ServerId(-1);
 		}
 
 		void Start() {
@@ -38,7 +60,7 @@ namespace Serverfull.UI.Game {
 		}
 
 		void UpdateState() {
-			var server = _server.Get(new ServerId(ServerIndex));
+			var server = _server.Get(_selectedId);
 			Root.SetActive(server != null);
 			if ( server != null ) {
 				_timer += Time.deltaTime;
