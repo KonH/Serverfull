@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114147841314858526}
   - component: {fileID: 114912181998851846}
   - component: {fileID: 114595611667677064}
+  - component: {fileID: 114590596472515822}
   m_Layer: 5
   m_Name: ClientView
   m_TagString: Untagged
@@ -74,6 +75,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114590596472515822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159931601447856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5f87f58c4e364419ac17f34b2ab2e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114595611667677064
 MonoBehaviour:
   m_ObjectHideFlags: 1

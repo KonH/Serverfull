@@ -27,14 +27,12 @@ namespace Serverfull.Game {
 			if ( Physics.Raycast(ray, out info, MaxDistance) ) {
 				var go = info.collider?.gameObject;
 				if ( go ) {
-					var isClick = Input.GetMouseButton(0);
+					var isClick = Input.GetMouseButtonUp(0);
 					var server  = go.GetComponent<ServerView>();
 					if ( isClick ) {
 						if ( server ) {
 							_event.Fire(new UI_ServerSelected(server.Id));
-							return;
 						}
-						_event.Fire(new UI_NothingSelected());
 					}
 				}
 			}

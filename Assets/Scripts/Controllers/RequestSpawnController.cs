@@ -45,6 +45,9 @@ namespace Serverfull.Controllers {
 		}
 
 		void InitiateRequest(Client client) {
+			if ( !_client.IsAssignedToServer(client.Id) ) {
+				return;
+			}
 			var owner = _user.CreateUser(client.Id);
 			var req = new Request(RequestId.Create(), owner, client.WantedNetwork, client.WantedCPU, client.WantedRAM);
 			_request.Add(req);

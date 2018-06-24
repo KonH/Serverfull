@@ -21,37 +21,30 @@ namespace Serverfull.UI.Game {
 
 		public GameObject                Root;
 		public List<ServerResourcePanel> Resources;
-		public ClientsPanel              Clients;
+		public ServerClientsPanel        Clients;
 
 		ServerController _server;
-		ClientController _client;
 		IEvent           _event;
 		float            _timer;
 		ServerId         _selectedId;
 
 		[Inject]
-		public void Init(IEvent events, ServerController server, ClientController client) {
+		public void Init(IEvent events, ServerController server) {
 			_event  = events;
 			_server = server;
-			_client = client;
 		}
 
 		void OnEnable() {
-			_event?.Subscribe<UI_ServerSelected> (this, OnServerSelected);
-			_event?.Subscribe<UI_NothingSelected>(this, OnNothingSelected);
+			_event?.Subscribe<UI_ServerSelected>(this, OnServerSelected);
 		}
 
 		void OnDisable() {
-			_event?.Unsubscribe<UI_ServerSelected> (OnServerSelected);
-			_event?.Unsubscribe<UI_NothingSelected>(OnNothingSelected);
+			_event?.Unsubscribe<UI_ServerSelected>(OnServerSelected);
 		}
 
 		void OnServerSelected(UI_ServerSelected e) {
-			_selectedId = e.Id;
-		}
-
-		void OnNothingSelected(UI_NothingSelected e) {
-			_selectedId = new ServerId(-1);
+			_selectedId      = e.Id;
+			Clients.ServerId = e.Id;
 		}
 
 		void Start() {
@@ -75,15 +68,9 @@ namespace Serverfull.UI.Game {
 					var value = server.Resources.GetOrDefault(res.Name);
 					res.Slider.value = value != null ? value.NormalizedFree : 0.0f;
 				}
-				if ( Clients.NeedToUpdate(server.Clients) ) {
-					var fullClients = _client.Get(server.Clients);
-					Clients.Hide();
-					Clients.Show(fullClients);
-				}
 
 			} else {
 				_timer = UpdateTime;
-				Clients.Hide();
 			}
 		}
 	}

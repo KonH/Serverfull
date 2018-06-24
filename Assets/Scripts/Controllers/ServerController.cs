@@ -31,7 +31,14 @@ namespace Serverfull.Controllers {
 
 		public void AddClientToServer(ClientId clientId, ServerId serverId) {
 			var server = Get(serverId);
+			_log.MessageFormat("AddClientToServer: {0} => {1} ({2})", clientId, serverId, server);
 			server?.Clients.Add(clientId);
+		}
+
+		public void RemoveClientFromServer(ClientId clientId, ServerId serverId) {
+			var server = Get(serverId);
+			_log.MessageFormat("RemoveClientFromServer: {0} => {1} ({2})", clientId, serverId, server);
+			server?.Clients.Remove(clientId);
 		}
 
 		public Server GetClientServer(ClientId clientId) {

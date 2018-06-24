@@ -3,16 +3,26 @@ using Serverfull.Models;
 using System.Collections.Generic;
 
 namespace Serverfull.UI.Game {
-	public class ClientsPanel : MonoBehaviour {
-		public ClientView Prefab;
-		public Transform ContentRoot;
+	public abstract class ClientsPanel : MonoBehaviour {
+		public static HashSet<ClientsPanel> Instances { get; private set; } = new HashSet<ClientsPanel>();
 
-		List<ClientView> _views = new List<ClientView>();
-		
+		public ClientView    Prefab;
+		public RectTransform ContentRoot;
+
+		protected List<ClientView> _views = new List<ClientView>();
+
+		void OnEnable() {
+			Instances.Add(this);
+		}
+
+		void OnDisable() {
+			Instances.Remove(this);
+		}
+
 		public void Show(List<Client> clients) {
 			foreach ( var client in clients ) {
 				var view = ObjectPool.Spawn(Prefab, ContentRoot);
-				view.Init(client);
+				view.Init(client, this);
 				_views.Add(view);
 			}
 		}
@@ -35,5 +45,12 @@ namespace Serverfull.UI.Game {
 			}
 			return false;
 		}
+
+		public void FreeView(ClientView view) {
+			_views.Remove(view);
+			ObjectPool.Recycle(view);
+		}
+
+		public abstract bool AddClient(ClientView view);
 	}
 }

@@ -1,29 +1,37 @@
-﻿using UnityEngine;
-using Serverfull.Controllers;
+﻿using Serverfull.Controllers;
 using Zenject;
 
 namespace Serverfull.UI.Game {
-	[RequireComponent(typeof(ClientsPanel))]
-	public class AwaitingClientsPanel : MonoBehaviour {
+	public class AwaitingClientsPanel : ClientsPanel {
 		ClientController _client;
-		ClientsPanel     _clientsPanel;
+		ServerController _server;
 
 		[Inject]
-		public void Init(ClientController client) {
+		public void Init(ClientController client, ServerController server) {
 			_client = client;
-		}
-
-		void Start() {
-			_clientsPanel = GetComponent<ClientsPanel>();
+			_server = server;
 		}
 
 		void Update() {
 			var clientIds = _client.GetAwaitingClients();
-			if ( _clientsPanel.NeedToUpdate(clientIds) ) {
-				_clientsPanel.Hide();
+			if ( NeedToUpdate(clientIds) ) {
+				Hide();
 				var fullClients = _client.Get(clientIds);
-				_clientsPanel.Show(fullClients);
+				Show(fullClients);
 			}
+		}
+
+		public override bool AddClient(ClientView view) {
+			var client = _client.Get(view.Id);
+			if ( client != null ) {
+				var serverPanel = view.Owner as ServerClientsPanel;
+				if ( serverPanel != null ) {
+					var serverId = serverPanel.ServerId;
+					_server.RemoveClientFromServer(view.Id, serverId);
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
