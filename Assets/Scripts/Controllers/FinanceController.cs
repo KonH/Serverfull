@@ -33,6 +33,7 @@ namespace Serverfull.Controllers {
 			Balance -= _server.GetTotalMaintenance();
 			Balance += _client.GetTotalIncome();
 			_log.MessageFormat("New balance: {0}", Balance);
+			_event.Fire(new Balance_Changed(Balance));
 		}
 	}
 }
