@@ -21,16 +21,19 @@ namespace Serverfull.UI.Game {
 
 		public GameObject                Root;
 		public List<ServerResourcePanel> Resources;
+		public ClientsPanel              Clients;
 
 		ServerController _server;
+		ClientController _client;
 		IEvent           _event;
 		float            _timer;
 		ServerId         _selectedId;
 
 		[Inject]
-		public void Init(IEvent events, ServerController server) {
+		public void Init(IEvent events, ServerController server, ClientController client) {
 			_event  = events;
 			_server = server;
+			_client = client;
 		}
 
 		void OnEnable() {
@@ -72,8 +75,15 @@ namespace Serverfull.UI.Game {
 					var value = server.Resources.GetOrDefault(res.Name);
 					res.Slider.value = value != null ? value.NormalizedFree : 0.0f;
 				}
+				if ( Clients.NeedToUpdate(server.Clients) ) {
+					var fullClients = _client.Get(server.Clients);
+					Clients.Hide();
+					Clients.Show(fullClients);
+				}
+
 			} else {
 				_timer = UpdateTime;
+				Clients.Hide();
 			}
 		}
 	}

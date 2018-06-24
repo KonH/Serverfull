@@ -29,7 +29,7 @@ namespace Serverfull.Controllers {
 			switch ( e.CompletedStatus ) {
 				case RequestStatus.Awaiting: {
 						var target = _server.GetServerForRequest(req);
-						if ( _server.TryLockResource(target, Server.Network, req.WantedNetwork) ) {
+						if ( (target != null) && _server.TryLockResource(target, Server.Network, req.WantedNetwork) ) {
 							req.ToIncoming(target, target.NetworkTime);
 						}
 					}
