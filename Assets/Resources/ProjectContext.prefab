@@ -82,3 +82,6 @@ MonoBehaviour:
     - Context:
         classRef: Serverfull.Controllers.ServerController, Scripts
       Enabled: 0
+    - Context:
+        classRef: Serverfull.Controllers.UpgradeController, Scripts
+      Enabled: 1

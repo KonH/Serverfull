@@ -16,16 +16,25 @@ namespace Serverfull.UI.Game {
 		public Slider             CpuSlider;
 		public Slider             RamSlider;
 		public ServerClientsPanel Clients;
+		public Button             UpgradeButton;
+		public Text               UpgradeText;
 
-		ServerController _server;
-		IEvent           _event;
-		float            _timer;
-		ServerId         _selectedId;
+		IEvent            _event;
+		ServerController  _server;
+		UpgradeController _upgrade;
+		float             _timer;
+		ServerId          _selectedId;
+		int               _cachedUpgradeLevel = -1;
+
+		void Awake() {
+			UpgradeButton.onClick.AddListener(OnUpgradeClick);
+		}
 
 		[Inject]
-		public void Init(IEvent events, ServerController server) {
-			_event  = events;
-			_server = server;
+		public void Init(IEvent events, ServerController server, UpgradeController upgrade) {
+			_event   = events;
+			_server  = server;
+			_upgrade = upgrade;
 		}
 
 		void OnEnable() {
@@ -39,6 +48,7 @@ namespace Serverfull.UI.Game {
 		void OnServerSelected(UI_ServerSelected e) {
 			_selectedId      = e.Id;
 			Clients.ServerId = e.Id;
+			_cachedUpgradeLevel    = -1;
 		}
 
 		void Start() {
@@ -61,7 +71,7 @@ namespace Serverfull.UI.Game {
 				UpdateResource(server.Network, NetworkSlider);
 				UpdateResource(server.CPU,     CpuSlider);
 				UpdateResource(server.RAM,     RamSlider);
-
+				UpdateUpgradeButton(server);
 			} else {
 				_timer = UpdateTime;
 			}
@@ -69,6 +79,24 @@ namespace Serverfull.UI.Game {
 
 		void UpdateResource(Server.Resource serverRes, Slider resSlider) {
 			resSlider.value = serverRes.NormalizedFree;
+		}
+
+		void UpdateUpgradeButton(Server server) {
+			UpgradeButton.interactable = _upgrade.CanUpgrade(server.Id);
+			if ( server.UpgradeLevel == _cachedUpgradeLevel ) {
+				return;
+			}
+			var upgradeInfo = _upgrade.GetUpgradeLevelInfo(server.UpgradeLevel + 1);
+			UpgradeButton.gameObject.SetActive(upgradeInfo != null);
+			if ( upgradeInfo != null ) {
+				UpgradeText.text = string.Format("Upgrade ({0})", upgradeInfo.Price);
+			}
+			_cachedUpgradeLevel = server.UpgradeLevel;
+		}
+
+		void OnUpgradeClick() {
+			_upgrade.Upgrade(_selectedId);
+			_cachedUpgradeLevel = -1;
 		}
 	}
 }
