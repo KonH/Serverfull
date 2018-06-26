@@ -34,8 +34,8 @@ namespace Serverfull.Controllers {
 			var target = req.Target;
 			switch ( e.CompletedStatus ) {
 				case RequestStatus.Incoming: {
-						if ( _server.TryLockResource(target, Server.CPU, req.WantedCPU) ) {
-							if ( _server.TryLockResource(target, Server.RAM, req.WantedRAM) ) {
+						if ( _server.TryLockResource(target, target.CPU, req.WantedCPU) ) {
+							if ( _server.TryLockResource(target, target.RAM, req.WantedRAM) ) {
 								req.ToProcessing(_rules.GetProcessTime(req.Target));
 								return;
 							}
@@ -46,8 +46,8 @@ namespace Serverfull.Controllers {
 					break;
 
 				case RequestStatus.Processing: {
-						_server.ReleaseResource(target, Server.CPU, req.WantedCPU);
-						_server.ReleaseResource(target, Server.RAM, req.WantedRAM);
+						_server.ReleaseResource(target, target.CPU, req.WantedCPU);
+						_server.ReleaseResource(target, target.RAM, req.WantedRAM);
 					}
 					break;
 			}

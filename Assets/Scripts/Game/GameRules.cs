@@ -1,4 +1,5 @@
-﻿using Serverfull.Models;
+﻿using UnityEngine;
+using Serverfull.Models;
 
 namespace Serverfull.Game {
 	public class GameRules {
@@ -9,13 +10,13 @@ namespace Serverfull.Game {
 		}
 
 		public float GetProcessTime(Server server) {
-			var cpu = server.Resources[Server.CPU].Max;
-			return cpu / _settings.CpuToTime;
+			var cpu = server.CPU.Max;
+			return _settings.CpuToTime / Mathf.Sqrt(cpu);
 		}
 
 		public float GetNetworkTime(Server server) {
-			var cpu = server.Resources[Server.Network].Max;
-			return cpu / _settings.NetworkToTime;
+			var network = server.Network.Max;
+			return _settings.NetworkToTime / Mathf.Sqrt(network);
 		}
 	}
 }

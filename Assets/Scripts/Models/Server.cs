@@ -2,37 +2,49 @@
 
 namespace Serverfull.Models {
 	public class Server {
-		public const string Network = "Network";
-		public const string CPU     = "CPU";
-		public const string RAM     = "RAM";
-
 		public class Resource {
-			public int   Max  { get; }
 			public int   Free { get; set; }
+			public int   Max  { get; }
 
 			public float NormalizedFree => (float)Free / Max;
+			public int Busy             => Max - Free;
 
-			public Resource(int value) {
-				Max  = value;
-				Free = value;
+			public Resource(int free, int max) {
+				Free = free;
+				Max  = max;
 			}
+
+			public Resource(int value) : this(value, value) { }
+
 		}
 
-		public ServerId                     Id          { get; }
-		public Money                        Maintenance { get; }
-		public Dictionary<string, Resource> Resources   { get; private set; } = new Dictionary<string, Resource>();
-		public List<ClientId>               Clients     { get; private set; } = new List<ClientId>();
+		public ServerId       Id           { get; }
+		public int            UpgradeLevel { get; private set; }
+		public Money          Maintenance  { get; private set; }
+		public Resource       Network      { get; private set; }
+		public Resource       CPU          { get; private set; }
+		public Resource       RAM          { get; private set; }
+		public List<ClientId> Clients      { get; private set; } = new List<ClientId>();
 
-		public Server(ServerId id, Money maintenance, Dictionary<string, int> resources) {
-			Id          = id;
-			Maintenance = maintenance;
-			foreach ( var res in resources ) {
-				Resources.Add(res.Key, new Resource(res.Value));
-			}
+		public Server(ServerId id, int upgradeLevel, Money maintenance, int network, int cpu, int ram) {
+			Id           = id;
+			UpgradeLevel = upgradeLevel;
+			Maintenance  = maintenance;
+			Network      = new Resource(network);
+			CPU          = new Resource(cpu);
+			RAM          = new Resource(ram);
+
+		}
+
+		public void Upgrade(int level, int network, int cpu, int ram) {
+			UpgradeLevel = level;
+			Network      = new Resource(network - Network.Busy, network);
+			CPU          = new Resource(cpu     - CPU.Busy,     cpu);
+			RAM          = new Resource(ram     - RAM.Busy,     ram);
 		}
 
 		public override string ToString() {
-			return string.Format("[{0}] Network: {1}, CPU: {2}, RAM: {3}", Id, Resources[Network], Resources[CPU], Resources[RAM]);
+			return string.Format("[{0}] Network: {1}, CPU: {2}, RAM: {3}", Id, Network, CPU, RAM);
 		}
 
 		public override int GetHashCode() {

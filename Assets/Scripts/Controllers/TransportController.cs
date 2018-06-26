@@ -32,14 +32,14 @@ namespace Serverfull.Controllers {
 			switch ( e.CompletedStatus ) {
 				case RequestStatus.Awaiting: {
 						var target = _server.GetServerForRequest(req);
-						if ( (target != null) && _server.TryLockResource(target, Server.Network, req.WantedNetwork) ) {
+						if ( (target != null) && _server.TryLockResource(target, target.Network, req.WantedNetwork) ) {
 							req.ToIncoming(target, _rules.GetNetworkTime(target));
 						}
 					}
 					break;
 
 				case RequestStatus.Incoming: {
-						_server.ReleaseResource(req.Target, Server.Network, req.WantedNetwork);
+						_server.ReleaseResource(req.Target, req.Target.Network, req.WantedNetwork);
 					}
 					break;
 

@@ -56,12 +56,8 @@ MonoBehaviour:
   Settings:
     TimeScale: 900
     MoodDecrease: 0.01
-    ServerNetwork: 25
-    ServerCPU: 25
-    ServerRAM: 25
-    ServerMaintenance: 1
-    NetworkToTime: 0.05
-    CpuToTime: 0.05
+    NetworkToTime: 0.01
+    CpuToTime: 0.01
   ServerManager: {fileID: 0}
 --- !u!114 &114688784914229706
 MonoBehaviour:

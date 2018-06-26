@@ -12,15 +12,10 @@ namespace Serverfull.Controllers {
 
 		public ServerController(ILog log, GameSettings settings) {
 			_log = log.CreateLogger(this);
-			var resources = new Dictionary<string, int> {
-				{ Server.Network, settings.ServerNetwork },
-				{ Server.RAM,     settings.ServerRAM     },
-				{ Server.CPU,     settings.ServerCPU     }
-			};
-			for ( var i = 0; i < 3; i++ ) {
-				var id = ServerId.Create();
-				_servers.Add(id, new Server(id, new Money(settings.ServerMaintenance), resources));
-			}
+		}
+
+		public void Add(Server server) {
+			_servers.Add(server.Id, server);
 		}
 
 		public Server Get(ServerId id) => _servers.GetOrDefault(id);
@@ -50,23 +45,18 @@ namespace Serverfull.Controllers {
 			return null;
 		}
 
-		public bool TryLockResource(Server server, string key, int value) {
-			Server.Resource res;
-			if ( server.Resources.TryGetValue(key, out res) ) {
-				if ( res.Free >= value ) {
-					res.Free -= value;
-					_log.MessageFormat("TryLockResource: {0}", server);
-					return true;
-				}
+		public bool TryLockResource(Server server, Server.Resource res, int value) {
+			if ( res.Free >= value ) {
+				res.Free -= value;
+				_log.MessageFormat("TryLockResource: {0}", server);
+				return true;
 			}
 			return false;
 		}
 
-		public void ReleaseResource(Server server, string key, int value) {
-			if ( server.Resources.ContainsKey(key) ) {
-				server.Resources[key].Free += value;
-				_log.MessageFormat("ReleaseResource: {0}", server);
-			}
+		public void ReleaseResource(Server server, Server.Resource res, int value) {
+			res.Free += value;
+			_log.MessageFormat("ReleaseResource: {0}", server);
 		}
 
 		public Money GetTotalMaintenance() {

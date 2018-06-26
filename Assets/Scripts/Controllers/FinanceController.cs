@@ -29,11 +29,25 @@ namespace Serverfull.Controllers {
 			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
 		}
 
-		void OnNewHour(Time_NewGameHour e) {
-			Balance -= _server.GetTotalMaintenance();
-			Balance += _client.GetTotalIncome();
-			_log.MessageFormat("New balance: {0}", Balance);
+		void RaiseUpdateEvent() {
 			_event.Fire(new Balance_Changed(Balance));
+		}
+
+		public void Spend(Money money) {
+			Balance -= money;
+			_log.MessageFormat("Spend: {0} => {1}", money, Balance);
+			RaiseUpdateEvent();
+		}
+
+		public void Add(Money money) {
+			Balance += money;
+			_log.MessageFormat("Add: {0} => {1}", money, Balance);
+			RaiseUpdateEvent();
+		}
+
+		void OnNewHour(Time_NewGameHour e) {
+			Spend(_server.GetTotalMaintenance());
+			Add(_client.GetTotalIncome());
 		}
 	}
 }

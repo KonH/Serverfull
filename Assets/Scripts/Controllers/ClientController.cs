@@ -17,10 +17,10 @@ namespace Serverfull.Controllers {
 
 		public ClientController(ServerController server) {
 			_server = server;
-			AddClient(new Client(new ClientId("Client1"), new Money(1), 1, 1, 1, 3));
-			AddClient(new Client(new ClientId("Client2"), new Money(10), 10, 5, 1, 1));
-			AddClient(new Client(new ClientId("Client3"), new Money(100), 25, 1, 5, 2));
-			AddClient(new Client(new ClientId("Client4"), new Money(100), 25, 1, 5, 2));
+			AddClient(new Client(new ClientId("Client1"), new Money(1), 1, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client2"), new Money(10), 1, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client3"), new Money(100), 1, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client4"), new Money(100), 1, 1, 1, 1));
 		}
 
 		void AddClient(Client client) {

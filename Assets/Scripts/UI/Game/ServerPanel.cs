@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
 using Serverfull.Events;
 using Serverfull.Models;
@@ -13,15 +10,12 @@ namespace Serverfull.UI.Game {
 	public class ServerPanel : MonoBehaviour {
 		const float UpdateTime = 0.33f;
 		
-		[Serializable]
-		public class ServerResourcePanel {
-			public string Name;
-			public Slider Slider;
-		}
 
-		public GameObject                Root;
-		public List<ServerResourcePanel> Resources;
-		public ServerClientsPanel        Clients;
+		public GameObject         Root;
+		public Slider             NetworkSlider;
+		public Slider             CpuSlider;
+		public Slider             RamSlider;
+		public ServerClientsPanel Clients;
 
 		ServerController _server;
 		IEvent           _event;
@@ -64,14 +58,17 @@ namespace Serverfull.UI.Game {
 					return;
 				}
 				_timer = 0.0f;
-				foreach ( var res in Resources ) {
-					var value = server.Resources.GetOrDefault(res.Name);
-					res.Slider.value = value != null ? value.NormalizedFree : 0.0f;
-				}
+				UpdateResource(server.Network, NetworkSlider);
+				UpdateResource(server.CPU,     CpuSlider);
+				UpdateResource(server.RAM,     RamSlider);
 
 			} else {
 				_timer = UpdateTime;
 			}
+		}
+
+		void UpdateResource(Server.Resource serverRes, Slider resSlider) {
+			resSlider.value = serverRes.NormalizedFree;
 		}
 	}
 }
