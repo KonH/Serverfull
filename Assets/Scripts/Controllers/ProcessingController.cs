@@ -2,20 +2,23 @@
 using UDBase.Controllers.EventSystem;
 using Serverfull.Events;
 using Serverfull.Models;
+using Serverfull.Game;
 using Zenject;
 
 namespace Serverfull.Controllers {
 	public class ProcessingController : IInitializable, IDisposable {
 		readonly IEvent            _events;
+		readonly GameRules         _rules;
 		readonly ServerController  _server;
 		readonly RequestController _request;
 		readonly UserController    _user;
 
-		public ProcessingController(IEvent events, ServerController server, RequestController request, UserController user) {
-			_events = events;
-			_server = server;
+		public ProcessingController(IEvent events, GameRules rules, ServerController server, RequestController request, UserController user) {
+			_events  = events;
+			_rules   = rules;
+			_server  = server;
 			_request = request;
-			_user   = user;
+			_user    = user;
 		}
 
 		public void Initialize() {
@@ -33,12 +36,12 @@ namespace Serverfull.Controllers {
 				case RequestStatus.Incoming: {
 						if ( _server.TryLockResource(target, Server.CPU, req.WantedCPU) ) {
 							if ( _server.TryLockResource(target, Server.RAM, req.WantedRAM) ) {
-								req.ToProcessing(req.Target.ProcessTime);
+								req.ToProcessing(_rules.GetProcessTime(req.Target));
 								return;
 							}
 						}
 						_user.OnRequestFailed(req.Owner);
-						req.ToOutgoing(req.Target.NetworkTime);
+						req.ToOutgoing(_rules.GetNetworkTime(req.Target));
 					}
 					break;
 

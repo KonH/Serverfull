@@ -1,5 +1,6 @@
 ﻿using System;
 using UDBase.Controllers.EventSystem;
+using Serverfull.Game;
 using Serverfull.Events;
 using Serverfull.Models;
 using Zenject;
@@ -7,11 +8,13 @@ using Zenject;
 namespace Serverfull.Controllers {
 	public class TransportController : IInitializable, IDisposable {
 		readonly IEvent            _events;
+		readonly GameRules         _rules;
 		readonly ServerController  _server;
 		readonly RequestController _request;
 
-		public TransportController(IEvent events, ServerController server, RequestController request) {
+		public TransportController(IEvent events, GameRules rules, ServerController server, RequestController request) {
 			_events  = events;
+			_rules   = rules;
 			_server  = server;
 			_request = request;
 		}
@@ -30,7 +33,7 @@ namespace Serverfull.Controllers {
 				case RequestStatus.Awaiting: {
 						var target = _server.GetServerForRequest(req);
 						if ( (target != null) && _server.TryLockResource(target, Server.Network, req.WantedNetwork) ) {
-							req.ToIncoming(target, target.NetworkTime);
+							req.ToIncoming(target, _rules.GetNetworkTime(target));
 						}
 					}
 					break;
@@ -41,7 +44,7 @@ namespace Serverfull.Controllers {
 					break;
 
 				case RequestStatus.Processing: {
-						req.ToOutgoing(req.Target.NetworkTime);
+						req.ToOutgoing(_rules.GetNetworkTime(req.Target));
 					}
 					break;
 

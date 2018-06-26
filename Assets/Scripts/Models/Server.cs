@@ -19,17 +19,13 @@ namespace Serverfull.Models {
 		}
 
 		public ServerId                     Id          { get; }
-		public float                        NetworkTime { get; }
-		public float                        ProcessTime { get; }
 		public Money                        Maintenance { get; }
 		public Dictionary<string, Resource> Resources   { get; private set; } = new Dictionary<string, Resource>();
 		public List<ClientId>               Clients     { get; private set; } = new List<ClientId>();
 
-		public Server(ServerId id, Money maintenance, float networkTime, float processTime, Dictionary<string, int> resources) {
+		public Server(ServerId id, Money maintenance, Dictionary<string, int> resources) {
 			Id          = id;
 			Maintenance = maintenance;
-			NetworkTime = networkTime;
-			ProcessTime = processTime;
 			foreach ( var res in resources ) {
 				Resources.Add(res.Key, new Resource(res.Value));
 			}

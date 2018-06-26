@@ -11,6 +11,7 @@ namespace Serverfull.Installers {
 
 		public override void InstallBindings() {
 			Container.BindInstance(Settings);
+			Container.Bind<GameRules>().ToSelf().AsSingle();
 			Container.Bind(typeof(TimeController), typeof(ITickable)).To<TimeController>().AsSingle();
 			Container.Bind<ClientController>().ToSelf().AsSingle();
 			Container.Bind<UserController>().ToSelf().AsSingle();

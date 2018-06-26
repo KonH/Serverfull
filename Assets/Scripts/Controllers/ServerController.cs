@@ -19,7 +19,7 @@ namespace Serverfull.Controllers {
 			};
 			for ( var i = 0; i < 3; i++ ) {
 				var id = ServerId.Create();
-				_servers.Add(id, new Server(id, new Money(settings.ServerMaintenance), settings.NetworkTime, settings.ProcessTime, resources));
+				_servers.Add(id, new Server(id, new Money(settings.ServerMaintenance), resources));
 			}
 		}
 
