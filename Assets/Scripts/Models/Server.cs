@@ -19,6 +19,8 @@ namespace Serverfull.Models {
 		}
 
 		public ServerId       Id           { get; }
+		public int            PosX         { get; }
+		public int            PosY         { get; }
 		public int            UpgradeLevel { get; private set; }
 		public Money          Maintenance  { get; private set; }
 		public Resource       Network      { get; private set; }
@@ -26,8 +28,10 @@ namespace Serverfull.Models {
 		public Resource       RAM          { get; private set; }
 		public List<ClientId> Clients      { get; private set; } = new List<ClientId>();
 
-		public Server(ServerId id, int upgradeLevel, Money maintenance, int network, int cpu, int ram) {
+		public Server(ServerId id, int x, int y, int upgradeLevel, Money maintenance, int network, int cpu, int ram) {
 			Id           = id;
+			PosX         = x;
+			PosY         = y;
 			UpgradeLevel = upgradeLevel;
 			Maintenance  = maintenance;
 			Network      = new Resource(network);

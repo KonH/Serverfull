@@ -3,9 +3,12 @@ using Serverfull.Models;
 
 namespace Serverfull.Views {
 	public class ServerView : MonoBehaviour {
-		public ServerId Id => new ServerId(ServerId); 
+		public Transform Center;
 
-		[SerializeField]
-		int ServerId;
+		public ServerId Id { get; private set; }
+
+		public void Init(ServerId id) {
+			Id = id;
+		}
 	}
 }

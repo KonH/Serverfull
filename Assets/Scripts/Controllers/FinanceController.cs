@@ -1,6 +1,7 @@
 ﻿using System;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
+using Serverfull.Game;
 using Serverfull.Models;
 using Serverfull.Events;
 using Zenject;
@@ -14,11 +15,13 @@ namespace Serverfull.Controllers {
 		readonly ServerController _server;
 		readonly ClientController _client;
 
-		public FinanceController(ILog log, IEvent events, ServerController server, ClientController client) {
+		public FinanceController(ILog log, IEvent events, GameSettings settings, ServerController server, ClientController client) {
 			_log    = log.CreateLogger(this);
 			_event  = events;
 			_server = server;
 			_client = client;
+
+			Balance = new Money(settings.StartMoney);
 		}
 
 		public void Initialize() {

@@ -1,21 +1,27 @@
 ﻿using System.Collections.Generic;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.EventSystem;
 using Serverfull.Models;
-using Serverfull.Game;
+using Serverfull.Events;
 
 namespace Serverfull.Controllers {
 	public class ServerController : ILogContext {
+		public IEnumerable<Server> All => _servers.Values;
+
 		Dictionary<ServerId, Server> _servers = new Dictionary<ServerId, Server>();
 
 		readonly ULogger _log;
+		readonly IEvent  _event;
 
-		public ServerController(ILog log, GameSettings settings) {
-			_log = log.CreateLogger(this);
+		public ServerController(ILog log, IEvent events) {
+			_log   = log.CreateLogger(this);
+			_event = events;
 		}
 
 		public void Add(Server server) {
 			_servers.Add(server.Id, server);
+			_event.Fire(new Server_New(server.Id, server.PosX, server.PosY));
 		}
 
 		public Server Get(ServerId id) => _servers.GetOrDefault(id);

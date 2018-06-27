@@ -7,5 +7,6 @@ namespace Serverfull.Game {
 		public float MoodDecrease;
 		public float NetworkToTime;
 		public float CpuToTime;
+		public int   StartMoney;
 	}
 }

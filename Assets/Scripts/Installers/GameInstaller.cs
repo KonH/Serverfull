@@ -8,6 +8,7 @@ namespace Serverfull.Installers {
 	public class GameInstaller : UDBaseInstaller {
 		public GameSettings  Settings;
 		public ServerManager ServerManager;
+		public ServerBuilder ServerBuilder;
 
 		public override void InstallBindings() {
 			Container.BindInstance(Settings);
@@ -24,6 +25,7 @@ namespace Serverfull.Installers {
 			Container.Bind(typeof(FinanceController), typeof(IInitializable), typeof(IDisposable)).To<FinanceController>().AsSingle();
 			Container.Bind<UpgradeController>().ToSelf().AsSingle();
 			Container.BindInstance(ServerManager);
+			Container.BindInstance(ServerBuilder);
 		}
 	}
 }

@@ -1,17 +1,36 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UDBase.Controllers.EventSystem;
 using Serverfull.Views;
 using Serverfull.Models;
+using Serverfull.Events;
+using Zenject;
 
 namespace Serverfull.Game {
 	public class ServerManager : MonoBehaviour {
+		public ServerView ServerViewPrefab;
+
+		IEvent _event;
+
 		Dictionary<ServerId, ServerView> _views = new Dictionary<ServerId, ServerView>();
 
-		void Start() {
-			var startupViews = GameObject.FindObjectsOfType<ServerView>();
-			foreach ( var view in startupViews ) {
-				_views.Add(view.Id, view);
-			}
+		[Inject]
+		public void Init(IEvent events) {
+			_event = events;
+		}
+
+		void OnEnable() {
+			_event?.Subscribe<Server_New>(this, OnNewServer);
+		}
+
+		void OnDisable() {
+			_event?.Unsubscribe<Server_New>(OnNewServer);
+		}
+
+		void OnNewServer(Server_New e) {
+			var view = ObjectPool.Spawn(ServerViewPrefab, new Vector3(e.PosX, 0, e.PosY));
+			view.Init(e.Id);
+			_views.Add(e.Id, view);
 		}
 
 		public ServerView GetView(ServerId id) {

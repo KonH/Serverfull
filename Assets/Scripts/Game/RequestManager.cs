@@ -52,7 +52,7 @@ namespace Serverfull.Game {
 							if ( targetServerView != null ) {
 								var view = ObjectPool.Spawn(RequestPrefab, pos);
 								view.StartPos = pos;
-								view.EndPos = targetServerView.transform.position;
+								view.EndPos = targetServerView.Center.transform.position;
 								view.Trail.Clear();
 								_views.Add(id, view);
 							}

@@ -58,7 +58,9 @@ MonoBehaviour:
     MoodDecrease: 0.01
     NetworkToTime: 3000
     CpuToTime: 3000
+    StartMoney: 100
   ServerManager: {fileID: 0}
+  ServerBuilder: {fileID: 0}
 --- !u!114 &114688784914229706
 MonoBehaviour:
   m_ObjectHideFlags: 1
