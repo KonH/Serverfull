@@ -10,8 +10,8 @@ using Zenject;
 
 namespace Serverfull.Game {
 	public class RequestManager : MonoBehaviour {
-		public RequestView     RequestPrefab;
-		public List<Transform> Points;
+		public RequestView RequestPrefab;
+		public float       SpawnDistance;
 
 		IEvent            _events;
 		RequestController _request;
@@ -34,15 +34,17 @@ namespace Serverfull.Game {
 			_events.Unsubscribe<Request_NewStatus>(OnNewStatus);
 		}
 
-		Vector3 GetRandSpawnPointPos() {
-			return RandomUtils.GetItem(Points).position;
+		Vector3 GetRandSpawnPointPos(Vector3 centerPos) {
+			var angle = Random.value * 360;
+			var x = SpawnDistance * Mathf.Cos(angle);
+			var z = SpawnDistance * Mathf.Sin(angle);
+			return new Vector3(x, 0, z);
 		}
 
 		void OnNewStatus(Request_NewStatus e) {
 			var id = e.Id;
 			switch ( e.NewStatus ) {
 				case RequestStatus.Incoming: {
-						var pos = GetRandSpawnPointPos();
 						if ( _views.ContainsKey(id) ) {
 							return;
 						}
@@ -50,9 +52,11 @@ namespace Serverfull.Game {
 						if ( req != null ) {
 							var targetServerView = _server.GetView(req.Target.Id);
 							if ( targetServerView != null ) {
+								var center = targetServerView.Center.position;
+								var pos = GetRandSpawnPointPos(center);
 								var view = ObjectPool.Spawn(RequestPrefab, pos);
 								view.StartPos = pos;
-								view.EndPos = targetServerView.Center.transform.position;
+								view.EndPos = center;
 								view.Trail.Clear();
 								_views.Add(id, view);
 							}
@@ -64,7 +68,7 @@ namespace Serverfull.Game {
 						RequestView view;
 						if ( _views.TryGetValue(id, out view) ) {
 							view.StartPos = view.transform.position;
-							view.EndPos   = GetRandSpawnPointPos();
+							view.EndPos   = GetRandSpawnPointPos(view.StartPos);
 						}
 					}
 					break;
