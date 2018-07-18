@@ -24,6 +24,7 @@ namespace Serverfull.Installers {
 			Container.Bind<ServerBuildController>().ToSelf().AsSingle().NonLazy();
 			Container.Bind(typeof(FinanceController), typeof(IInitializable), typeof(IDisposable)).To<FinanceController>().AsSingle();
 			Container.Bind<UpgradeController>().ToSelf().AsSingle();
+			Container.Bind(typeof(StatusController), typeof(IInitializable), typeof(IDisposable)).To<StatusController>().AsSingle();
 			Container.BindInstance(ServerManager);
 			Container.BindInstance(ServerBuilder);
 		}
