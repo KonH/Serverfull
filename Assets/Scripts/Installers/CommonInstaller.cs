@@ -8,6 +8,7 @@ namespace Serverfull.Installers {
 		public override void InstallBindings() {
 			AddEvents();
 			AddUnityLogger(LogSettings);
+			AddDirectSceneLoader();
 		}
 	}
 }
