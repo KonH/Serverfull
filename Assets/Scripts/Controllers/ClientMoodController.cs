@@ -32,13 +32,17 @@ namespace Serverfull.Controllers {
 
 		void OnRequestNewStatus(Request_NewStatus e) {
 			if ( e.NewStatus == RequestStatus.Finished ) {
-				var req = _request.Get(e.Id);
-				var user = req.Owner;
+				var req    = _request.Get(e.Id);
+				var user   = req.Owner;
 				var client = user.Client;
 				var change = _rules.CalculateClientMoodChange(user.Mood);
 				_logger.MessageFormat("Update client {0} mood to: {1} (from user mood: {2})", client, change, user.Mood);
 				_client.UpdateMood(client, change);
-				_logger.MessageFormat("New client {0} mood is {1}", client, _client.Get(client)?.Mood);
+				var newMood = _client.Get(client)?.Mood;
+				_logger.MessageFormat("New client {0} mood is {1}", client, newMood);
+				if ( newMood <= 0 ) {
+					_client.RemoveClient(client);
+				}
 			}
 		}
 	}

@@ -70,5 +70,13 @@ namespace Serverfull.Controllers {
 			var client = Get(id);
 			client?.UpdateMood(change);
 		}
+
+		public void RemoveClient(ClientId id) {
+			var server = _server.GetClientServer(id);
+			if ( server != null ) {
+				_server.RemoveClientFromServer(id, server.Id);
+			}
+			_clients.Remove(id);
+		}
 	}
 }
