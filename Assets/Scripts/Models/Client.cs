@@ -1,4 +1,6 @@
-﻿namespace Serverfull.Models {
+﻿using UnityEngine;
+
+namespace Serverfull.Models {
 	public class Client {
 		public ClientId Id            { get; }
 		public Money    Income        { get; }
@@ -15,6 +17,10 @@
 			WantedNetwork = wantedNetwork;
 			WantedCPU     = wantedCpu;
 			WantedRAM     = wantedRam;
+		}
+
+		public void UpdateMood(float change) {
+			Mood = Mathf.Clamp01(Mood + change);
 		}
 	}
 }

@@ -79,3 +79,9 @@ MonoBehaviour:
     - Context:
         classRef: Serverfull.Controllers.ServerController, Scripts
       Enabled: 0
+    - Context:
+        classRef: Serverfull.Controllers.FinanceController, Scripts
+      Enabled: 0
+    - Context:
+        classRef: Serverfull.Controllers.TimeController, Scripts
+      Enabled: 0

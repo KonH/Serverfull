@@ -25,6 +25,7 @@ namespace Serverfull.Installers {
 			Container.Bind<UpgradeController>().ToSelf().AsSingle();
 			Container.BindInitDisposeToSelf<StatusController>().AsSingle();
 			Container.BindInitDisposeToSelf<MessageController>().AsSingle().NonLazy();
+			Container.BindInitDisposeToSelf<ClientMoodController>().AsSingle().NonLazy();
 			Container.BindInstance(ServerManager);
 			Container.BindInstance(ServerBuilder);
 		}

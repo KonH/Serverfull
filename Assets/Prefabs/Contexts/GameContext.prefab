@@ -54,8 +54,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Settings:
-    TimeScale: 900
+    TimeScale: 1600
     MoodDecrease: 0.01
+    ClientMoodChange: 1
     NetworkToTime: 3000
     CpuToTime: 3000
     StartMoney: 100

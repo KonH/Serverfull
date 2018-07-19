@@ -49,10 +49,10 @@ namespace Serverfull.Controllers {
 		void UpdateRequest(Request req, float deltaTime) {
 			var status = req.Status;
 			_events.Fire(new Request_CompleteProgress(req));
+			_user.UpdateMood(req.Owner, deltaTime);
 			if ( req.Status != status ) {
 				_events.Fire(new Request_NewStatus(req));
 			}
-			_user.UpdateMood(req.Owner, deltaTime);
 		}
 	}
 }

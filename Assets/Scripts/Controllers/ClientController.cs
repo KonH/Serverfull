@@ -65,5 +65,10 @@ namespace Serverfull.Controllers {
 			}
 			return result;
 		}
+
+		public void UpdateMood(ClientId id, float change) {
+			var client = Get(id);
+			client?.UpdateMood(change);
+		}
 	}
 }

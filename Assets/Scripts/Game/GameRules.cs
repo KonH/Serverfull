@@ -18,5 +18,10 @@ namespace Serverfull.Game {
 			var network = server.Network.Max;
 			return _settings.NetworkToTime / Mathf.Sqrt(network);
 		}
+
+		public float CalculateClientMoodChange(float userMood) {
+			var value = (userMood - 0.5f) * _settings.ClientMoodChange;
+			return value;
+		}
 	}
 }
