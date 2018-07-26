@@ -20,20 +20,30 @@ namespace Serverfull.Controllers {
 
 		public void Initialize() {
 			_event.Subscribe<Status_GameEnd>(this, OnGameEnd);
+			_event.Subscribe<Client_Lost>   (this, OnClientLost);
 		}
 
 		public void Dispose() {
 			_event.Unsubscribe<Status_GameEnd>(OnGameEnd);
+			_event.Unsubscribe<Client_Lost>   (OnClientLost);
 		}
 
 		void OnGameEnd(Status_GameEnd e) {
 			RaiseMessage("Game ended", "You have no money!", Restart);
 		}
 
+		void OnClientLost(Client_Lost e) {
+			RaiseNotification($"Client '{e.Id.Name}' break with us, our service sucks!");
+		}
 
 		void RaiseMessage(string title, string content, Action onPositive = null, Action onNegative = null) {
 			_logger.MessageFormat("New message: {0} ({1})", title, content);
 			_event.Fire(new Message_New(new Message(title, content), onPositive, onNegative));
+		}
+
+		void RaiseNotification(string message) {
+			_logger.MessageFormat("New notification: {0}", message);
+			_event.Fire(new Notification_New(message));
 		}
 
 		void Restart() {

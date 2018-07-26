@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.EventSystem;
 using Serverfull.Models;
+using Serverfull.Events;
 
 namespace Serverfull.Controllers {
 	public class ClientController {
@@ -12,11 +14,13 @@ namespace Serverfull.Controllers {
 
 		readonly ULogger          _log;
 		readonly ServerController _server;
+		readonly IEvent           _event;
 
 		Dictionary<ClientId, Client> _clients = new Dictionary<ClientId, Client>();
 
-		public ClientController(ServerController server) {
+		public ClientController(ServerController server, IEvent events) {
 			_server = server;
+			_event  = events;
 			AddClient(new Client(new ClientId("Client1"), new Money(1), 1, 1, 1, 1));
 			AddClient(new Client(new ClientId("Client2"), new Money(10), 1, 1, 1, 1));
 			AddClient(new Client(new ClientId("Client3"), new Money(100), 1, 1, 1, 1));
@@ -76,6 +80,7 @@ namespace Serverfull.Controllers {
 			if ( server != null ) {
 				_server.RemoveClientFromServer(id, server.Id);
 			}
+			_event.Fire(new Client_Lost(id));
 			_clients.Remove(id);
 		}
 	}
