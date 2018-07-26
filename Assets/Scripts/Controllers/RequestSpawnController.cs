@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Serverfull.Game;
 using Serverfull.Models;
+using UDBase.Utils;
 using Zenject;
 
 namespace Serverfull.Controllers {
@@ -12,6 +13,7 @@ namespace Serverfull.Controllers {
 		readonly UserController    _user;
 		readonly RequestController _request;
 
+		List<Client>                _clients     = new List<Client>();
 		Dictionary<ClientId, float> _spawnTimers = new Dictionary<ClientId, float>();
 
 		public RequestSpawnController(TimeController time, ClientController client, UserController user, RequestController request) {
@@ -22,7 +24,11 @@ namespace Serverfull.Controllers {
 		}
 
 		public void Tick() {
-			foreach ( var client in _client.All ) {
+			_clients.Clear();
+			_clients.AddRange(_client.All);
+			while ( _clients.Count > 0 ) {
+				var client = RandomUtils.GetItem(_clients);
+				_clients.Remove(client);
 				var curTimer = 0.0f;
 				var spawnDelta = GetSpawnDelta(client.UserRate);
 				if ( !_spawnTimers.TryGetValue(client.Id, out curTimer) ) {

@@ -11,12 +11,14 @@ namespace Serverfull.Controllers {
 		readonly GameRules         _rules;
 		readonly ServerController  _server;
 		readonly RequestController _request;
+		readonly UserController    _user;
 
-		public TransportController(IEvent events, GameRules rules, ServerController server, RequestController request) {
+		public TransportController(IEvent events, GameRules rules, ServerController server, RequestController request, UserController user) {
 			_events  = events;
 			_rules   = rules;
 			_server  = server;
 			_request = request;
+			_user    = user;
 		}
 
 		public void Initialize() {
@@ -32,8 +34,13 @@ namespace Serverfull.Controllers {
 			switch ( e.CompletedStatus ) {
 				case RequestStatus.Awaiting: {
 						var target = _server.GetServerForRequest(req);
-						if ( (target != null) && _server.TryLockResource(target, target.Network, req.WantedNetwork) ) {
-							req.ToIncoming(target, _rules.GetNetworkTime(target));
+						if ( target != null ) {
+							if ( _server.TryLockResource(target, target.Network, req.WantedNetwork) ) {
+								req.ToIncoming(target, _rules.GetNetworkTime(target));
+							} else {
+								_user.OnRequestFailed(req.Owner);
+								req.ToFinished();
+							}
 						}
 					}
 					break;

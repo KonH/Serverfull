@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
 using Serverfull.Views;
 using Serverfull.Events;
@@ -41,44 +40,50 @@ namespace Serverfull.Game {
 			return new Vector3(x, 0, z);
 		}
 
+		Vector3 GetServerViewCenter(RequestId id) {
+			var req = _request.Get(id);
+			if ( (req != null) && (req.Target != null)  ) {
+				var targetServerView = _server.GetView(req.Target.Id);
+				if ( targetServerView != null ) {
+					return targetServerView.Center.position;
+				}
+			}
+			return Vector3.zero;
+		}
+
+		RequestView SpawnView(RequestId id) {
+			var serverCenter = GetServerViewCenter(id);
+			var spawnPos = GetRandSpawnPointPos(serverCenter);
+			var view = ObjectPool.Spawn(RequestPrefab, spawnPos);
+			view.StartPos = spawnPos;
+			view.EndPos = serverCenter;
+			view.Trail.Clear();
+			return view;
+		}
+
+		RequestView GetOrSpawnView(RequestId id) {
+			RequestView view;
+			if ( !_views.TryGetValue(id, out view) ) {
+				view = SpawnView(id);
+				_views.Add(id, view);
+			}
+			return view;
+		}
+
+
 		void OnNewStatus(Request_NewStatus e) {
 			var id = e.Id;
+			RequestView view = GetOrSpawnView(id);
 			switch ( e.NewStatus ) {
-				case RequestStatus.Incoming: {
-						if ( _views.ContainsKey(id) ) {
-							return;
-						}
-						var req = _request.Get(id);
-						if ( req != null ) {
-							var targetServerView = _server.GetView(req.Target.Id);
-							if ( targetServerView != null ) {
-								var center = targetServerView.Center.position;
-								var pos = GetRandSpawnPointPos(center);
-								var view = ObjectPool.Spawn(RequestPrefab, pos);
-								view.StartPos = pos;
-								view.EndPos = center;
-								view.Trail.Clear();
-								_views.Add(id, view);
-							}
-						}
-					}
-					break;
-
 				case RequestStatus.Outgoing: {
-						RequestView view;
-						if ( _views.TryGetValue(id, out view) ) {
-							view.StartPos = view.transform.position;
-							view.EndPos   = GetRandSpawnPointPos(view.StartPos);
-						}
+						view.StartPos = view.transform.position;
+						view.EndPos   = GetRandSpawnPointPos(view.StartPos);
 					}
 					break;
 
 				case RequestStatus.Finished: {
-						RequestView view;
-						if ( _views.TryGetValue(id, out view) ) {
-							ObjectPool.Recycle(view);
-							_views.Remove(id);
-						}
+						ObjectPool.Recycle(view);
+						_views.Remove(id);
 					}
 					break;
 			}
