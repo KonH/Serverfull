@@ -15,7 +15,8 @@ namespace Serverfull.UI.Game {
 			_server = server;
 		}
 
-		void Update() {
+		protected override void Update() {
+			base.Update();
 			var server = _server.Get(ServerId);
 			if ( server != null ) {
 				if ( NeedToUpdate(server.Clients) ) {

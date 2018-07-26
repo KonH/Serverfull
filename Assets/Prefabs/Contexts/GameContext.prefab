@@ -56,7 +56,7 @@ MonoBehaviour:
   Settings:
     TimeScale: 1600
     MoodDecrease: 0.01
-    ClientMoodChange: 1
+    ClientMoodChange: 0.5
     NetworkToTime: 3000
     CpuToTime: 3000
     StartMoney: 100
