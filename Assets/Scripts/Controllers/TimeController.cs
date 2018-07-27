@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.EventSystem;
 using Serverfull.Game;
 using Serverfull.Events;
 using Zenject;
-using UDBase.Controllers.EventSystem;
 
 namespace Serverfull.Controllers {
 	public class TimeController : ITickable, ILogContext {
@@ -16,6 +16,8 @@ namespace Serverfull.Controllers {
 		readonly GameSettings _settings;
 
 		DateTime _startTime;
+		bool     _firstTicked;
+		bool     _paused;
 		int      _prevHours;
 
 		public TimeController(ILog log, IEvent events, GameSettings settings) {
@@ -27,14 +29,26 @@ namespace Serverfull.Controllers {
 		}
 
 		public void Tick() {
-			DeltaTime = Time.deltaTime * _settings.TimeScale;
+			DeltaTime = _paused ? 0 : Time.deltaTime * _settings.TimeScale;
 			GameTime = GameTime.AddSeconds(DeltaTime);
+			if ( !_firstTicked ) {
+				_event.Fire(new Time_Started());
+				_firstTicked = true;
+			}
 			var hoursDelta = (int)(GameTime - _startTime).TotalHours;
 			while ( hoursDelta > _prevHours ) {
 				_log.MessageFormat("New game hour: {0}", GameTime);
 				_event.Fire(new Time_NewGameHour(GameTime));
 				_prevHours++;
 			}
+		}
+
+		public void Pause() {
+			_paused = true;
+		}
+
+		public void Resume() {
+			_paused = false;
 		}
 	}
 }
