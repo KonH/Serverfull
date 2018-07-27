@@ -9,8 +9,9 @@ namespace Serverfull.Controllers {
 		readonly IEvent         _event;
 		readonly TimeController _time;
 
-		bool          _isActive  = false;
-		Queue<string> _tutorials = new Queue<string>();
+		bool            _isActive  = false;
+		Queue<string>   _tutorials = new Queue<string>();
+		HashSet<string> _completed = new HashSet<string>();
 
 		public TutorialController(IEvent events, TimeController time) {
 			_event = events;
@@ -30,6 +31,7 @@ namespace Serverfull.Controllers {
 		}
 
 		void OnTutorialComplete(Tutorial_Complete e) {
+			_completed.Add(e.Name);
 			_isActive = false;
 			_time.Resume();
 			TriggerNextTutorial();
@@ -44,6 +46,9 @@ namespace Serverfull.Controllers {
 		}
 
 		void StartTutorial(string tutorial) {
+			if ( _completed.Contains(tutorial) ) {
+				return;
+			}
 			_tutorials.Enqueue(tutorial);
 			TriggerNextTutorial();
 		}

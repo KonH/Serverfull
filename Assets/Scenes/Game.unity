@@ -373,7 +373,7 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: To assign client to your server, just drag it from 'Clients' panel to
-        required server.
+        required server panel.
       objectReference: {fileID: 0}
     - target: {fileID: 224636210380596924, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
@@ -1746,7 +1746,7 @@ Prefab:
     - target: {fileID: 114855549672584728, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
       propertyPath: m_Text
-      value: To maintein clients, you need at least one server. Build it now.
+      value: To maintain clients you need at least one server. Build it now.
       objectReference: {fileID: 0}
     - target: {fileID: 224636210380596924, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
@@ -1808,7 +1808,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000012993813}
+  m_AnchoredPosition: {x: 0, y: 0.000009649256}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &625179930
@@ -4127,8 +4127,8 @@ Prefab:
     - target: {fileID: 114855549672584728, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
       propertyPath: m_Text
-      value: Each server have resources to maintain client requests. If no free resources,
-        requests will failed and client disappoint.
+      value: Each server has resources to maintain client requests. If there are no
+        free resources, request will be failed and client disappoint.
       objectReference: {fileID: 0}
     - target: {fileID: 224636210380596924, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
@@ -4606,7 +4606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00001783174}
+  m_AnchoredPosition: {x: 0, y: 0.000013565607}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1615883803
@@ -4814,7 +4814,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1480139950}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
