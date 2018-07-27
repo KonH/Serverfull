@@ -37,8 +37,13 @@ namespace Serverfull.Controllers {
 			foreach ( var req in _requests.Values ) {
 				if ( req.IsFinished ) {
 					_finishedRequests.Add(req.Id);
-				} else if ( req.UpdateProgress(deltaTime) ) {
-					UpdateRequest(req, deltaTime);
+				} else {
+					if ( req.Status != RequestStatus.Awaiting ) {
+						_user.UpdateMood(req.Owner, deltaTime);
+					}
+					if ( req.UpdateProgress(deltaTime) ) {
+						UpdateRequest(req, deltaTime);
+					}
 				}
 			}
 			foreach ( var req in _finishedRequests ) {
@@ -49,7 +54,6 @@ namespace Serverfull.Controllers {
 		void UpdateRequest(Request req, float deltaTime) {
 			var status = req.Status;
 			_events.Fire(new Request_CompleteProgress(req));
-			_user.UpdateMood(req.Owner, deltaTime);
 			if ( req.Status != status ) {
 				_events.Fire(new Request_NewStatus(req));
 			}

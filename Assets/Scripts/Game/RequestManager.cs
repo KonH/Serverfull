@@ -96,7 +96,7 @@ namespace Serverfull.Game {
 				var progress = req.Status != RequestStatus.Processing ? req.NormalizedProgress : 1.0f;
 				view.transform.position = Vector3.Lerp(view.StartPos, view.EndPos, progress);
 				foreach ( var md in view.MoodRenderers ) {
-					md.material.color = Color.Lerp(view.BadMoodColor, view.GoodMoodColor, req.Owner.Mood);
+					md.material.color = Color.Lerp(view.BadMoodColor, view.GoodMoodColor, req.Owner.NormalizedMood);
 				}
 			}
 		}

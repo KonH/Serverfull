@@ -19,8 +19,12 @@ namespace Serverfull.Game {
 			return _settings.NetworkToTime / Mathf.Sqrt(network);
 		}
 
+		public float CalculateUserMoodChange(float deltaTime) {
+			return -deltaTime * _settings.UserMoodChange;
+		}
+
 		public float CalculateClientMoodChange(float userMood) {
-			var value = (userMood - 0.5f) * _settings.ClientMoodChange;
+			var value = (userMood - 50.0f) * _settings.ClientMoodChange;
 			return value;
 		}
 	}

@@ -8,7 +8,9 @@ namespace Serverfull.Models {
 		public int      WantedNetwork { get; }
 		public int      WantedCPU     { get; }
 		public int      WantedRAM     { get; }
-		public float    Mood          { get; private set; } = 1.0f;
+		public float    Mood          { get; private set; } = 100.0f;
+
+		public float NormalizedMood => Mood / 100.0f;
 
 		public Client(ClientId id, Money income, int userRate, int wantedNetwork, int wantedCpu, int wantedRam) {
 			Id            = id;
@@ -20,7 +22,7 @@ namespace Serverfull.Models {
 		}
 
 		public void UpdateMood(float change) {
-			Mood = Mathf.Clamp01(Mood + change);
+			Mood = Mathf.Clamp(Mood + change, 0, 100.0f);
 		}
 	}
 }

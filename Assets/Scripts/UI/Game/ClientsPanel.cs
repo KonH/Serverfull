@@ -40,7 +40,7 @@ namespace Serverfull.UI.Game {
 			foreach ( var view in _views ) {
 				var client = _client.Get(view.Id);
 				if ( client != null ) {
-					view.UpdateMood(client.Mood);
+					view.UpdateMood(client.NormalizedMood);
 				}
 			}
 		}

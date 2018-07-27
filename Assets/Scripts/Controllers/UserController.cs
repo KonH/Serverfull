@@ -3,10 +3,10 @@ using Serverfull.Models;
 
 namespace Serverfull.Controllers {
 	public class UserController {
-		GameSettings _settings;
+		readonly GameRules _rules;
 
-		public UserController(GameSettings settings) {
-			_settings = settings;
+		public UserController(GameRules rules) {
+			_rules = rules;
 		}
 
 		public User CreateUser(ClientId owner) {
@@ -14,7 +14,8 @@ namespace Serverfull.Controllers {
 		}
 
 		public void UpdateMood(User user, float deltaTime) {
-			user.UpdateMood(-deltaTime * _settings.MoodDecrease);
+			var value = _rules.CalculateUserMoodChange(deltaTime);
+			user.UpdateMood(value);
 		}
 
 		public void OnRequestFailed(User user) {
