@@ -24,7 +24,7 @@ namespace Serverfull.Game {
 		}
 
 		public float CalculateClientMoodChange(float userMood) {
-			var value = (userMood - 50.0f) * _settings.ClientMoodChange;
+			var value = (userMood - _settings.ClientMoodBorder) * _settings.ClientMoodChange;
 			return value;
 		}
 	}

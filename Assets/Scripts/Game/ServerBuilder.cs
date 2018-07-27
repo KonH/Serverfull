@@ -10,6 +10,7 @@ namespace Serverfull.Game {
 		public string            RaycastLayer;
 
 		public Money BuildPrice        => _upgrade.GetUpgradeLevelInfo(0).Price;
+		public Money Maintenance       => _upgrade.GetUpgradeLevelInfo(0).Maintenance;
 		public bool  CanStartPlacement => (_finance.Balance > BuildPrice) && !_inBuildProcess;
 		public bool  CanEndPlacement   => (_finance.Balance > BuildPrice);
 

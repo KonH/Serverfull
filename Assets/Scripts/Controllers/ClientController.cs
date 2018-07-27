@@ -21,10 +21,10 @@ namespace Serverfull.Controllers {
 		public ClientController(ServerController server, IEvent events) {
 			_server = server;
 			_event  = events;
-			AddClient(new Client(new ClientId("Client1"), new Money(1), 1, 1, 1, 1));
-			AddClient(new Client(new ClientId("Client2"), new Money(10), 1, 1, 1, 1));
-			AddClient(new Client(new ClientId("Client3"), new Money(100), 1, 1, 1, 1));
-			AddClient(new Client(new ClientId("Client4"), new Money(100), 1, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client1"), new Money(10), "Easy", 1, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client2"), new Money(25), "Medium", 3, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client3"), new Money(50), "Hard", 5, 1, 1, 1));
+			AddClient(new Client(new ClientId("Client4"), new Money(100), "Insane", 10, 1, 1, 1));
 		}
 
 		void AddClient(Client client) {

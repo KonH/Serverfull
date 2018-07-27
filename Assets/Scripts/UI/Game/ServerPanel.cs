@@ -89,7 +89,7 @@ namespace Serverfull.UI.Game {
 			var upgradeInfo = _upgrade.GetUpgradeLevelInfo(server.UpgradeLevel + 1);
 			UpgradeButton.gameObject.SetActive(upgradeInfo != null);
 			if ( upgradeInfo != null ) {
-				UpgradeText.text = string.Format("Upgrade ({0})", upgradeInfo.Price);
+				UpgradeText.text = string.Format("Upgrade ({0}, {1}/h)", upgradeInfo.Price, upgradeInfo.Maintenance);
 			}
 			_cachedUpgradeLevel = server.UpgradeLevel;
 		}

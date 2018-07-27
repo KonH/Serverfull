@@ -30,7 +30,7 @@ namespace Serverfull.UI.Game {
 
 		void UpdateState() {
 			_button.interactable = _builder.CanStartPlacement;
-			Label.text           = string.Format("New server ({0})", _builder.BuildPrice);
+			Label.text           = string.Format("New server ({0}, {1}/h)", _builder.BuildPrice, _builder.Maintenance);
 			_prevStartPlacement = _builder.CanStartPlacement;
 		}
 

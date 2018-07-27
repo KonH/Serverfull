@@ -9,10 +9,10 @@ namespace Serverfull.Controllers {
 		readonly FinanceController _finance;
 
 		List<UpgradeLevelInfo> _levels = new List<UpgradeLevelInfo> {
-			new UpgradeLevelInfo(new Money(5), new Money(1),  1, 1, 1),
-			new UpgradeLevelInfo(new Money(10), new Money(2),  5, 5, 5),
-			new UpgradeLevelInfo(new Money(25), new Money(3), 25, 25, 25),
-			new UpgradeLevelInfo(new Money(50), new Money(4), 100, 100, 100)
+			new UpgradeLevelInfo(new Money(5), new Money(5),  1, 1, 1),
+			new UpgradeLevelInfo(new Money(10), new Money(10),  2, 2, 2),
+			new UpgradeLevelInfo(new Money(25), new Money(25), 5, 5, 5),
+			new UpgradeLevelInfo(new Money(50), new Money(50), 10, 10, 10)
 		};
 
 		public UpgradeController(ILog log, ServerController server, FinanceController finance) {

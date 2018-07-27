@@ -6,6 +6,7 @@ namespace Serverfull.Game {
 		public float TimeScale;
 		public float UserMoodChange;
 		public float ClientMoodChange;
+		public float ClientMoodBorder;
 		public float NetworkToTime;
 		public float CpuToTime;
 		public int   StartMoney;
