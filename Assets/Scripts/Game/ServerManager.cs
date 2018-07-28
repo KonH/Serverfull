@@ -12,7 +12,8 @@ namespace Serverfull.Game {
 
 		IEvent _event;
 
-		Dictionary<ServerId, ServerView> _views = new Dictionary<ServerId, ServerView>();
+		Dictionary<ServerId, ServerView> _views    = new Dictionary<ServerId, ServerView>();
+		ServerView                       _selected = null;
 
 		[Inject]
 		public void Init(IEvent events) {
@@ -30,6 +31,7 @@ namespace Serverfull.Game {
 		void OnNewServer(Server_New e) {
 			var view = ObjectPool.Spawn(ServerViewPrefab, new Vector3(e.PosX, 0, e.PosY));
 			view.Init(e.Id);
+			view.SetSelected(false);
 			_views.Add(e.Id, view);
 		}
 
@@ -37,6 +39,15 @@ namespace Serverfull.Game {
 			ServerView view;
 			_views.TryGetValue(id, out view);
 			return view;
+		}
+
+		public void UpdateSelectedServer(ServerId id) {
+			if ( _selected ) {
+				_selected.SetSelected(false);
+			}
+			var view = GetView(id);
+			_selected = view;
+			view.SetSelected(true);
 		}
 	}
 }
