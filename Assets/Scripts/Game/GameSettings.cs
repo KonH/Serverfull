@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Serverfull.Game {
 	[Serializable]
@@ -10,5 +11,11 @@ namespace Serverfull.Game {
 		public float NetworkToTime;
 		public float CpuToTime;
 		public int   StartMoney;
+		public int   ClientSpawnInterval;
+		public int   ClientsPerSpawn;
+		public int   FirstClientSpawn;
+
+		public List<string>         ClientNames;
+		public List<ClientSettings> Setups;
 	}
 }

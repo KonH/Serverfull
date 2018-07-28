@@ -61,6 +61,89 @@ MonoBehaviour:
     NetworkToTime: 3000
     CpuToTime: 3000
     StartMoney: 50
+    ClientSpawnInterval: 4
+    ClientsPerSpawn: 2
+    FirstClientSpawn: 3
+    ClientNames:
+    - Macrosoft
+    - Wallmark
+    - Zeta
+    - IT Soft
+    - Dumbbuy
+    - MediaLoft
+    - Zenimin
+    - Pear
+    - Rain
+    - Nihao
+    Setups:
+    - Difficulty: Easy
+      UserRate:
+        Start: 1
+        End: 1
+      Network:
+        Start: 1
+        End: 1
+      RAM:
+        Start: 1
+        End: 1
+      CPU:
+        Start: 1
+        End: 1
+      Income:
+        Start: 6
+        End: 10
+      Chance: 0.5
+    - Difficulty: Medium
+      UserRate:
+        Start: 2
+        End: 5
+      Network:
+        Start: 1
+        End: 2
+      RAM:
+        Start: 1
+        End: 2
+      CPU:
+        Start: 1
+        End: 2
+      Income:
+        Start: 15
+        End: 30
+      Chance: 0.33
+    - Difficulty: Hard
+      UserRate:
+        Start: 6
+        End: 9
+      Network:
+        Start: 2
+        End: 3
+      RAM:
+        Start: 2
+        End: 3
+      CPU:
+        Start: 2
+        End: 3
+      Income:
+        Start: 35
+        End: 70
+      Chance: 0.25
+    - Difficulty: Insane
+      UserRate:
+        Start: 10
+        End: 15
+      Network:
+        Start: 3
+        End: 5
+      RAM:
+        Start: 3
+        End: 5
+      CPU:
+        Start: 3
+        End: 5
+      Income:
+        Start: 75
+        End: 125
+      Chance: 0.1
   ServerManager: {fileID: 0}
   ServerBuilder: {fileID: 0}
 --- !u!114 &114688784914229706
