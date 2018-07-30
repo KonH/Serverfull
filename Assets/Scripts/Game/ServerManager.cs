@@ -21,18 +21,26 @@ namespace Serverfull.Game {
 		}
 
 		void OnEnable() {
-			_event?.Subscribe<Server_New>(this, OnNewServer);
+			_event?.Subscribe<Server_New>  (this, OnNewServer);
+			_event?.Subscribe<Server_Break>(this, OnServerBreak);
 		}
 
 		void OnDisable() {
-			_event?.Unsubscribe<Server_New>(OnNewServer);
+			_event?.Unsubscribe<Server_New>  (OnNewServer);
+			_event?.Unsubscribe<Server_Break>(OnServerBreak);
 		}
 
 		void OnNewServer(Server_New e) {
 			var view = ObjectPool.Spawn(ServerViewPrefab, new Vector3(e.PosX, 0, e.PosY));
 			view.Init(e.Id);
 			view.SetSelected(false);
+			view.SetBreaked(false);
 			_views.Add(e.Id, view);
+		}
+
+		void OnServerBreak(Server_Break e) {
+			var view = GetView(e.Id);
+			view?.SetBreaked(true);
 		}
 
 		public ServerView GetView(ServerId id) {

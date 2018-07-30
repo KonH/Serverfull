@@ -27,5 +27,9 @@ namespace Serverfull.Game {
 			var value = (userMood - _settings.ClientMoodBorder) * _settings.ClientMoodChange;
 			return value;
 		}
+
+		public float GetBreakChance(float deltaTime) {
+			return deltaTime * _settings.BreakChance;
+		}
 	}
 }

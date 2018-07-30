@@ -14,6 +14,7 @@ namespace Serverfull.Game {
 		public int   ClientSpawnInterval;
 		public int   ClientsPerSpawn;
 		public int   FirstClientSpawn;
+		public float BreakChance;
 
 		public List<string>         ClientNames;
 		public List<ClientSettings> Setups;

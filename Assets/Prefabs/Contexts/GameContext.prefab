@@ -64,6 +64,7 @@ MonoBehaviour:
     ClientSpawnInterval: 4
     ClientsPerSpawn: 2
     FirstClientSpawn: 3
+    BreakChance: 0.0001
     ClientNames:
     - Macrosoft
     - Wallmark

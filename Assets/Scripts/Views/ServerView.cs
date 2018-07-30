@@ -5,6 +5,7 @@ namespace Serverfull.Views {
 	public class ServerView : MonoBehaviour {
 		public Transform  Center;
 		public GameObject Selection;
+		public GameObject Break;
 
 		public ServerId Id { get; private set; }
 
@@ -14,6 +15,10 @@ namespace Serverfull.Views {
 
 		public void SetSelected(bool value) {
 			Selection.SetActive(value);
+		}
+
+		public void SetBreaked(bool value) {
+			Break.SetActive(value);
 		}
 	}
 }

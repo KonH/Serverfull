@@ -12,13 +12,15 @@ namespace Serverfull.Controllers {
 		readonly ServerController  _server;
 		readonly RequestController _request;
 		readonly UserController    _user;
+		readonly BreakController   _break;
 
-		public TransportController(IEvent events, GameRules rules, ServerController server, RequestController request, UserController user) {
+		public TransportController(IEvent events, GameRules rules, ServerController server, RequestController request, UserController user, BreakController breaking) {
 			_events  = events;
 			_rules   = rules;
 			_server  = server;
 			_request = request;
 			_user    = user;
+			_break   = breaking;
 		}
 
 		public void Initialize() {
@@ -46,6 +48,9 @@ namespace Serverfull.Controllers {
 					break;
 
 				case RequestStatus.Incoming: {
+						if ( _break.IsServerBreaked(req.Target.Id) ) {
+							return;
+						}
 						_server.ReleaseResource(req.Target, req.Target.Network, req.WantedNetwork);
 					}
 					break;

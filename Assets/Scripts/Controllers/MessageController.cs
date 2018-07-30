@@ -21,11 +21,13 @@ namespace Serverfull.Controllers {
 		public void Initialize() {
 			_event.Subscribe<Status_GameEnd>(this, OnGameEnd);
 			_event.Subscribe<Client_Lost>   (this, OnClientLost);
+			_event.Subscribe<Server_Break>  (this, OnServerBreak);
 		}
 
 		public void Dispose() {
 			_event.Unsubscribe<Status_GameEnd>(OnGameEnd);
 			_event.Unsubscribe<Client_Lost>   (OnClientLost);
+			_event.Unsubscribe<Server_Break>  (OnServerBreak);
 		}
 
 		void OnGameEnd(Status_GameEnd e) {
@@ -34,6 +36,10 @@ namespace Serverfull.Controllers {
 
 		void OnClientLost(Client_Lost e) {
 			RaiseNotification($"Client '{e.Id.Name}' break with us, our service sucks!");
+		}
+
+		void OnServerBreak(Server_Break e) {
+			RaiseNotification("Our server breaked!");
 		}
 
 		void RaiseMessage(string title, string content, Action onPositive = null, Action onNegative = null) {
