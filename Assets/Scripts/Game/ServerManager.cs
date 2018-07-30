@@ -23,11 +23,13 @@ namespace Serverfull.Game {
 		void OnEnable() {
 			_event?.Subscribe<Server_New>  (this, OnNewServer);
 			_event?.Subscribe<Server_Break>(this, OnServerBreak);
+			_event?.Subscribe<Server_Fix>  (this, OnServerFix);
 		}
 
 		void OnDisable() {
 			_event?.Unsubscribe<Server_New>  (OnNewServer);
 			_event?.Unsubscribe<Server_Break>(OnServerBreak);
+			_event?.Unsubscribe<Server_Fix>  (OnServerFix);
 		}
 
 		void OnNewServer(Server_New e) {
@@ -41,6 +43,11 @@ namespace Serverfull.Game {
 		void OnServerBreak(Server_Break e) {
 			var view = GetView(e.Id);
 			view?.SetBreaked(true);
+		}
+
+		void OnServerFix(Server_Fix e) {
+			var view = GetView(e.Id);
+			view?.SetBreaked(false);
 		}
 
 		public ServerView GetView(ServerId id) {

@@ -25,7 +25,7 @@ namespace Serverfull.Controllers {
 		readonly TimeController   _time;
 		readonly IEvent           _event;
 
-		Dictionary<ServerId, BreakHolder> _holders = new Dictionary<ServerId, BreakHolder>();
+		public HashSet<ServerId> BreakedServers { get; } = new HashSet<ServerId>();
 
 		public BreakController(GameRules rules, ServerController server, TimeController time, IEvent events) {
 			_rules  = rules;
@@ -48,7 +48,7 @@ namespace Serverfull.Controllers {
 		}
 
 		public bool IsServerBreaked(ServerId id) {
-			return _holders.ContainsKey(id);
+			return BreakedServers.Contains(id);
 		}
 
 		void BreakServer(Server server) {
@@ -59,8 +59,20 @@ namespace Serverfull.Controllers {
 				_server.TryLockResource(server, server.Network, network) &&
 				_server.TryLockResource(server, server.CPU, cpu) &&
 				_server.TryLockResource(server, server.RAM, ram) ) {
-				_holders.Add(server.Id, new BreakHolder(server.Network.Max, server.CPU.Max, server.RAM.Max));
+				BreakedServers.Add(server.Id);
 				_event.Fire(new Server_Break(server.Id));
+			}
+		}
+
+		public void FixServer(ServerId id) {
+			if ( BreakedServers.Remove(id) ) {
+				var server = _server.Get(id);
+				if ( server != null ) {
+					_server.ReleaseResource(server, server.Network, server.Network.Max);
+					_server.ReleaseResource(server, server.CPU, server.CPU.Max);
+					_server.ReleaseResource(server, server.RAM, server.RAM.Max);
+					_event.Fire(new Server_Fix(server.Id));
+				}
 			}
 		}
 	}

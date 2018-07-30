@@ -12,16 +12,18 @@ namespace Serverfull.Controllers {
 
 		readonly ULogger          _log;
 		readonly IEvent           _event;
+		readonly GameSettings     _settings;
 		readonly ServerController _server;
 		readonly ClientController _client;
 
 		public FinanceController(ILog log, IEvent events, GameSettings settings, ServerController server, ClientController client) {
-			_log    = log.CreateLogger(this);
-			_event  = events;
-			_server = server;
-			_client = client;
+			_log      = log.CreateLogger(this);
+			_event    = events;
+			_settings = settings;
+			_server   = server;
+			_client   = client;
 
-			Balance = new Money(settings.StartMoney);
+			Balance = new Money(_settings.StartMoney);
 		}
 
 		public void Initialize() {
@@ -37,6 +39,9 @@ namespace Serverfull.Controllers {
 		}
 
 		public void Spend(Money money) {
+			if ( _settings.NoExpenses ) {
+				return;
+			}
 			Balance -= money;
 			_log.MessageFormat("Spend: {0} => {1}", money, Balance);
 			RaiseUpdateEvent();
