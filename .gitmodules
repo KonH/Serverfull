@@ -1,3 +1,6 @@
 [submodule "Assets/UDBase"]
 	path = Assets/UDBase
 	url = https://github.com/KonH/UDBase.git
+[submodule "Assets/Extensions/Moments"]
+	path = Assets/Extensions/Moments
+	url = https://github.com/Chman/Moments.git
