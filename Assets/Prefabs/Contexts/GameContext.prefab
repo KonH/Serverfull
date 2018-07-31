@@ -66,6 +66,7 @@ MonoBehaviour:
     FirstClientSpawn: 3
     BreakChance: 0.0001
     NoExpenses: 1
+    FixTime: 0.5
     ClientNames:
     - Macrosoft
     - Wallmark
@@ -148,6 +149,7 @@ MonoBehaviour:
       Chance: 0.1
   ServerManager: {fileID: 0}
   ServerBuilder: {fileID: 0}
+  EngineerManager: {fileID: 0}
 --- !u!114 &114688784914229706
 MonoBehaviour:
   m_ObjectHideFlags: 1

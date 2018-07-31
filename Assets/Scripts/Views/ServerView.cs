@@ -6,6 +6,7 @@ namespace Serverfull.Views {
 		public Transform  Center;
 		public GameObject Selection;
 		public GameObject Break;
+		public Transform  WorkPoint;
 
 		public ServerId Id { get; private set; }
 

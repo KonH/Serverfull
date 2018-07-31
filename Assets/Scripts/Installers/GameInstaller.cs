@@ -5,9 +5,10 @@ using Serverfull.Controllers;
 
 namespace Serverfull.Installers {
 	public class GameInstaller : UDBaseInstaller {
-		public GameSettings  Settings;
-		public ServerManager ServerManager;
-		public ServerBuilder ServerBuilder;
+		public GameSettings    Settings;
+		public ServerManager   ServerManager;
+		public ServerBuilder   ServerBuilder;
+		public EngineerManager EngineerManager;
 		
 		public override void InstallBindings() {
 			Container.BindInstance(Settings);
@@ -30,8 +31,10 @@ namespace Serverfull.Installers {
 			Container.BindInitDisposeToSelf<ClientSpawnController>().AsSingle().NonLazy();
 			Container.Bind<ClientGenerator>().ToSelf().AsSingle();
 			Container.BindTickableToSelf<BreakController>().AsSingle().NonLazy();
+			Container.Bind<EngineerController>().ToSelf().AsSingle();
 			Container.BindInstance(ServerManager);
 			Container.BindInstance(ServerBuilder);
+			Container.BindInstance(EngineerManager);
 		}
 	}
 }

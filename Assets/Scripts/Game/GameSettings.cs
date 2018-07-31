@@ -16,6 +16,7 @@ namespace Serverfull.Game {
 		public int   FirstClientSpawn;
 		public float BreakChance;
 		public bool  NoExpenses;
+		public float FixTime;
 
 		public List<string>         ClientNames;
 		public List<ClientSettings> Setups;

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Serverfull.Views;
-using Serverfull.Controllers;
-using Zenject;
+using Serverfull.Models;
 
 namespace Serverfull.Game {
 	[RequireComponent(typeof(NavMeshAgent))]
@@ -43,7 +42,6 @@ namespace Serverfull.Game {
 				if ( IsDone() ) {
 					GoToRandomPoint();
 				}
-				_owner.TryGetWork();
 			}
 		}
 
@@ -56,7 +54,7 @@ namespace Serverfull.Game {
 			}
 
 			void GoToTarget() {
-				_agent.SetDestination(_target.transform.position);
+				_agent.SetDestination(_target.WorkPoint.position);
 			}
 
 			public override void Update() {
@@ -87,16 +85,17 @@ namespace Serverfull.Game {
 
 		public float WalkRange;
 
-		BreakController _break;
-		ServerManager   _server;
+		public EngineerId Id     { get; private set; }
+		public bool       IsBusy { get; private set; }
+
+		EngineerManager _manager;
 
 		NavMeshAgent _agent;
 		State        _state;
 
-		[Inject]
-		public void Init(BreakController breaking, ServerManager server) {
-			_break  = breaking;
-			_server = server;
+		public void Init(EngineerManager manager, EngineerId id) {
+			_manager = manager;
+			Id = id;
 		}
 
 		void Start() {
@@ -108,23 +107,19 @@ namespace Serverfull.Game {
 			_state.Update();
 		}
 
-		void TryGetWork() {
-			foreach ( var server in _break.BreakedServers ) {
-				var view = _server.GetView(server);
-				if ( view != null ) {
-					_state = new MoveToServerState(this, view);
-					return;
-				}
-			}
+		public void GoToFixServer(ServerView server) {
+			IsBusy = true;
+			_state = new MoveToServerState(this, server);
 		}
 
 		void StartFixServer(ServerView server) {
-			_state = new FixState(this, server, 1.5f);
+			_state = new FixState(this, server, _manager.GetFixTime(Id));
 		}
 
 		void DoneFixServer(ServerView server) {
-			_break.FixServer(server.Id);
 			_state = new IdleState(this);
+			_manager.DoneFixServer(Id, server);
+			IsBusy = false;
 		}
 	}
 }
