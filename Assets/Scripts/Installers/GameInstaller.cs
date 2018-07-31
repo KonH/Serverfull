@@ -31,7 +31,7 @@ namespace Serverfull.Installers {
 			Container.BindInitDisposeToSelf<ClientSpawnController>().AsSingle().NonLazy();
 			Container.Bind<ClientGenerator>().ToSelf().AsSingle();
 			Container.BindTickableToSelf<BreakController>().AsSingle().NonLazy();
-			Container.Bind<EngineerController>().ToSelf().AsSingle();
+			Container.BindInitDisposeToSelf<EngineerController>().AsSingle().NonLazy();
 			Container.BindInstance(ServerManager);
 			Container.BindInstance(ServerBuilder);
 			Container.BindInstance(EngineerManager);

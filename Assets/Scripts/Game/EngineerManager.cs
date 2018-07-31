@@ -37,7 +37,10 @@ namespace Serverfull.Game {
 		}
 
 		void Start() {
-			SpawnAllUnits();
+			// temp
+			foreach ( var id in _engineer.Available ) {
+				_engineer.Hire(id);
+			}
 		}
 
 		void OnNewEngineer(Engineer_New e) {
@@ -45,7 +48,7 @@ namespace Serverfull.Game {
 		}
 
 		void SpawnAllUnits() {
-			foreach ( var eng in _engineer.All ) {
+			foreach ( var eng in _engineer.Hired ) {
 				SpawnUnit(eng);
 			}
 		}

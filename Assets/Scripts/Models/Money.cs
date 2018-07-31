@@ -22,8 +22,16 @@ namespace Serverfull.Models {
 			return a.Value > b.Value;
 		}
 
+		public static bool operator >=(Money a, Money b) {
+			return a.Value >= b.Value;
+		}
+
 		public static bool operator <(Money a, Money b) {
 			return a.Value < b.Value;
+		}
+
+		public static bool operator <=(Money a, Money b) {
+			return a.Value <= b.Value;
 		}
 
 		public override string ToString() {
