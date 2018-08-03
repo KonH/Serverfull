@@ -64,7 +64,7 @@ MonoBehaviour:
     ClientSpawnInterval: 4
     ClientsPerSpawn: 2
     FirstClientSpawn: 3
-    BreakChance: 0.0001
+    BreakChance: 0.00005
     NoExpenses: 1
     FixTime: 0.5
     ClientNames:
