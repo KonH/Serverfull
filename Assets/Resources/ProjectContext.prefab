@@ -74,14 +74,14 @@ MonoBehaviour:
         classRef: UDBase.Controllers.EventSystem.EventController, UDBase.Scripts
       Enabled: 0
     - Context:
-        classRef: Serverfull.Controllers.RequestController, Scripts
+        classRef: Serverfull.Controllers.RequestController, Scripts.Controllers
       Enabled: 0
     - Context:
-        classRef: Serverfull.Controllers.ServerController, Scripts
+        classRef: Serverfull.Controllers.ServerController, Scripts.Controllers
       Enabled: 0
     - Context:
-        classRef: Serverfull.Controllers.FinanceController, Scripts
+        classRef: Serverfull.Controllers.FinanceController, Scripts.Controllers
       Enabled: 0
     - Context:
-        classRef: Serverfull.Controllers.TimeController, Scripts
+        classRef: Serverfull.Controllers.TimeController, Scripts.Controllers
       Enabled: 0

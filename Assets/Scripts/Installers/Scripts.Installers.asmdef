@@ -1,0 +1,15 @@
+{
+    "name": "Scripts.Installers",
+    "references": [
+        "UDBase.Scripts",
+        "Scripts.Game",
+        "Scripts.Utils",
+        "Scripts.Controllers",
+        "UDBase.Extensions",
+        "Scripts.Common"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

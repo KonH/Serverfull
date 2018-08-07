@@ -1,13 +1,13 @@
 ﻿using System;
 using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.LogSystem;
-using Serverfull.Game;
+using Serverfull.Common;
 using Serverfull.Events;
 using Serverfull.Models;
 using Zenject;
 
 namespace Serverfull.Controllers {
-	class ClientMoodController : ILogContext, IInitializable, IDisposable {
+	public class ClientMoodController : ILogContext, IInitializable, IDisposable {
 		readonly ULogger           _logger;
 		readonly IEvent            _event;
 		readonly GameRules         _rules;

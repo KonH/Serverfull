@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Serverfull.Game;
+using Serverfull.Common;
 using Serverfull.Models;
 using UDBase.Utils;
 using Zenject;

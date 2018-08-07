@@ -2,7 +2,7 @@
 using UDBase.Controllers.EventSystem;
 using Serverfull.Events;
 using Serverfull.Models;
-using Serverfull.Game;
+using Serverfull.Common;
 using Zenject;
 
 namespace Serverfull.Controllers {

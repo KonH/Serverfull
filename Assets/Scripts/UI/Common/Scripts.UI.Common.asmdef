@@ -1,0 +1,13 @@
+{
+    "name": "Scripts.UI.Common",
+    "references": [
+        "UDBase.Scripts",
+        "Scripts.Models",
+        "Scripts.Events",
+        "UDBase.Extensions"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

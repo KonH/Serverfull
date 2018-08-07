@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Serverfull.Models;
 
-namespace Serverfull.Game {
+namespace Serverfull.Common {
 	public class GameRules {
 		readonly GameSettings _settings;
 

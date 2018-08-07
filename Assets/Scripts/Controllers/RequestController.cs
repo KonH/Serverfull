@@ -2,7 +2,7 @@
 using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.LogSystem;
-using Serverfull.Game;
+using Serverfull.Common;
 using Serverfull.Models;
 using Serverfull.Events;
 using Zenject;

@@ -2,7 +2,7 @@
 using Zenject;
 
 namespace Serverfull.Utils {
-	static class DiContainerExtensions {
+	public static class DiContainerExtensions {
 		public static ConcreteIdBinderNonGeneric BindTickable<T>(this DiContainer container) {
 			return container.Bind(typeof(T), typeof(ITickable));
 		}

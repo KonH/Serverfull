@@ -2,7 +2,7 @@
 using UnityEngine;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
-using Serverfull.Game;
+using Serverfull.Common;
 using Serverfull.Events;
 using Zenject;
 

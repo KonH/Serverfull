@@ -1,7 +1,10 @@
 {
-    "name": "Scripts",
+    "name": "Scripts.Controllers",
     "references": [
         "UDBase.Scripts",
+        "Scripts.Models",
+        "Scripts.Events",
+        "Scripts.Common",
         "UDBase.Extensions"
     ],
     "optionalUnityReferences": [],

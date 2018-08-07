@@ -1,4 +1,4 @@
-﻿using Serverfull.Game;
+﻿using Serverfull.Common;
 using Serverfull.Models;
 
 namespace Serverfull.Controllers {

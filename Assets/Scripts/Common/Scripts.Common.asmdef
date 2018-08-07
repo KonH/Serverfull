@@ -1,0 +1,11 @@
+{
+    "name": "Scripts.Common",
+    "references": [
+        "Scripts.Models",
+        "UDBase.Scripts"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

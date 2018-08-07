@@ -1,0 +1,10 @@
+{
+    "name": "Scripts.Views",
+    "references": [
+        "Scripts.Models"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

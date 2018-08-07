@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UDBase.Utils;
-using Serverfull.Game;
+using Serverfull.Common;
 using Serverfull.Models;
 
 namespace Serverfull.Controllers {

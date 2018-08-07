@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Serverfull.Game {
+namespace Serverfull.Common {
 	[Serializable]
 	public class GameSettings {
 		public float TimeScale;

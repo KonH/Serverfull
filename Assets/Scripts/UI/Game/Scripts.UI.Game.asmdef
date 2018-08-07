@@ -1,0 +1,16 @@
+{
+    "name": "Scripts.UI.Game",
+    "references": [
+        "Scripts.Controllers",
+        "UDBase.Extensions",
+        "UDBase.Scripts",
+        "Scripts.Events",
+        "Scripts.Models",
+        "Scripts.Views",
+        "Scripts.Game"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

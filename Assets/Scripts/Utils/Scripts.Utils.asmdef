@@ -1,0 +1,10 @@
+{
+    "name": "Scripts.Utils",
+    "references": [
+        "UDBase.Extensions"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

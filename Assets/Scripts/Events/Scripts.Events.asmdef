@@ -1,0 +1,10 @@
+{
+    "name": "Scripts.Events",
+    "references": [
+        "Scripts.Models"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

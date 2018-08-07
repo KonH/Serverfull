@@ -1,7 +1,7 @@
 ﻿using System;
 using UDBase.Helpers;
 
-namespace Serverfull.Game {
+namespace Serverfull.Common {
 	[Serializable]
 	public class ClientSettings {
 		public string Difficulty;

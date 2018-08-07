@@ -1,6 +1,6 @@
 ﻿using System;
 using UDBase.Controllers.EventSystem;
-using Serverfull.Game;
+using Serverfull.Common;
 using Serverfull.Events;
 using Serverfull.Models;
 using Zenject;
