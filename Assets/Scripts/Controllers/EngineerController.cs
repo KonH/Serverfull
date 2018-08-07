@@ -9,11 +9,11 @@ using Zenject;
 
 namespace Serverfull.Controllers {
 	public class EngineerController : IInitializable, IDisposable {
-		static List<EngineerId> _tempUnits = new List<EngineerId>();
+		static List<EngineerId> _tempIds   = new List<EngineerId>();
+		static List<Engineer>   _tempUnits = new List<Engineer>();
 
-		public IEnumerable<EngineerId> All       => _units.Keys;
-		public IEnumerable<EngineerId> Available => GetUnitsByHired(false);
-		public IEnumerable<EngineerId> Hired     => GetUnitsByHired(true);
+		public List<EngineerId> Available => GetUnitsByHired(false);
+		public List<EngineerId> Hired     => GetUnitsByHired(true);
 
 		readonly IEvent            _event;
 		readonly FinanceController _finance;
@@ -46,28 +46,49 @@ namespace Serverfull.Controllers {
 
 		void AddUnit(Engineer unit) {
 			_units.Add(unit.Id, unit);
+			_event.Fire(new Engineer_New(unit.Id));
 		}
 
 		public Engineer Get(EngineerId id) => DictUtils.GetOrDefault(_units, id);
 
-		public IEnumerable<EngineerId> GetUnitsByHired(bool value) {
+		public List<Engineer> Get(List<EngineerId> ids) {
 			_tempUnits.Clear();
-			foreach ( var unit in _units ) {
-				if ( unit.Value.Hired == value ) {
-					_tempUnits.Add(unit.Key);
+			var result = _tempUnits;
+			foreach ( var id in ids ) {
+				var unit = Get(id);
+				if ( unit != null ) {
+					result.Add(unit);
 				}
 			}
-			return _tempUnits;
+			return result;
+		}
+
+		public List<EngineerId> GetUnitsByHired(bool value) {
+			_tempIds.Clear();
+			var result = _tempIds;
+			foreach ( var unit in _units ) {
+				if ( unit.Value.Hired == value ) {
+					result.Add(unit.Key);
+				}
+			}
+			return result;
+		}
+
+		public bool CanHire(Engineer unit) {
+			return (unit != null) && (_finance.Balance >= unit.Price);
+		}
+
+		public bool CanHire(EngineerId id) {
+			var unit = Get(id);
+			return CanHire(unit);
 		}
 
 		public void Hire(EngineerId id) {
 			var unit = Get(id);
-			if ( unit != null ) {
-				if ( !unit.Hired && (_finance.Balance >= unit.Price) ) {
-					_finance.Spend(unit.Price);
-					unit.Hire();
-					_event.Fire(new Engineer_New(unit.Id));
-				}
+			if ( CanHire(unit) ) {
+				_finance.Spend(unit.Price);
+				unit.Hire();
+				_event.Fire(new Engineer_Hired(unit.Id));
 			}
 		}
 	}

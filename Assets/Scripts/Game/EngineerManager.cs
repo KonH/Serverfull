@@ -29,21 +29,14 @@ namespace Serverfull.Game {
 		}
 
 		void OnEnable() {
-			_event?.Subscribe<Engineer_New>(this, OnNewEngineer);
+			_event?.Subscribe<Engineer_Hired>(this, OnHiredEngineer);
 		}
 
 		void OnDisable() {
-			_event?.Unsubscribe<Engineer_New>(OnNewEngineer);
+			_event?.Unsubscribe<Engineer_Hired>(OnHiredEngineer);
 		}
 
-		void Start() {
-			// temp
-			foreach ( var id in _engineer.Available ) {
-				_engineer.Hire(id);
-			}
-		}
-
-		void OnNewEngineer(Engineer_New e) {
+		void OnHiredEngineer(Engineer_Hired e) {
 			SpawnUnit(e.Id);
 		}
 
