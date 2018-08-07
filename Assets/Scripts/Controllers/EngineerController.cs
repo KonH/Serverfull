@@ -23,9 +23,9 @@ namespace Serverfull.Controllers {
 		public EngineerController(IEvent events, GameSettings settings, FinanceController finance) {
 			_event   = events;
 			_finance = finance;
-			AddUnit(new Engineer(new EngineerId("TestEngineer1"), settings.FixTime, new Money(5), new Money(5), false));
-			AddUnit(new Engineer(new EngineerId("TestEngineer2"), settings.FixTime, new Money(5), new Money(5), false));
-			AddUnit(new Engineer(new EngineerId("TestEngineer3"), settings.FixTime, new Money(5), new Money(5), false));
+			AddUnit(new Engineer(new EngineerId("TestEngineer1"), settings.FixTime, new Money(5), new Money(5), "unk", false));
+			AddUnit(new Engineer(new EngineerId("TestEngineer2"), settings.FixTime, new Money(5), new Money(5), "unk", false));
+			AddUnit(new Engineer(new EngineerId("TestEngineer3"), settings.FixTime, new Money(5), new Money(5), "unk", false));
 		}
 
 		public void Initialize() {

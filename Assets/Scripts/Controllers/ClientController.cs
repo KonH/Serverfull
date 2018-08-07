@@ -1,26 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UDBase.Utils;
-using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 using Serverfull.Models;
 using Serverfull.Events;
+using Zenject;
 
 namespace Serverfull.Controllers {
-	public class ClientController {
+	public class ClientController : IInitializable, IDisposable {
 		static List<ClientId> _tempIds     = new List<ClientId>();
 		static List<Client>   _tempClients = new List<Client>();
 
 		public IEnumerable<Client> All => _clients.Values;
 
-		readonly ULogger          _log;
-		readonly ServerController _server;
-		readonly IEvent           _event;
+		readonly IEvent            _event;
+		readonly ServerController  _server;
+		readonly FinanceController _finance;
 
 		Dictionary<ClientId, Client> _clients = new Dictionary<ClientId, Client>();
 
-		public ClientController(ServerController server, IEvent events) {
-			_server = server;
-			_event  = events;
+		public ClientController(ServerController server, IEvent events, FinanceController finance) {
+			_server  = server;
+			_event   = events;
+			_finance = finance;
+		}
+
+		public void Initialize() {
+			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+		}
+
+		public void Dispose() {
+			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+		}
+
+		void OnNewHour(Time_NewGameHour e) {
+			_finance.Add(GetTotalIncome());
 		}
 
 		public void AddClient(Client client) {
@@ -56,7 +70,7 @@ namespace Serverfull.Controllers {
 			return result;
 		}
 
-		public Money GetTotalIncome() {
+		Money GetTotalIncome() {
 			var result = Money.Zero;
 			foreach ( var client in _clients ) {
 				if ( IsAssignedToServer(client.Key)) {

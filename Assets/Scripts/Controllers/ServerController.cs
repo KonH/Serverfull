@@ -1,22 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 using Serverfull.Models;
 using Serverfull.Events;
+using Zenject;
 
 namespace Serverfull.Controllers {
-	public class ServerController : ILogContext {
+	public class ServerController : ILogContext, IInitializable, IDisposable {
 		public IEnumerable<Server> All => _servers.Values;
 
 		Dictionary<ServerId, Server> _servers = new Dictionary<ServerId, Server>();
 
-		readonly ULogger _log;
-		readonly IEvent  _event;
+		readonly ULogger           _log;
+		readonly IEvent            _event;
+		readonly FinanceController _finance;
 
-		public ServerController(ILog log, IEvent events) {
-			_log   = log.CreateLogger(this);
-			_event = events;
+		public ServerController(ILog log, IEvent events, FinanceController finance) {
+			_log     = log.CreateLogger(this);
+			_event   = events;
+			_finance = finance;
+		}
+
+		public void Initialize() {
+			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+		}
+
+		public void Dispose() {
+			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+		}
+
+		void OnNewHour(Time_NewGameHour e) {
+			_finance.Spend(GetTotalMaintenance());
 		}
 
 		public void Add(Server server) {
@@ -65,7 +81,7 @@ namespace Serverfull.Controllers {
 			_log.MessageFormat("ReleaseResource: {0}", server);
 		}
 
-		public Money GetTotalMaintenance() {
+		Money GetTotalMaintenance() {
 			var result = Money.Zero;
 			foreach ( var server in _servers.Values ) {
 				result += server.Maintenance;
