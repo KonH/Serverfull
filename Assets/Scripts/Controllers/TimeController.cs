@@ -45,10 +45,12 @@ namespace Serverfull.Controllers {
 
 		public void Pause() {
 			_paused = true;
+			Time.timeScale = 0.0f;
 		}
 
 		public void Resume() {
 			_paused = false;
+			Time.timeScale = 1.0f;
 		}
 	}
 }
