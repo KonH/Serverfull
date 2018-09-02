@@ -23,9 +23,6 @@ namespace Serverfull.Controllers {
 		public EngineerController(IEvent events, GameSettings settings, FinanceController finance) {
 			_event   = events;
 			_finance = finance;
-			AddUnit(new Engineer(new EngineerId("TestEngineer1"), settings.FixTime, new Money(5), new Money(5), "unk", false));
-			AddUnit(new Engineer(new EngineerId("TestEngineer2"), settings.FixTime, new Money(5), new Money(5), "unk", false));
-			AddUnit(new Engineer(new EngineerId("TestEngineer3"), settings.FixTime, new Money(5), new Money(5), "unk", false));
 		}
 
 		public void Initialize() {
@@ -44,7 +41,7 @@ namespace Serverfull.Controllers {
 			_finance.Spend(salary);
 		}
 
-		void AddUnit(Engineer unit) {
+		public void AddUnit(Engineer unit) {
 			_units.Add(unit.Id, unit);
 			_event.Fire(new Engineer_New(unit.Id));
 		}

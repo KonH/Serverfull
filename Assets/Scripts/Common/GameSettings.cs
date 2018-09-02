@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Serverfull.Common {
 	[Serializable]
@@ -11,14 +12,21 @@ namespace Serverfull.Common {
 		public float NetworkToTime;
 		public float CpuToTime;
 		public int   StartMoney;
-		public int   ClientSpawnInterval;
-		public int   ClientsPerSpawn;
-		public int   FirstClientSpawn;
 		public float BreakChance;
 		public bool  NoExpenses;
-		public float FixTime;
 
+		[Header("Clients")]
+		public int                  ClientSpawnInterval;
+		public int                  ClientsPerSpawn;
+		public int                  FirstClientSpawn;
 		public List<string>         ClientNames;
-		public List<ClientSettings> Setups;
+		public List<ClientSettings> ClientSetups;
+
+		[Header("Engineers")]
+		public int                    EngineerSpawnInterval;
+		public int                    EngineersPerSpawn;
+		public int                    FirstEngineerSpawn;
+		public List<string>           EngineerNames;
+		public List<EngineerSettings> EngineerSetups;
 	}
 }

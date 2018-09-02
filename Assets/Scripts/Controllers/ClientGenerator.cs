@@ -18,7 +18,7 @@ namespace Serverfull.Controllers {
 
 		ClientSettings SelectSetup() {
 			_clients.Clear();
-			_clients.AddRange(_settings.Setups);
+			_clients.AddRange(_settings.ClientSetups);
 			_weights.Clear();
 			foreach ( var client in _clients ) {
 				_weights.Add(client.Chance);

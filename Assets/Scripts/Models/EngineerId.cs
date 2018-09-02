@@ -1,5 +1,7 @@
 ﻿namespace Serverfull.Models {
 	public struct EngineerId {
+		public static EngineerId Empty => new EngineerId(string.Empty);
+		
 		public string Name { get; }
 
 		public bool IsEmpty => string.IsNullOrEmpty(Name);

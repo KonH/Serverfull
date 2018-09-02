@@ -220,7 +220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000029093926}
+  m_AnchoredPosition: {x: 0, y: -0.000031820513}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &116927486
@@ -1654,8 +1654,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 776.7168, y: -15}
-  m_SizeDelta: {x: 155.08891, y: 30}
+  m_AnchoredPosition: {x: 915.2107, y: -15}
+  m_SizeDelta: {x: 181.4687, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &416912720
 MonoBehaviour:
@@ -2544,7 +2544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000012282262}
+  m_AnchoredPosition: {x: 0, y: -0.000016628857}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &625179930
@@ -2958,8 +2958,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 77.54446, y: -15}
-  m_SizeDelta: {x: 155.08891, y: 30}
+  m_AnchoredPosition: {x: 90.73435, y: -15}
+  m_SizeDelta: {x: 181.4687, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &741439186
 MonoBehaviour:
@@ -3761,8 +3761,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 427.1306, y: -15}
-  m_SizeDelta: {x: 544.08344, y: 30}
+  m_AnchoredPosition: {x: 502.97253, y: -15}
+  m_SizeDelta: {x: 643.0076, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &942583580
 MonoBehaviour:
@@ -6336,7 +6336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000029093926}
+  m_AnchoredPosition: {x: 0, y: -0.000031820513}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1615883803
