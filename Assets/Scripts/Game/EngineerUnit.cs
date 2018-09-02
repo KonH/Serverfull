@@ -54,6 +54,9 @@ namespace Serverfull.Game {
 			}
 
 			void GoToTarget() {
+				Debug.Assert(_agent);
+				Debug.Assert(_target);
+				Debug.Assert(_target.WorkPoint);
 				_agent.SetDestination(_target.WorkPoint.position);
 			}
 
@@ -99,8 +102,16 @@ namespace Serverfull.Game {
 		}
 
 		void Start() {
-			_agent = GetComponent<NavMeshAgent>();
-			_state = new IdleState(this);
+			TryInit();
+		}
+
+		void TryInit() {
+			if ( !_agent ) {
+				_agent = GetComponent<NavMeshAgent>();
+			}
+			if ( _state == null ) {
+				_state = new IdleState(this);
+			}
 		}
 
 		void Update() {
@@ -108,6 +119,7 @@ namespace Serverfull.Game {
 		}
 
 		public void GoToFixServer(ServerView server) {
+			TryInit();
 			IsBusy = true;
 			_state = new MoveToServerState(this, server);
 		}

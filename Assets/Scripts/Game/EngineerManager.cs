@@ -67,7 +67,7 @@ namespace Serverfull.Game {
 					continue;
 				}
 				var view = _server.GetView(server);
-				if ( view != null ) {
+				if ( view ) {
 					var engineer = GetFreeEngineer();
 					if ( engineer != null ) {
 						engineer.GoToFixServer(view);
