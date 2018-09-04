@@ -1,3 +1,3 @@
 # Serverfull
 
-You can play early alpha (here)[https://konh.itch.io/serverfull].
+You can play early alpha[here](https://konh.itch.io/serverfull).
