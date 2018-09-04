@@ -58,11 +58,27 @@ MonoBehaviour:
     UserMoodChange: 0.01
     ClientMoodChange: 0.1
     ClientMoodBorder: 40
+    StartMoney: 100
+    NoExpenses: 0
     NetworkToTime: 3000
     CpuToTime: 3000
-    StartMoney: 50
-    BreakChance: 0.00005
-    NoExpenses: 1
+    BreakChance: 0.00003
+    Upgrades:
+    - Price: 25
+      Maintanance: 5
+      CPU: 2
+      RAM: 2
+      Network: 2
+    - Price: 100
+      Maintanance: 10
+      CPU: 3
+      RAM: 3
+      Network: 3
+    - Price: 250
+      Maintanance: 20
+      CPU: 5
+      RAM: 5
+      Network: 5
     ClientSpawnInterval: 4
     ClientsPerSpawn: 2
     FirstClientSpawn: 3
@@ -92,9 +108,9 @@ MonoBehaviour:
         Start: 1
         End: 1
       Income:
-        Start: 6
-        End: 10
-      Chance: 0.5
+        Start: 2
+        End: 4
+      Chance: 1
     - Difficulty: Medium
       UserRate:
         Start: 2
@@ -109,8 +125,8 @@ MonoBehaviour:
         Start: 1
         End: 2
       Income:
-        Start: 15
-        End: 20
+        Start: 5
+        End: 7
       Chance: 0.33
     - Difficulty: Hard
       UserRate:
@@ -126,8 +142,8 @@ MonoBehaviour:
         Start: 2
         End: 3
       Income:
-        Start: 35
-        End: 70
+        Start: 9
+        End: 12
       Chance: 0.25
     - Difficulty: Insane
       UserRate:
@@ -143,8 +159,8 @@ MonoBehaviour:
         Start: 3
         End: 5
       Income:
-        Start: 35
-        End: 70
+        Start: 15
+        End: 20
       Chance: 0.25
     EngineerSpawnInterval: 4
     EngineersPerSpawn: 1
@@ -174,33 +190,33 @@ MonoBehaviour:
         Start: 10
         End: 12
       Salary:
-        Start: 3
-        End: 4
+        Start: 5
+        End: 6
       FixTime:
-        Start: 1.5
-        End: 2.5
+        Start: 3
+        End: 5
       Chance: 0.5
     - Level: Middle
       Price:
         Start: 15
         End: 20
       Salary:
-        Start: 6
-        End: 9
+        Start: 8
+        End: 11
       FixTime:
-        Start: 0.5
-        End: 1
+        Start: 2
+        End: 4
       Chance: 0.3
     - Level: Senior
       Price:
         Start: 25
         End: 30
       Salary:
-        Start: 12
-        End: 15
+        Start: 14
+        End: 17
       FixTime:
-        Start: 0.1
-        End: 0.25
+        Start: 1
+        End: 2
       Chance: 0.2
   ServerManager: {fileID: 0}
   ServerBuilder: {fileID: 0}

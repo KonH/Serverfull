@@ -9,11 +9,14 @@ namespace Serverfull.Common {
 		public float UserMoodChange;
 		public float ClientMoodChange;
 		public float ClientMoodBorder;
+		public int   StartMoney;
+		public bool  NoExpenses;
+
+		[Header("Servers")]
 		public float NetworkToTime;
 		public float CpuToTime;
-		public int   StartMoney;
 		public float BreakChance;
-		public bool  NoExpenses;
+		public List<ServerUpgrade> Upgrades;
 
 		[Header("Clients")]
 		public int                  ClientSpawnInterval;
