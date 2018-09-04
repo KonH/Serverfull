@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Settings:
+    WithTutorials: 1
     TimeScale: 1600
     UserMoodChange: 0.01
     ClientMoodChange: 0.1

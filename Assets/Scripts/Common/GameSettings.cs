@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Serverfull.Common {
 	[Serializable]
 	public class GameSettings {
+		public bool  WithTutorials;
 		public float TimeScale;
 		public float UserMoodChange;
 		public float ClientMoodChange;

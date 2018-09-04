@@ -23,10 +23,12 @@ namespace Serverfull.Installers {
 			// single
 			Container.BindTickableToSelf<TimeController>().AsSingle();
 			Container.Bind<FinanceController>().ToSelf().AsSingle();
-			Container.BindInitDisposeToSelf<TutorialController>().AsSingle().NonLazy();
 			Container.BindInitDisposeToSelf<StatusController>().AsSingle();
 			Container.BindInitDisposeToSelf<MessageController>().AsSingle().NonLazy();
 			Container.Bind<UserController>().ToSelf().AsSingle();
+			if ( Settings.WithTutorials ) {
+				Container.BindInitDisposeToSelf<TutorialController>().AsSingle().NonLazy();
+			}
 			
 			// client
 			Container.BindInitDisposeToSelf<ClientController>().AsSingle();
