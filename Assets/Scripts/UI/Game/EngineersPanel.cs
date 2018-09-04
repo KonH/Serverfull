@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UDBase.Controllers.EventSystem;
 using Serverfull.Controllers;
-using Zenject;
 using Serverfull.Models;
+using Serverfull.Events;
+using Zenject;
 
 namespace Serverfull.UI.Game {
 	public class EngineersPanel : MonoBehaviour {
@@ -12,10 +14,12 @@ namespace Serverfull.UI.Game {
 		List<EngineerView> _views = new List<EngineerView>();
 
 		EngineerController _engineer;
+		IEvent             _event;
 
 		[Inject]
-		public void Init(EngineerController engineer) {
+		public void Init(EngineerController engineer, IEvent events) {
 			_engineer = engineer;
+			_event    = events;
 		}
 
 		void Update() {
@@ -36,6 +40,7 @@ namespace Serverfull.UI.Game {
 				view.Init(unit, _engineer.CanHire(unit), OnHire);
 				_views.Add(view);
 			}
+			_event.Fire(new Panel_Open(PanelType.Engineers));
 		}
 
 		public void Hide() {

@@ -22,12 +22,16 @@ namespace Serverfull.Controllers {
 			_event.Subscribe<Tutorial_Complete>(this, OnTutorialComplete);
 			_event.Subscribe<Time_Started>     (this, OnTimeStarted);
 			_event.Subscribe<Server_New>       (this, OnServerNew);
+			_event.Subscribe<Server_Break>     (this, OnServerBreak);
+			_event.Subscribe<Panel_Open>       (this, OnPanelOpen);
 		}
 
 		public void Dispose() {
 			_event.Unsubscribe<Tutorial_Complete>(OnTutorialComplete);
 			_event.Unsubscribe<Time_Started>     (OnTimeStarted);
 			_event.Unsubscribe<Server_New>       (OnServerNew);
+			_event.Unsubscribe<Server_Break>     (OnServerBreak);
+			_event.Unsubscribe<Panel_Open>       (OnPanelOpen);
 		}
 
 		void OnTutorialComplete(Tutorial_Complete e) {
@@ -45,8 +49,24 @@ namespace Serverfull.Controllers {
 			StartTutorials("ServerDetails", "ServerUpgrade", "DragClient");
 		}
 
+		void OnServerBreak(Server_Break e) {
+			StartTutorials("ServerBreak", "EngineersPanel");
+		}
+
+		void OnPanelOpen(Panel_Open e) {
+			if ( e.Type == PanelType.Engineers ) {
+				if ( IsTutorialCompleted("EngineersPanel") ) {
+					StartTutorial("EngineersWork");
+				}
+			}
+		}
+
+		bool IsTutorialCompleted(string tutorial) {
+			return _completed.Contains(tutorial);
+		}
+
 		void StartTutorial(string tutorial) {
-			if ( _completed.Contains(tutorial) ) {
+			if ( IsTutorialCompleted(tutorial) ) {
 				return;
 			}
 			_tutorials.Enqueue(tutorial);

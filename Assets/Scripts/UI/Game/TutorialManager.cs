@@ -26,10 +26,13 @@ namespace Serverfull.UI.Game {
 
 		void OnTutorialNew(Tutorial_New e) {
 			var child = FindTutorialChild(e.Name);
+			Debug.Assert(child);
 			if ( child ) {
 				_curTutorial = child;
 				_curTutorial.SetActive(true);
 				BlockLayer.SetActive(true);
+			} else {
+				CompleteTutorial(e.Name);
 			}
 		}
 
@@ -43,6 +46,10 @@ namespace Serverfull.UI.Game {
 			return null;
 		}
 
+		void CompleteTutorial(string tutName) {
+			_event.Fire(new Tutorial_Complete(tutName));
+		}
+
 		void Update() {
 			if ( Input.anyKeyDown ) {
 				if ( _curTutorial ) {
@@ -50,7 +57,7 @@ namespace Serverfull.UI.Game {
 					_curTutorial.SetActive(false);
 					BlockLayer.SetActive(false);
 					_curTutorial = null;
-					_event.Fire(new Tutorial_Complete(tutName));
+					CompleteTutorial(tutName);
 				}
 			}
 		}
