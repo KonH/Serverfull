@@ -9,7 +9,7 @@ namespace Serverfull.UI.Game {
 
 		IEvent _event;
 
-		GameObject _curTutorial;
+		TutorialItem _curTutorial;
 
 		[Inject]
 		public void Init(IEvent events) {
@@ -29,18 +29,18 @@ namespace Serverfull.UI.Game {
 			Debug.Assert(child);
 			if ( child ) {
 				_curTutorial = child;
-				_curTutorial.SetActive(true);
-				BlockLayer.SetActive(true);
+				_curTutorial.gameObject.SetActive(true);
+				BlockLayer.SetActive(child.WithBlockLayer);
 			} else {
 				CompleteTutorial(e.Name);
 			}
 		}
 
-		GameObject FindTutorialChild(string tutName) {
+		TutorialItem FindTutorialChild(string tutName) {
 			for ( var i = 0; i < transform.childCount; i++ ) {
 				var child = transform.GetChild(i);
 				if ( child.name == tutName ) {
-					return child.gameObject;
+					return child.gameObject.GetComponent<TutorialItem>();
 				}
 			}
 			return null;
@@ -54,7 +54,7 @@ namespace Serverfull.UI.Game {
 			if ( Input.anyKeyDown ) {
 				if ( _curTutorial ) {
 					var tutName = _curTutorial.name;
-					_curTutorial.SetActive(false);
+					_curTutorial.gameObject.SetActive(false);
 					BlockLayer.SetActive(false);
 					_curTutorial = null;
 					CompleteTutorial(tutName);
