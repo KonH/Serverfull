@@ -85,3 +85,9 @@ MonoBehaviour:
     - Context:
         classRef: Serverfull.Controllers.TimeController, Scripts.Controllers
       Enabled: 0
+    - Context:
+        classRef: Serverfull.Controllers.ClientMoodController, Scripts.Controllers
+      Enabled: 0
+    - Context:
+        classRef: Serverfull.Controllers.UpgradeController, Scripts.Controllers
+      Enabled: 0

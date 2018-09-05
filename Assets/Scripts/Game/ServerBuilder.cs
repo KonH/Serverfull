@@ -31,10 +31,10 @@ namespace Serverfull.Game {
 			_raycastMask = LayerMask.GetMask(RaycastLayer);
 		}
 
-		public void StartPlacement() {
+		public void StartPlacement(ServerType type) {
 			_inBuildProcess = true;
 			if ( _curPlaceholder ) {
-				_curPlaceholder.Show();
+				_curPlaceholder.Show(type);
 			} else {
 				_curPlaceholder = Instantiate(PlaceholderPrefab);
 			}
@@ -54,7 +54,7 @@ namespace Serverfull.Game {
 			_curPlaceholder.UpdateState(pos, isValid);
 			if ( Input.GetMouseButtonDown(0) ) {
 				if ( isValid ) {
-					_serverBuild.AddServer(pos.x, pos.y);
+					_serverBuild.AddServer(_curPlaceholder.Type, pos.x, pos.y);
 				}
 				StopPlacement();
 			}

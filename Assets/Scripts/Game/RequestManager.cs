@@ -33,30 +33,35 @@ namespace Serverfull.Game {
 			_events.Unsubscribe<Request_NewStatus>(OnNewStatus);
 		}
 
-		Vector3 GetRandSpawnPointPos(Vector3 centerPos) {
+		Vector3 GetRandSpawnPointPosAround(Vector3 centerPos) {
 			var angle = Random.value * 360;
-			var x = SpawnDistance * Mathf.Cos(angle);
-			var z = SpawnDistance * Mathf.Sin(angle);
+			var x = centerPos.x + SpawnDistance * Mathf.Cos(angle);
+			var z = centerPos.z + SpawnDistance * Mathf.Sin(angle);
 			return new Vector3(x, 0, z);
 		}
 
-		Vector3 GetServerViewCenter(RequestId id) {
-			var req = _request.Get(id);
-			if ( (req != null) && (req.Target != null)  ) {
-				var targetServerView = _server.GetView(req.Target.Id);
-				if ( targetServerView != null ) {
-					return targetServerView.Center.position;
-				}
+		Vector3 GetServerViewCenter(ServerId id) {
+			var serverView = _server.GetView(id);
+			if ( serverView != null ) {
+				return serverView.Center.position;
 			}
 			return Vector3.zero;
 		}
-
+		
 		RequestView SpawnView(RequestId id) {
-			var serverCenter = GetServerViewCenter(id);
-			var spawnPos = GetRandSpawnPointPos(serverCenter);
-			var view = ObjectPool.Spawn(RequestPrefab, spawnPos);
-			view.StartPos = spawnPos;
-			view.EndPos = serverCenter;
+			var req = _request.Get(id);
+			var originServer = req.Origin;
+			var targetServer = req.Target;
+			if ( targetServer == null ) {
+				return null;
+			}
+			
+			var targetServerCenter = GetServerViewCenter(targetServer.Id);
+			var startPos = (originServer != null) ? GetServerViewCenter(originServer.Id) : GetRandSpawnPointPosAround(targetServerCenter);
+			
+			var view = ObjectPool.Spawn(RequestPrefab, startPos);
+			view.StartPos = startPos;
+			view.EndPos = targetServerCenter;
 			view.Trail.Clear();
 			return view;
 		}
@@ -65,7 +70,9 @@ namespace Serverfull.Game {
 			RequestView view;
 			if ( !_views.TryGetValue(id, out view) ) {
 				view = SpawnView(id);
-				_views.Add(id, view);
+				if ( view != null ) {
+					_views.Add(id, view);
+				}
 			}
 			return view;
 		}
@@ -73,11 +80,14 @@ namespace Serverfull.Game {
 
 		void OnNewStatus(Request_NewStatus e) {
 			var id = e.Id;
-			RequestView view = GetOrSpawnView(id);
+			var view = GetOrSpawnView(id);
+			if ( view == null ) {
+				return;
+			}
 			switch ( e.NewStatus ) {
 				case RequestStatus.Outgoing: {
+						view.EndPos   = view.StartPos;
 						view.StartPos = view.transform.position;
-						view.EndPos   = GetRandSpawnPointPos(view.StartPos);
 					}
 					break;
 

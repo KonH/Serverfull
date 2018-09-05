@@ -53,8 +53,9 @@ namespace Serverfull.Controllers {
 				setup.UserRate.RandomInclusive(),
 				setup.Network.RandomInclusive(),
 				setup.CPU.RandomInclusive(),
-				setup.RAM.RandomInclusive()
-				);
+				setup.RAM.RandomInclusive(),
+				new List<ServerType> { ServerType.DB } // temp
+			);
 			return client;
 		}
 	}

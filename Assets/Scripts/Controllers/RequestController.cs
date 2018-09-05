@@ -17,6 +17,7 @@ namespace Serverfull.Controllers {
 
 		Dictionary<RequestId, Request> _requests         = new Dictionary<RequestId, Request>();
 		List<RequestId>                _finishedRequests = new List<RequestId>();
+		List<Request>                  _newRequests      = new List<Request>();
 
 		public RequestController(ILog log, IEvent events, TimeController time, UserController user) {
 			_log        = log.CreateLogger(this);
@@ -29,7 +30,7 @@ namespace Serverfull.Controllers {
 
 		public void Add(Request request) {
 			_log.MessageFormat("Add: {0}", request);
-			_requests.Add(request.Id, request);
+			_newRequests.Add(request);
 		}
 
 		public void Tick() {
@@ -49,6 +50,11 @@ namespace Serverfull.Controllers {
 			foreach ( var req in _finishedRequests ) {
 				_requests.Remove(req);
 			}
+			_finishedRequests.Clear();
+			foreach ( var req in _newRequests ) {
+				_requests.Add(req.Id, req);
+			}
+			_newRequests.Clear();
 		}
 
 		void UpdateRequest(Request req, float deltaTime) {
@@ -57,6 +63,33 @@ namespace Serverfull.Controllers {
 			if ( req.Status != status ) {
 				_events.Fire(new Request_NewStatus(req));
 			}
+		}
+
+		public void AddRelatedRequests(Request req) {
+			var addServers = _user.GetAdditionalServers(req.Owner);
+			foreach ( var serverType in addServers ) {
+				var newReq = new Request(RequestId.Create(), serverType, req.Owner, req.WantedNetwork, req.WantedCPU, req.WantedRAM);
+				Add(newReq);
+			}
+		}
+
+		public List<Request> GetRequestsForUser(User user) {
+			var result = new List<Request>();
+			foreach ( var req in _requests.Values ) {
+				if ( req.Owner == user ) {
+					result.Add(req);
+				}
+			}
+			return result;
+		}
+		
+		public Request GetMainRequestForUser(User user) {
+			foreach ( var req in _requests.Values ) {
+				if ( req.IsMainRequest && (req.Owner == user) ) {
+					return req;
+				}
+			}
+			return null;
 		}
 	}
 }

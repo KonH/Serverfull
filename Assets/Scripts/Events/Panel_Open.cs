@@ -2,6 +2,7 @@
 	public enum PanelType {
 		None,
 		Engineers,
+		ServerBuild,
 	}
 
 	public struct Panel_Open {

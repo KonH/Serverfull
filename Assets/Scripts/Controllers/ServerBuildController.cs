@@ -13,11 +13,11 @@ namespace Serverfull.Controllers {
 			_finance = finance;
 		}
 
-		public void AddServer(int x, int y) {
+		public void AddServer(ServerType type, int x, int y) {
 			var upgradeLevel = 0;
 			var levelInfo = _upgrade.GetUpgradeLevelInfo(upgradeLevel);
 			if ( _finance.Balance > levelInfo.Price ) {
-				var server = new Server(ServerId.Create(), x, y, upgradeLevel, levelInfo.Maintenance, levelInfo.Network, levelInfo.CPU, levelInfo.RAM);
+				var server = new Server(ServerId.Create(), type, x, y, upgradeLevel, levelInfo.Maintenance, levelInfo.Network, levelInfo.CPU, levelInfo.RAM);
 				_server.Add(server);
 				_finance.Spend(levelInfo.Price);
 			}

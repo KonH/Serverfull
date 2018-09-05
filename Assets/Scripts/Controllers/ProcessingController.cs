@@ -14,7 +14,12 @@ namespace Serverfull.Controllers {
 		readonly UserController    _user;
 		readonly BreakController   _break;
 
-		public ProcessingController(IEvent events, GameRules rules, ServerController server, RequestController request, UserController user, BreakController breaking) {
+		public ProcessingController
+		(
+			IEvent events,
+			GameRules rules, ServerController server, RequestController request, UserController user, BreakController breaking
+		) 
+		{
 			_events  = events;
 			_rules   = rules;
 			_server  = server;
@@ -38,6 +43,9 @@ namespace Serverfull.Controllers {
 				case RequestStatus.Incoming: {
 						if ( _server.TryLockResource(target, target.CPU, req.WantedCPU) ) {
 							if ( _server.TryLockResource(target, target.RAM, req.WantedRAM) ) {
+								if ( req.IsMainRequest ) {
+									_request.AddRelatedRequests(req);
+								}
 								req.ToProcessing(_rules.GetProcessTime(req.Target));
 								return;
 							}

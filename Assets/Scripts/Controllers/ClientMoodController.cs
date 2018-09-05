@@ -31,7 +31,7 @@ namespace Serverfull.Controllers {
 		}
 
 		void OnRequestNewStatus(Request_NewStatus e) {
-			if ( e.NewStatus == RequestStatus.Finished ) {
+			if ( e.IsMainRequest && (e.NewStatus == RequestStatus.Finished) ) {
 				var req    = _request.Get(e.Id);
 				var user   = req.Owner;
 				var client = user.Client;

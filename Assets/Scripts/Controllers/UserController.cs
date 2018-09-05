@@ -1,12 +1,15 @@
-﻿using Serverfull.Common;
+﻿using System.Collections.Generic;
+using Serverfull.Common;
 using Serverfull.Models;
 
 namespace Serverfull.Controllers {
 	public class UserController {
-		readonly GameRules _rules;
+		readonly GameRules        _rules;
+		readonly ClientController _client;
 
-		public UserController(GameRules rules) {
-			_rules = rules;
+		public UserController(GameRules rules, ClientController client) {
+			_rules  = rules;
+			_client = client;
 		}
 
 		public User CreateUser(ClientId owner) {
@@ -20,6 +23,10 @@ namespace Serverfull.Controllers {
 
 		public void OnRequestFailed(User user) {
 			user.UpdateMood(-user.Mood);
+		}
+
+		public List<ServerType> GetAdditionalServers(User user) {
+			return _client.Get(user.Client).AdditionalServers;
 		}
 	}
 }

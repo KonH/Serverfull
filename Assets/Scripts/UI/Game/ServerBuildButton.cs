@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Serverfull.Game;
+using Serverfull.Models;
 using Zenject;
 
 namespace Serverfull.UI.Game {
 	[RequireComponent(typeof(Button))]
 	public class ServerBuildButton : MonoBehaviour {
-		public Text Label;
+		public ServerType Type;
+		public Text       Label;
 
 		Button        _button;
 		ServerBuilder _builder;
@@ -25,12 +27,12 @@ namespace Serverfull.UI.Game {
 		}
 
 		void OnClick() {
-			_builder.StartPlacement();
+			_builder.StartPlacement(Type);
 		}
 
 		void UpdateState() {
 			_button.interactable = _builder.CanStartPlacement;
-			Label.text           = string.Format("New server ({0}, {1}/h)", _builder.BuildPrice, _builder.Maintenance);
+			Label.text           = string.Format("{0} Server\n ({1}, {2}/h)", Type, _builder.BuildPrice, _builder.Maintenance);
 			_prevStartPlacement = _builder.CanStartPlacement;
 		}
 

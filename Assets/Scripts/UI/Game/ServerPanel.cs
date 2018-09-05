@@ -11,8 +11,8 @@ namespace Serverfull.UI.Game {
 	public class ServerPanel : MonoBehaviour {
 		const float UpdateTime = 0.33f;
 		
-
 		public GameObject         Root;
+		public Text               Header;
 		public Slider             NetworkSlider;
 		public Slider             CpuSlider;
 		public Slider             RamSlider;
@@ -73,6 +73,7 @@ namespace Serverfull.UI.Game {
 					return;
 				}
 				_timer = 0.0f;
+				Header.text = string.Format("#{0} {1} Server", server.Id, server.Type);
 				UpdateResource(server.Network, NetworkSlider);
 				UpdateResource(server.CPU,     CpuSlider);
 				UpdateResource(server.RAM,     RamSlider);

@@ -22,6 +22,10 @@ namespace Serverfull.UI.Game {
 			DifficultyText.text = client.Difficulty;
 			PriceText.text      = $"{client.Income}/h";
 
+			if ( client.AdditionalServers.Count > 0 ) {
+				NameText.text += string.Format(" ({0})", string.Join(", ", client.AdditionalServers));
+			}
+			
 			gameObject.name = string.Format("{0}_View", Id.Name);
 		}
 

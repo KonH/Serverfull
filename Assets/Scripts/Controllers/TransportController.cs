@@ -35,15 +35,16 @@ namespace Serverfull.Controllers {
 			var req = _request.Get(e.Id);
 			switch ( e.CompletedStatus ) {
 				case RequestStatus.Awaiting: {
+						var origin = req.IsMainRequest ? null : _request.GetMainRequestForUser(req.Owner).Target; 
 						var target = _server.GetServerForRequest(req);
 						if ( target != null ) {
 							if ( _server.TryLockResource(target, target.Network, req.WantedNetwork) ) {
-								req.ToIncoming(target, _rules.GetNetworkTime(target));
-							} else {
-								_user.OnRequestFailed(req.Owner);
-								req.ToFinished();
+								req.ToIncoming(origin, target, _rules.GetNetworkTime(target));
+								return;
 							}
 						}
+						_user.OnRequestFailed(req.Owner);
+						req.ToFinished();
 					}
 					break;
 
@@ -56,6 +57,15 @@ namespace Serverfull.Controllers {
 					break;
 
 				case RequestStatus.Processing: {
+						if ( req.IsMainRequest ) {
+							// Wait for any other related requests
+							var reqs = _request.GetRequestsForUser(req.Owner);
+							foreach ( var r in reqs ) {
+								if ( r != req ) {
+									return;
+								}
+							}
+						}
 						req.ToOutgoing(_rules.GetNetworkTime(req.Target));
 					}
 					break;

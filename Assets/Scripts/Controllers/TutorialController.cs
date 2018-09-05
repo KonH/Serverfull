@@ -54,10 +54,17 @@ namespace Serverfull.Controllers {
 		}
 
 		void OnPanelOpen(Panel_Open e) {
-			if ( e.Type == PanelType.Engineers ) {
-				if ( IsTutorialCompleted("EngineersPanel") ) {
-					StartTutorial("EngineersWork");
+			switch ( e.Type ) {
+				case PanelType.Engineers: {
+					if ( IsTutorialCompleted("EngineersPanel") ) {
+						StartTutorial("EngineersWork");
+					}
 				}
+				break;
+
+				case PanelType.ServerBuild:
+					StartTutorial("ServerTypes");
+				break;
 			}
 		}
 

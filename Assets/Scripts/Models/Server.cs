@@ -19,17 +19,20 @@ namespace Serverfull.Models {
 		}
 
 		public ServerId       Id           { get; }
+		public ServerType     Type         { get; }
 		public int            PosX         { get; }
 		public int            PosY         { get; }
+		public Money          Maintenance  { get; }
+		public List<ClientId> Clients      { get; } = new List<ClientId>();
+		
 		public int            UpgradeLevel { get; private set; }
-		public Money          Maintenance  { get; private set; }
 		public Resource       Network      { get; private set; }
 		public Resource       CPU          { get; private set; }
 		public Resource       RAM          { get; private set; }
-		public List<ClientId> Clients      { get; private set; } = new List<ClientId>();
 
-		public Server(ServerId id, int x, int y, int upgradeLevel, Money maintenance, int network, int cpu, int ram) {
+		public Server(ServerId id, ServerType type, int x, int y, int upgradeLevel, Money maintenance, int network, int cpu, int ram) {
 			Id           = id;
+			Type         = type;
 			PosX         = x;
 			PosY         = y;
 			UpgradeLevel = upgradeLevel;
@@ -48,7 +51,7 @@ namespace Serverfull.Models {
 		}
 
 		public override string ToString() {
-			return string.Format("[{0}] Network: {1}, CPU: {2}, RAM: {3}", Id, Network, CPU, RAM);
+			return string.Format("[{0}, {1}] Network: {2}, CPU: {3}, RAM: {4}", Id, Type, Network, CPU, RAM);
 		}
 
 		public override int GetHashCode() {

@@ -34,8 +34,7 @@ namespace Serverfull.UI.Game {
 			if ( client != null ) {
 				var clientServer = _server.GetClientServer(view.Id);
 				if ( clientServer == null ) {
-					_server.AddClientToServer(view.Id, ServerId);
-					return true;
+					return _server.TryAddClientToServer(view.Id, ServerId);
 				}
 			}
 			return false;

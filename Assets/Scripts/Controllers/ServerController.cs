@@ -43,13 +43,22 @@ namespace Serverfull.Controllers {
 		public Server Get(ServerId id) => _servers.GetOrDefault(id);
 
 		public Server GetServerForRequest(Request request) {
-			return GetClientServer(request.Owner.Client);
+			return
+				(request.Type == ServerType.Client) ? GetClientServer(request.Owner.Client) : GetServerByType(request.Type);
 		}
 
-		public void AddClientToServer(ClientId clientId, ServerId serverId) {
+		public bool TryAddClientToServer(ClientId clientId, ServerId serverId) {
 			var server = Get(serverId);
+			if ( server == null ) {
+				_log.ErrorFormat("AddClientToServer: can't find server by {0}", serverId);
+				return false;
+			}
+			if ( server.Type != ServerType.Client ) {
+				return false;
+			}
 			_log.MessageFormat("AddClientToServer: {0} => {1} ({2})", clientId, serverId, server);
-			server?.Clients.Add(clientId);
+			server.Clients.Add(clientId);
+			return true;
 		}
 
 		public void RemoveClientFromServer(ClientId clientId, ServerId serverId) {
@@ -61,6 +70,15 @@ namespace Serverfull.Controllers {
 		public Server GetClientServer(ClientId clientId) {
 			foreach ( var server in _servers.Values ) {
 				if ( server.Clients.Contains(clientId) ) {
+					return server;
+				}
+			}
+			return null;
+		}
+
+		Server GetServerByType(ServerType type) {
+			foreach ( var server in _servers.Values ) {
+				if ( server.Type == type ) {
 					return server;
 				}
 			}

@@ -55,7 +55,7 @@ namespace Serverfull.Controllers {
 				return;
 			}
 			var owner = _user.CreateUser(client.Id);
-			var req = new Request(RequestId.Create(), owner, client.WantedNetwork, client.WantedCPU, client.WantedRAM);
+			var req = new Request(RequestId.Create(), ServerType.Client, owner, client.WantedNetwork, client.WantedCPU, client.WantedRAM);
 			_request.Add(req);
 		}
 	}

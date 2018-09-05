@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Serverfull.Models {
 	public class Client {
@@ -10,10 +11,17 @@ namespace Serverfull.Models {
 		public int      WantedCPU     { get; }
 		public int      WantedRAM     { get; }
 		public float    Mood          { get; private set; } = 100.0f;
+		
+		public List<ServerType> AdditionalServers { get; }
 
 		public float NormalizedMood => Mood / 100.0f;
 
-		public Client(ClientId id, Money income, string difficulty, int userRate, int wantedNetwork, int wantedCpu, int wantedRam) {
+		public Client
+		(
+			ClientId id, Money income,
+			string difficulty, int userRate, int wantedNetwork, int wantedCpu, int wantedRam,
+			List<ServerType> additionalServers
+		) {
 			Id            = id;
 			Income        = income;
 			Difficulty    = difficulty;
@@ -21,6 +29,8 @@ namespace Serverfull.Models {
 			WantedNetwork = wantedNetwork;
 			WantedCPU     = wantedCpu;
 			WantedRAM     = wantedRam;
+
+			AdditionalServers = additionalServers;
 		}
 
 		public void UpdateMood(float change) {
