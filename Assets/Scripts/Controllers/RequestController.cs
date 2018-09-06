@@ -67,6 +67,9 @@ namespace Serverfull.Controllers {
 
 		public void AddRelatedRequests(Request req) {
 			var addServers = _user.GetAdditionalServers(req.Owner);
+			if ( addServers == null ) {
+				return;
+			}
 			foreach ( var serverType in addServers ) {
 				var newReq = new Request(RequestId.Create(), serverType, req.Owner, req.WantedNetwork, req.WantedCPU, req.WantedRAM);
 				Add(newReq);

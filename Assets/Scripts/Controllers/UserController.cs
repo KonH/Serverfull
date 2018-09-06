@@ -26,7 +26,7 @@ namespace Serverfull.Controllers {
 		}
 
 		public List<ServerType> GetAdditionalServers(User user) {
-			return _client.Get(user.Client).AdditionalServers;
+			return (user != null) ? _client.Get(user.Client)?.AdditionalServers : null;
 		}
 	}
 }

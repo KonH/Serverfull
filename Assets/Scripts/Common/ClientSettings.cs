@@ -9,6 +9,7 @@ namespace Serverfull.Common {
 		public IntRange Network;
 		public IntRange RAM;
 		public IntRange CPU;
+		public IntRange PlusServers;
 		public IntRange Income;
 		public float    Chance;
 	}

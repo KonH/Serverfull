@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UDBase.Utils;
 using Serverfull.Common;
 using Serverfull.Models;
@@ -40,6 +42,16 @@ namespace Serverfull.Controllers {
 			return newId;
 		}
 
+		List<ServerType> SelectServerTypes(int count) {
+			var items = new List<ServerType>(Enum.GetValues(typeof(ServerType)) as ServerType[]);
+			items.Remove(ServerType.Client);
+			while ( items.Count > count ) {
+				var randItem = RandomUtils.GetItem(items);
+				items.Remove(randItem);
+			}
+			return items;
+		}
+		
 		public Client CreateClient() {
 			var id = GenerateId();
 			if ( id.IsEmpty ) {
@@ -54,7 +66,7 @@ namespace Serverfull.Controllers {
 				setup.Network.RandomInclusive(),
 				setup.CPU.RandomInclusive(),
 				setup.RAM.RandomInclusive(),
-				new List<ServerType> { ServerType.DB } // temp
+				SelectServerTypes(setup.PlusServers.RandomInclusive())
 			);
 			return client;
 		}

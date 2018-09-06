@@ -44,7 +44,7 @@ namespace Serverfull.Controllers {
 
 		public Server GetServerForRequest(Request request) {
 			return
-				(request.Type == ServerType.Client) ? GetClientServer(request.Owner.Client) : GetServerByType(request.Type);
+				(request.Type == ServerType.Client) ? GetClientServer(request.Owner.Client) : GetBestServerByType(request.Type);
 		}
 
 		public bool TryAddClientToServer(ClientId clientId, ServerId serverId) {
@@ -76,13 +76,17 @@ namespace Serverfull.Controllers {
 			return null;
 		}
 
-		Server GetServerByType(ServerType type) {
+		Server GetBestServerByType(ServerType type) {
+			var freeNetwork = int.MinValue;
+			Server minServer = null;
 			foreach ( var server in _servers.Values ) {
-				if ( server.Type == type ) {
-					return server;
+				if ( (server.Type != type) || (server.Network.Free < freeNetwork) ) {
+					continue;
 				}
+				freeNetwork = server.Network.Free;
+				minServer = server;
 			}
-			return null;
+			return minServer;
 		}
 
 		public bool TryLockResource(Server server, Server.Resource res, int value) {

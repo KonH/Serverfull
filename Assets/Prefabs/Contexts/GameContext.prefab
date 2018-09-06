@@ -108,6 +108,9 @@ MonoBehaviour:
       CPU:
         Start: 1
         End: 1
+      PlusServers:
+        Start: 0
+        End: 0
       Income:
         Start: 2
         End: 4
@@ -125,6 +128,9 @@ MonoBehaviour:
       CPU:
         Start: 1
         End: 2
+      PlusServers:
+        Start: 0
+        End: 1
       Income:
         Start: 5
         End: 7
@@ -142,6 +148,9 @@ MonoBehaviour:
       CPU:
         Start: 2
         End: 3
+      PlusServers:
+        Start: 1
+        End: 2
       Income:
         Start: 9
         End: 12
@@ -159,6 +168,9 @@ MonoBehaviour:
       CPU:
         Start: 3
         End: 5
+      PlusServers:
+        Start: 2
+        End: 3
       Income:
         Start: 15
         End: 20
