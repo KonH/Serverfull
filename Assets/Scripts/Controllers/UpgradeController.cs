@@ -9,30 +9,37 @@ namespace Serverfull.Controllers {
 		readonly ULogger                _log;
 		readonly ServerController       _server;
 		readonly FinanceController      _finance;
-		readonly List<UpgradeLevelInfo> _levels;
+		readonly List<UpgradeLevelInfo> _clientLevels;
+		readonly List<UpgradeLevelInfo> _customLevels;
 
 		public UpgradeController(ILog log, GameSettings settings, ServerController server, FinanceController finance) {
 			_log     = log.CreateLogger(this);
-			_levels  = LoadLevels(settings);
 			_server  = server;
 			_finance = finance;
+
+			_clientLevels = LoadLevels(settings.ClientUpgrades);
+			_customLevels = LoadLevels(settings.CustomUpgrades);
 		}
 
-		List<UpgradeLevelInfo> LoadLevels(GameSettings settings) {
-			return settings.Upgrades.Select(u => new UpgradeLevelInfo(new Money(u.Price), new Money(u.Maintanance), u.CPU, u.RAM, u.Network)).ToList();
+		List<UpgradeLevelInfo> LoadLevels(List<ServerUpgrade> levels) {
+			return levels.Select(u => new UpgradeLevelInfo(new Money(u.Price), new Money(u.Maintanance), u.CPU, u.RAM, u.Network)).ToList();
 		}
 
-		public UpgradeLevelInfo GetUpgradeLevelInfo(int levelIndex) {
-			if ( (levelIndex >= 0) && (levelIndex < _levels.Count) ) {
-				return _levels[levelIndex];
+		UpgradeLevelInfo GetUpgradeLevelInfo(List<UpgradeLevelInfo> levels, int levelIndex) {
+			if ( (levelIndex >= 0) && (levelIndex < levels.Count) ) {
+				return levels[levelIndex];
 			}
 			return null;
+		}
+
+		public UpgradeLevelInfo GetUpgradeLevelInfo(ServerType type, int levelIndex) {
+			return GetUpgradeLevelInfo(type == ServerType.Client ? _clientLevels : _customLevels, levelIndex);
 		}
 
 		UpgradeLevelInfo GetNextUpgradeInfo(ServerId id) {
 			var server = _server.Get(id);
 			if ( server != null ) {
-				return GetUpgradeLevelInfo(server.UpgradeLevel + 1);
+				return GetUpgradeLevelInfo(server.Type, server.UpgradeLevel + 1);
 			}
 			return null;
 		}

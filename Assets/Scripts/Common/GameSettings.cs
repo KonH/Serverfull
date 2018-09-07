@@ -17,7 +17,8 @@ namespace Serverfull.Common {
 		public float NetworkToTime;
 		public float CpuToTime;
 		public float BreakChance;
-		public List<ServerUpgrade> Upgrades;
+		public List<ServerUpgrade> ClientUpgrades;
+		public List<ServerUpgrade> CustomUpgrades;
 
 		[Header("Clients")]
 		public int                  ClientSpawnInterval;

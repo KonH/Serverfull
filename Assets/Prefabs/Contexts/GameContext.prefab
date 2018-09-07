@@ -60,28 +60,54 @@ MonoBehaviour:
     ClientMoodChange: 0.1
     ClientMoodBorder: 40
     StartMoney: 1000
-    NoExpenses: 1
-    NetworkToTime: 3000
-    CpuToTime: 3000
+    NoExpenses: 0
+    NetworkToTime: 400
+    CpuToTime: 300
     BreakChance: 0
-    Upgrades:
-    - Price: 25
-      Maintanance: 5
-      CPU: 2
-      RAM: 2
-      Network: 2
-    - Price: 100
+    ClientUpgrades:
+    - Price: 50
       Maintanance: 10
-      CPU: 3
-      RAM: 3
-      Network: 3
+      CPU: 125
+      RAM: 125
+      Network: 100
+    - Price: 100
+      Maintanance: 13
+      CPU: 175
+      RAM: 175
+      Network: 150
+    - Price: 200
+      Maintanance: 16
+      CPU: 225
+      RAM: 225
+      Network: 200
+    - Price: 400
+      Maintanance: 22
+      CPU: 350
+      RAM: 350
+      Network: 300
+    - Price: 500
+      Maintanance: 32
+      CPU: 600
+      RAM: 600
+      Network: 500
+    CustomUpgrades:
     - Price: 250
-      Maintanance: 20
-      CPU: 5
-      RAM: 5
-      Network: 5
-    ClientSpawnInterval: 4
-    ClientsPerSpawn: 2
+      Maintanance: 25
+      CPU: 400
+      RAM: 400
+      Network: 600
+    - Price: 500
+      Maintanance: 50
+      CPU: 800
+      RAM: 800
+      Network: 1200
+    - Price: 1000
+      Maintanance: 100
+      CPU: 1600
+      RAM: 1600
+      Network: 2400
+    ClientSpawnInterval: 8
+    ClientsPerSpawn: 1
     FirstClientSpawn: 3
     ClientNames:
     - Macrosoft
@@ -94,88 +120,98 @@ MonoBehaviour:
     - Pear
     - Rain
     - Nihao
+    - Well
+    - Bethone
+    - Zelko
+    - Untrust
+    - Rebest
+    - Fullton
+    - Reject
+    - Rasole
+    - Puppet
+    - Shrink
     ClientSetups:
     - Difficulty: Easy
       UserRate:
         Start: 1
         End: 1
       Network:
-        Start: 1
-        End: 1
+        Start: 45
+        End: 50
       RAM:
-        Start: 1
-        End: 1
+        Start: 45
+        End: 50
       CPU:
-        Start: 1
-        End: 1
+        Start: 45
+        End: 50
       PlusServers:
         Start: 0
         End: 0
       Income:
-        Start: 2
-        End: 4
+        Start: 4
+        End: 6
       Chance: 1
     - Difficulty: Medium
       UserRate:
         Start: 2
-        End: 5
+        End: 2
       Network:
-        Start: 1
-        End: 2
+        Start: 115
+        End: 125
       RAM:
-        Start: 1
-        End: 2
+        Start: 115
+        End: 125
       CPU:
-        Start: 1
-        End: 2
+        Start: 115
+        End: 125
       PlusServers:
-        Start: 0
+        Start: 1
         End: 1
       Income:
-        Start: 5
-        End: 7
-      Chance: 0.33
+        Start: 14
+        End: 16
+      Chance: 0.5
     - Difficulty: Hard
       UserRate:
-        Start: 6
-        End: 9
+        Start: 3
+        End: 3
       Network:
-        Start: 2
-        End: 3
+        Start: 185
+        End: 200
       RAM:
-        Start: 2
-        End: 3
+        Start: 185
+        End: 200
       CPU:
-        Start: 2
-        End: 3
+        Start: 185
+        End: 200
       PlusServers:
-        Start: 1
+        Start: 2
         End: 2
       Income:
-        Start: 9
-        End: 12
+        Start: 26
+        End: 28
       Chance: 0.25
     - Difficulty: Insane
       UserRate:
-        Start: 10
-        End: 15
+        Start: 5
+        End: 5
       Network:
-        Start: 3
-        End: 5
+        Start: 255
+        End: 275
       RAM:
-        Start: 3
-        End: 5
+        Start: 255
+        End: 275
       CPU:
-        Start: 3
-        End: 5
+        Start: 255
+        End: 275
       PlusServers:
-        Start: 2
+        Start: 3
         End: 3
       Income:
-        Start: 15
-        End: 20
-      Chance: 0.25
-    EngineerSpawnInterval: 4
+        Start: 40
+        End: 40
+      Chance: 0.125
+    EngineerSpawnInterval: 16
     EngineersPerSpawn: 1
     FirstEngineerSpawn: 1
     EngineerNames:

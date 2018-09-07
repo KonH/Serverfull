@@ -11,12 +11,12 @@ namespace Serverfull.Common {
 
 		public float GetProcessTime(Server server) {
 			var cpu = server.CPU.Max;
-			return _settings.CpuToTime / Mathf.Sqrt(cpu);
+			return (_settings.CpuToTime * 1000) / cpu;
 		}
 
 		public float GetNetworkTime(Server server) {
 			var network = server.Network.Max;
-			return _settings.NetworkToTime / Mathf.Sqrt(network);
+			return (_settings.NetworkToTime * 1000) / network;
 		}
 
 		public float CalculateUserMoodChange(float deltaTime) {

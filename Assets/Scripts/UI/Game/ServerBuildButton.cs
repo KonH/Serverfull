@@ -33,13 +33,14 @@ namespace Serverfull.UI.Game {
 		}
 
 		void UpdateState() {
-			_button.interactable = _builder.CanStartPlacement;
-			Label.text           = string.Format("{0} Server ({1}, {2}/h)", _type, _builder.BuildPrice, _builder.Maintenance);
-			_prevStartPlacement = _builder.CanStartPlacement;
+			var canStartPlacement = _builder.CanStartPlacement(_type);
+			_button.interactable  = canStartPlacement;
+			Label.text            = string.Format("{0} Server ({1}, {2}/h)", _type, _builder.GetBuildPrice(_type), _builder.GetMaintenance(_type));
+			_prevStartPlacement   = canStartPlacement;
 		}
 
 		void Update() {
-			if ( _builder.CanStartPlacement != _prevStartPlacement ) {
+			if ( _builder.CanStartPlacement(_type) != _prevStartPlacement ) {
 				UpdateState();
 			}
 		}

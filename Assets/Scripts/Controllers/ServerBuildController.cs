@@ -15,7 +15,7 @@ namespace Serverfull.Controllers {
 
 		public void AddServer(ServerType type, int x, int y) {
 			var upgradeLevel = 0;
-			var levelInfo = _upgrade.GetUpgradeLevelInfo(upgradeLevel);
+			var levelInfo = _upgrade.GetUpgradeLevelInfo(type, upgradeLevel);
 			if ( _finance.Balance > levelInfo.Price ) {
 				var server = new Server(ServerId.Create(), type, x, y, upgradeLevel, levelInfo.Maintenance, levelInfo.Network, levelInfo.CPU, levelInfo.RAM);
 				_server.Add(server);

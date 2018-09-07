@@ -9,11 +9,6 @@ namespace Serverfull.Game {
 		public Camera            RaycastCam;
 		public string            RaycastLayer;
 
-		public Money BuildPrice        => _upgrade.GetUpgradeLevelInfo(0).Price;
-		public Money Maintenance       => _upgrade.GetUpgradeLevelInfo(0).Maintenance;
-		public bool  CanStartPlacement => (_finance.Balance > BuildPrice) && !_inBuildProcess;
-		public bool  CanEndPlacement   => (_finance.Balance > BuildPrice);
-
 		UpgradeController     _upgrade;
 		FinanceController     _finance;
 		ServerBuildController _serverBuild;
@@ -29,6 +24,19 @@ namespace Serverfull.Game {
 			_serverBuild = serverBuild;
 
 			_raycastMask = LayerMask.GetMask(RaycastLayer);
+		}
+
+		public Money GetBuildPrice(ServerType type) {
+			return _upgrade.GetUpgradeLevelInfo(type, 0).Price;
+		}
+		public Money GetMaintenance(ServerType type) {
+			return _upgrade.GetUpgradeLevelInfo(type, 0).Maintenance;
+		}
+		public bool CanStartPlacement(ServerType type) {
+			return (_finance.Balance >= GetBuildPrice(type)) && !_inBuildProcess;
+		}
+		public bool CanEndPlacement(ServerType type) {
+			return _finance.Balance >= GetBuildPrice(type);
 		}
 
 		public void StartPlacement(ServerType type) {
@@ -50,7 +58,7 @@ namespace Serverfull.Game {
 				return;
 			}
 			var pos = GetDesiredPosition();
-			var isValid = CanEndPlacement && _serverBuild.IsValidPosition(pos.x, pos.y);
+			var isValid = CanEndPlacement(_curPlaceholder.Type) && _serverBuild.IsValidPosition(pos.x, pos.y);
 			_curPlaceholder.UpdateState(pos, isValid);
 			if ( Input.GetMouseButtonDown(0) ) {
 				if ( isValid ) {
