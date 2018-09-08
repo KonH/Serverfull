@@ -54,16 +54,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Settings:
-    WithTutorials: 0
+    WithTutorials: 1
     TimeScale: 1600
-    UserMoodChange: 0.0035
     ClientMoodChange: 0.1
-    ClientMoodBorder: 40
     StartMoney: 1000
     NoExpenses: 0
     NetworkToTime: 400
-    CpuToTime: 300
-    BreakChance: 0.00005
+    CpuToTime: 500
+    BreakChance: 0.00002
     ClientUpgrades:
     - Price: 50
       Maintanance: 10
