@@ -39,7 +39,7 @@ namespace Serverfull.Controllers {
 		}
 
 		void OnServerBreak(Server_Break e) {
-			RaiseNotification("Our server breaked!");
+			RaiseNotification("Our server is broken!");
 		}
 
 		void RaiseMessage(string title, string content, Action onPositive = null, Action onNegative = null) {
