@@ -19,12 +19,8 @@ namespace Serverfull.Common {
 			return (_settings.NetworkToTime * 1000) / network;
 		}
 
-		public float CalculateUserMoodChange(float deltaTime) {
-			return -deltaTime * _settings.UserMoodChange;
-		}
-
 		public float CalculateClientMoodChange(float userMood) {
-			var value = (userMood - _settings.ClientMoodBorder) * _settings.ClientMoodChange;
+			var value = userMood * _settings.ClientMoodChange;
 			return value;
 		}
 

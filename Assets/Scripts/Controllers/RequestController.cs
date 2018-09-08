@@ -39,9 +39,6 @@ namespace Serverfull.Controllers {
 				if ( req.IsFinished ) {
 					_finishedRequests.Add(req.Id);
 				} else {
-					if ( req.Status != RequestStatus.Awaiting ) {
-						_user.UpdateMood(req.Owner, deltaTime);
-					}
 					if ( req.UpdateProgress(deltaTime) ) {
 						UpdateRequest(req, deltaTime);
 					}

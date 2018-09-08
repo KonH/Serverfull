@@ -4,21 +4,14 @@ using Serverfull.Models;
 
 namespace Serverfull.Controllers {
 	public class UserController {
-		readonly GameRules        _rules;
 		readonly ClientController _client;
 
-		public UserController(GameRules rules, ClientController client) {
-			_rules  = rules;
+		public UserController(ClientController client) {
 			_client = client;
 		}
 
 		public User CreateUser(ClientId owner) {
 			return new User(owner);
-		}
-
-		public void UpdateMood(User user, float deltaTime) {
-			var value = _rules.CalculateUserMoodChange(deltaTime);
-			user.UpdateMood(value);
 		}
 
 		public void OnRequestFailed(User user) {

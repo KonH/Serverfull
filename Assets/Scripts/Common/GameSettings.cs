@@ -7,9 +7,7 @@ namespace Serverfull.Common {
 	public class GameSettings {
 		public bool  WithTutorials;
 		public float TimeScale;
-		public float UserMoodChange;
 		public float ClientMoodChange;
-		public float ClientMoodBorder;
 		public int   StartMoney;
 		public bool  NoExpenses;
 
