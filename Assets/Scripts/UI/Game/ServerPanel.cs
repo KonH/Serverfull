@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Controllers.EventSystem;
 using Serverfull.Game;
@@ -19,6 +20,8 @@ namespace Serverfull.UI.Game {
 		public ServerClientsPanel Clients;
 		public Button             UpgradeButton;
 		public Text               UpgradeText;
+
+		public List<GameObject> CustomServerItems = new List<GameObject>();
 
 		IEvent            _event;
 		ServerController  _server;
@@ -78,6 +81,9 @@ namespace Serverfull.UI.Game {
 				UpdateResource(server.CPU,     CpuSlider);
 				UpdateResource(server.RAM,     RamSlider);
 				UpdateUpgradeButton(server);
+				foreach ( var item in CustomServerItems ) {
+					item.SetActive(server.Type != ServerType.Client);
+				}
 			} else {
 				_timer = UpdateTime;
 			}
