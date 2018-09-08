@@ -2118,7 +2118,7 @@ Prefab:
     - target: {fileID: 114855549672584728, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
       propertyPath: m_Text
-      value: Your server was breaked. To fix this issue, you need engineers.
+      value: Your server is broken. To fix this issue, you need engineers.
       objectReference: {fileID: 0}
     - target: {fileID: 224636210380596924, guid: 8754960115f7b8640bc6dc440d04b389,
         type: 2}
