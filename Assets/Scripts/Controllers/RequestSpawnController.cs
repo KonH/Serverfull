@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using Serverfull.Common;
 using Serverfull.Models;
 using UDBase.Utils;
@@ -7,7 +8,8 @@ using Zenject;
 namespace Serverfull.Controllers {
 	public class RequestSpawnController : ITickable {
 		const float SecondsInHour = 60 * 60;
-		
+
+		readonly GameSettings      _settings;
 		readonly TimeController    _time;
 		readonly ClientController  _client;
 		readonly UserController    _user;
@@ -16,7 +18,11 @@ namespace Serverfull.Controllers {
 		List<Client>                _clients     = new List<Client>();
 		Dictionary<ClientId, float> _spawnTimers = new Dictionary<ClientId, float>();
 
-		public RequestSpawnController(TimeController time, ClientController client, UserController user, RequestController request) {
+		public RequestSpawnController
+		(
+			GameSettings settings, TimeController time, ClientController client, UserController user, RequestController request
+		) {
+			_settings = settings;
 			_time     = time;
 			_client   = client;
 			_user     = user;
@@ -46,7 +52,8 @@ namespace Serverfull.Controllers {
 		}
 
 		float GetSpawnDelta(int userRatePerHour) {
-			var secPerUser = SecondsInHour / userRatePerHour;
+			var coeff = Random.Range(_settings.MinRequestTimeCoeff, _settings.MaxRequestTimeCoeff);
+			var secPerUser = (SecondsInHour / userRatePerHour) * coeff;
 			return secPerUser;
 		}
 

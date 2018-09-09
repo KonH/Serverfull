@@ -265,6 +265,8 @@ MonoBehaviour:
         Start: 1
         End: 2
       Chance: 0.2
+    MinRequestTimeCoeff: 0.9
+    MaxRequestTimeCoeff: 1.1
   ServerManager: {fileID: 0}
   ServerBuilder: {fileID: 0}
   EngineerManager: {fileID: 0}

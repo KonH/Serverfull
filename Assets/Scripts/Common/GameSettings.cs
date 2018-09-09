@@ -31,5 +31,9 @@ namespace Serverfull.Common {
 		public int                    FirstEngineerSpawn;
 		public List<string>           EngineerNames;
 		public List<EngineerSettings> EngineerSetups;
+
+		[Header("Requests")]
+		public float MinRequestTimeCoeff;
+		public float MaxRequestTimeCoeff;
 	}
 }
