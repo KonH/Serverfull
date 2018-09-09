@@ -7,7 +7,6 @@ namespace Serverfull.Common {
 	public class GameSettings {
 		public bool  WithTutorials;
 		public float TimeScale;
-		public float ClientMoodChange;
 		public int   StartMoney;
 		public bool  NoExpenses;
 
@@ -19,6 +18,7 @@ namespace Serverfull.Common {
 		public List<ServerUpgrade> CustomUpgrades;
 
 		[Header("Clients")]
+		public float                ClientMoodChange;
 		public int                  ClientSpawnInterval;
 		public int                  ClientsPerSpawn;
 		public int                  FirstClientSpawn;

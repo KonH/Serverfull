@@ -20,7 +20,7 @@ namespace Serverfull.Common {
 		}
 
 		public float CalculateClientMoodChange(float userMood) {
-			var value = userMood * _settings.ClientMoodChange;
+			var value = (userMood > 0 ? 1.0f : -1.0f) * _settings.ClientMoodChange;
 			return value;
 		}
 

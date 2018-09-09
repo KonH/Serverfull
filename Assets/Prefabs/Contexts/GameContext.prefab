@@ -56,7 +56,6 @@ MonoBehaviour:
   Settings:
     WithTutorials: 1
     TimeScale: 1600
-    ClientMoodChange: 0.1
     StartMoney: 1000
     NoExpenses: 0
     NetworkToTime: 400
@@ -104,6 +103,7 @@ MonoBehaviour:
       CPU: 1600
       RAM: 1600
       Network: 2400
+    ClientMoodChange: 10
     ClientSpawnInterval: 8
     ClientsPerSpawn: 1
     FirstClientSpawn: 3
