@@ -38,10 +38,8 @@ namespace Serverfull.Controllers {
 						var origin = req.IsMainRequest ? null : _request.GetMainRequestForUser(req.Owner).Target; 
 						var target = _server.GetServerForRequest(req);
 						if ( target != null ) {
-							if ( _server.TryLockResource(target, target.Network, req.WantedNetwork) ) {
-								req.ToIncoming(origin, target, _rules.GetNetworkTime(target));
-								return;
-							}
+							req.ToIncoming(origin, target, _rules.GetNetworkTime(target));
+							return;
 						}
 						_user.OnRequestFailed(req.Owner);
 						req.ToFinished();

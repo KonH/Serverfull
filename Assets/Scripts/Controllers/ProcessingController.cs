@@ -41,14 +41,17 @@ namespace Serverfull.Controllers {
 			var target = req.Target;
 			switch ( e.CompletedStatus ) {
 				case RequestStatus.Incoming: {
-						if ( _server.TryLockResource(target, target.CPU, req.WantedCPU) ) {
-							if ( _server.TryLockResource(target, target.RAM, req.WantedRAM) ) {
-								if ( req.IsMainRequest ) {
-									_request.AddRelatedRequests(req);
-								}
-								req.ToProcessing(_rules.GetProcessTime(req.Target));
-								return;
+						if 
+						(
+							_server.TryLockResource(target, target.Network, req.WantedNetwork) &&
+						    _server.TryLockResource(target, target.CPU, req.WantedCPU)         &&
+							_server.TryLockResource(target, target.RAM, req.WantedRAM) 
+						) {
+							if ( req.IsMainRequest ) {
+								_request.AddRelatedRequests(req);
 							}
+							req.ToProcessing(_rules.GetProcessTime(req.Target));
+							return;
 						}
 						_user.OnRequestFailed(req.Owner);
 						req.ToOutgoing(_rules.GetNetworkTime(req.Target));
