@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UDBase.Installers;
+using UDBase.Controllers.SaveSystem;
 using Serverfull.Game;
 using Serverfull.Utils;
 using Serverfull.Common;
@@ -8,14 +10,26 @@ using Serverfull.Controllers;
 namespace Serverfull.Installers {
 	public class GameInstaller : UDBaseInstaller {
 		[Header("Settings")]
-		public GameSettings    Settings;
+		public GameSettings Settings;
 		
 		[Header("Scene Managers")]
 		public ServerManager   ServerManager;
 		public ServerBuilder   ServerBuilder;
 		public EngineerManager EngineerManager;
-		
+
 		public override void InstallBindings() {
+			// udbase
+			var jsonSaveSettings = new Save.JsonSettings {
+				FileName = "save",
+				PrettyJson = true,
+				Items = new List<Save.SaveItem> {
+					new Save.SaveItem(typeof(TimeController.State), "time"),
+					new Save.SaveItem(typeof(FinanceController.State), "finance"),
+					new Save.SaveItem(typeof(TutorialController.State), "tutorial"),
+				}
+			};
+			AddJsonSave(jsonSaveSettings);
+			
 			// base
 			Container.BindInstance(Settings);
 			Container.Bind<GameRules>().ToSelf().AsSingle();

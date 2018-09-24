@@ -1,21 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.EventSystem;
 using Serverfull.Events;
 using Zenject;
 
 namespace Serverfull.Controllers {
 	public class TutorialController : IInitializable, IDisposable {
+		public class State : ISaveSource {
+			public List<string> Completed = new List<string>();
+		}
+
 		readonly IEvent         _event;
+		readonly ISave          _save;
 		readonly TimeController _time;
+
+		State _state;
 
 		bool            _isActive  = false;
 		Queue<string>   _tutorials = new Queue<string>();
-		HashSet<string> _completed = new HashSet<string>();
+		HashSet<string> _completed = null;
 
-		public TutorialController(IEvent events, TimeController time) {
+		public TutorialController(ISave save, IEvent events, TimeController time) {
+			_save  = save;
 			_event = events;
 			_time  = time;
+			Load();
+		}
+
+		void Load() {
+			_state = _save.GetNode<State>();
+			_completed = new HashSet<string>(_state.Completed);
+		}
+
+		void Save() {
+			_save.SaveNode(_state);
+		}
+
+		void AddCompletedTutorial(string name) {
+			_completed.Add(name);
+			_state.Completed.Add(name);
+			Save();
 		}
 
 		public void Initialize() {
@@ -35,7 +60,7 @@ namespace Serverfull.Controllers {
 		}
 
 		void OnTutorialComplete(Tutorial_Complete e) {
-			_completed.Add(e.Name);
+			AddCompletedTutorial(e.Name);
 			_isActive = false;
 			_time.Resume();
 			TriggerNextTutorial();
