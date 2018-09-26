@@ -6,13 +6,12 @@ using Serverfull.Events;
 using Zenject;
 
 namespace Serverfull.Controllers {
-	public class TutorialController : IInitializable, IDisposable {
+	public class TutorialController : IInitializable, IDisposable, ISavable {
 		public class State : ISaveSource {
 			public List<string> Completed = new List<string>();
 		}
 
 		readonly IEvent         _event;
-		readonly ISave          _save;
 		readonly TimeController _time;
 
 		State _state;
@@ -21,26 +20,23 @@ namespace Serverfull.Controllers {
 		Queue<string>   _tutorials = new Queue<string>();
 		HashSet<string> _completed = null;
 
-		public TutorialController(ISave save, IEvent events, TimeController time) {
-			_save  = save;
+		public TutorialController(IEvent events, TimeController time) {
 			_event = events;
 			_time  = time;
-			Load();
 		}
 
-		void Load() {
-			_state = _save.GetNode<State>();
+		public void Load(ISave save) {
+			_state = save.GetNode<State>();
 			_completed = new HashSet<string>(_state.Completed);
 		}
 
-		void Save() {
-			_save.SaveNode(_state);
+		public void Save(ISave save) {
+			save.SaveNode(_state);
 		}
 
 		void AddCompletedTutorial(string name) {
 			_completed.Add(name);
 			_state.Completed.Add(name);
-			Save();
 		}
 
 		public void Initialize() {

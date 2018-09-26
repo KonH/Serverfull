@@ -6,7 +6,7 @@ using Serverfull.Models;
 using Serverfull.Events;
 
 namespace Serverfull.Controllers {
-	public class FinanceController : ILogContext {
+	public class FinanceController : ILogContext, ISavable {
 		public class State : ISaveSource {
 			public Money Balance;
 		}
@@ -16,20 +16,17 @@ namespace Serverfull.Controllers {
 		State _state;
 
 		readonly ULogger      _log;
-		readonly ISave        _save;
 		readonly IEvent       _event;
 		readonly GameSettings _settings;
 
-		public FinanceController(ILog log, ISave save, IEvent events, GameSettings settings) {
+		public FinanceController(ILog log, IEvent events, GameSettings settings) {
 			_log      = log.CreateLogger(this);
-			_save     = save;
 			_event    = events;
 			_settings = settings;
-			Load();
 		}
 
-		void Load() {
-			_state = _save.GetNode<State>(false);
+		public void Load(ISave save) {
+			_state = save.GetNode<State>(false);
 			if ( _state == null ) {
 				_state = new State {
 					Balance = new Money(_settings.StartMoney)
@@ -37,8 +34,8 @@ namespace Serverfull.Controllers {
 			}
 		}
 
-		void Save() {
-			_save.SaveNode(_state);
+		public void Save(ISave save) {
+			save.SaveNode(_state);
 		}
 
 		void RaiseUpdateEvent() {
@@ -51,14 +48,12 @@ namespace Serverfull.Controllers {
 			}
 			_state.Balance -= money;
 			_log.MessageFormat("Spend: {0} => {1}", money, Balance);
-			Save();
 			RaiseUpdateEvent();
 		}
 
 		public void Add(Money money) {
 			_state.Balance += money;
 			_log.MessageFormat("Add: {0} => {1}", money, Balance);
-			Save();
 			RaiseUpdateEvent();
 		}
 	}

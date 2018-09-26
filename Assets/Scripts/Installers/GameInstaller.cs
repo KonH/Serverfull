@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Installers;
 using UDBase.Controllers.SaveSystem;
@@ -6,6 +7,7 @@ using Serverfull.Game;
 using Serverfull.Utils;
 using Serverfull.Common;
 using Serverfull.Controllers;
+using Zenject;
 
 namespace Serverfull.Installers {
 	public class GameInstaller : UDBaseInstaller {
@@ -20,28 +22,30 @@ namespace Serverfull.Installers {
 		public override void InstallBindings() {
 			// udbase
 			var jsonSaveSettings = new Save.JsonSettings {
-				FileName = "save",
+				FileName = "save.json",
 				PrettyJson = true,
 				Items = new List<Save.SaveItem> {
 					new Save.SaveItem(typeof(TimeController.State), "time"),
 					new Save.SaveItem(typeof(FinanceController.State), "finance"),
 					new Save.SaveItem(typeof(TutorialController.State), "tutorial"),
-				}
+				},
+				AutoFlush = false,
 			};
 			AddJsonSave(jsonSaveSettings);
 			
 			// base
 			Container.BindInstance(Settings);
 			Container.Bind<GameRules>().ToSelf().AsSingle();
-			
+
 			// single
-			Container.BindTickableToSelf<TimeController>().AsSingle();
-			Container.Bind<FinanceController>().ToSelf().AsSingle();
+			Container.Bind<SaveController>().ToSelf().AsSingle().NonLazy();
+			Container.BindToSelf<TimeController, ITickable, ISavable>().AsSingle();
+			Container.BindToSelf<FinanceController, ISavable>().AsSingle();
 			Container.BindInitDisposeToSelf<StatusController>().AsSingle();
 			Container.BindInitDisposeToSelf<MessageController>().AsSingle().NonLazy();
 			Container.Bind<UserController>().ToSelf().AsSingle();
 			if ( Settings.WithTutorials ) {
-				Container.BindInitDisposeToSelf<TutorialController>().AsSingle().NonLazy();
+				Container.BindToSelf<TutorialController, IInitializable, IDisposable, ISavable>().AsSingle().NonLazy();
 			}
 			
 			// client

@@ -8,7 +8,7 @@ using Serverfull.Events;
 using Zenject;
 
 namespace Serverfull.Controllers {
-	public class TimeController : ITickable, ILogContext {
+	public class TimeController : ITickable, ILogContext, ISavable {
 		public class State : ISaveSource {
 			public DateTime Time;
 		}
@@ -17,7 +17,6 @@ namespace Serverfull.Controllers {
 		public float    DeltaTime { get; private set; }
 
 		readonly ULogger      _log;
-		readonly ISave        _save;
 		readonly IEvent       _event;
 		readonly GameSettings _settings;
 
@@ -28,25 +27,23 @@ namespace Serverfull.Controllers {
 		bool     _paused;
 		int      _prevHours;
 
-		public TimeController(ILog log, ISave save, IEvent events, GameSettings settings) {
-			_log       = log.CreateLogger(this);
-			_save      = save;
-			_event     = events;
-			_settings  = settings;
-			Load();
+		public TimeController(ILog log, IEvent events, GameSettings settings) {
+			_log      = log.CreateLogger(this);
+			_event    = events;
+			_settings = settings;
 		}
 
-		void Load() {
+		public void Load(ISave save) {
 			_startTime = DateTime.MinValue;
-			_state = _save.GetNode<State>(false);
+			_state = save.GetNode<State>(false);
 			if ( _state == null ) {
 				_state = new State();
 				_state.Time = _startTime;
 			}
 		}
 
-		void Save() {
-			_save.SaveNode(_state);
+		public void Save(ISave save) {
+			save.SaveNode(_state);
 		}
 
 		public void Tick() {
@@ -58,7 +55,6 @@ namespace Serverfull.Controllers {
 			}
 			var hoursDelta = (int)(GameTime - _startTime).TotalHours;
 			while ( hoursDelta > _prevHours ) {
-				Save();
 				_log.MessageFormat("New game hour: {0}", GameTime);
 				_event.Fire(new Time_NewGameHour(GameTime));
 				_prevHours++;
