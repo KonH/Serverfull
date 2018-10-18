@@ -580,7 +580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000034067474}
+  m_AnchoredPosition: {x: 0, y: 0.000022483304}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &116927486
@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1786114881}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2162,6 +2162,7 @@ GameObject:
   - component: {fileID: 416912719}
   - component: {fileID: 416912721}
   - component: {fileID: 416912720}
+  - component: {fileID: 416912722}
   m_Layer: 5
   m_Name: TimePanel
   m_TagString: Untagged
@@ -2222,6 +2223,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 416912718}
   m_CullTransparentMesh: 0
+--- !u!114 &416912722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416912718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa37fc1f0a2a78468f8a4ae773f2af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &417750982
 Prefab:
   m_ObjectHideFlags: 0
@@ -3092,7 +3104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000029901781}
+  m_AnchoredPosition: {x: 0, y: 0.000024783729}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &625179930
@@ -3812,7 +3824,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1216892276}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5812,10 +5824,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290839026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd3496c938a32a4caf08a8ad5996c16, type: 3}
+  m_Script: {fileID: 11500000, guid: e1603ee9dc901f54fa7a795b75c4a8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Format: MM/dd/yyyy HH:mm
+  viewAdapterTypeName: UnityWeld.Binding.Adapters.DateTimeToStringAdapter
+  viewAdapterOptions: {fileID: 11400000, guid: 3073e98886eaec649bc73161adbd381f, type: 2}
+  viewModelPropertyName: Serverfull.ViewModels.TimeViewModel.Time
+  viewPropertyName: UnityEngine.UI.Text.text
 --- !u!1001 &1309005560
 Prefab:
   m_ObjectHideFlags: 0
@@ -7297,7 +7312,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000034067474}
+  m_AnchoredPosition: {x: 0, y: 0.000022483304}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1615883803

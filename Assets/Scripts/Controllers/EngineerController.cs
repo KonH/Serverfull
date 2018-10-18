@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
@@ -16,29 +17,33 @@ namespace Serverfull.Controllers {
 		public List<EngineerId> Hired     => GetUnitsByHired(true);
 
 		readonly IEvent            _event;
+		readonly TimeController    _time;
 		readonly FinanceController _finance;
 
 		Dictionary<EngineerId, Engineer> _units = new Dictionary<EngineerId, Engineer>();
 
-		public EngineerController(IEvent events, GameSettings settings, FinanceController finance) {
+		public EngineerController(IEvent events, GameSettings settings, TimeController time, FinanceController finance) {
 			_event   = events;
+			_time    = time;
 			_finance = finance;
 		}
 
 		public void Initialize() {
-			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+			_time.State.PropertyChanged += OnTimeChanged;
 		}
 
 		public void Dispose() {
-			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+			_time.State.PropertyChanged -= OnTimeChanged;
 		}
 
-		void OnNewHour(Time_NewGameHour e) {
-			var salary = Money.Zero;
-			foreach ( var id in Hired ) {
-				salary += Get(id).Salary;
+		void OnTimeChanged(object sender, PropertyChangedEventArgs e) {
+			if ( e.PropertyName == nameof(TimeModel.Hour) ) {
+				var salary = Money.Zero;
+				foreach ( var id in Hired ) {
+					salary += Get(id).Salary;
+				}
+				_finance.Spend(salary);
 			}
-			_finance.Spend(salary);
 		}
 
 		public void AddUnit(Engineer unit) {

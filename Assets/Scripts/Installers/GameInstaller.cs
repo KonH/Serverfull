@@ -26,7 +26,7 @@ namespace Serverfull.Installers {
 				FileName = "save.json",
 				PrettyJson = true,
 				Items = new List<Save.SaveItem> {
-					new Save.SaveItem(typeof(TimeController.State), "time"),
+					new Save.SaveItem(typeof(TimeModel), "time"),
 					new Save.SaveItem(typeof(FinanceModel), "finance"),
 					new Save.SaveItem(typeof(TutorialController.State), "tutorial"),
 				},

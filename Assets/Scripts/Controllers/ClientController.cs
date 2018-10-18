@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
@@ -15,26 +16,30 @@ namespace Serverfull.Controllers {
 
 		readonly IEvent            _event;
 		readonly ServerController  _server;
+		readonly TimeController    _time;
 		readonly FinanceController _finance;
 
 		Dictionary<ClientId, Client> _clients = new Dictionary<ClientId, Client>();
 
-		public ClientController(ServerController server, IEvent events, FinanceController finance) {
+		public ClientController(ServerController server, IEvent events, TimeController time, FinanceController finance) {
 			_server  = server;
 			_event   = events;
+			_time    = time;
 			_finance = finance;
 		}
 
 		public void Initialize() {
-			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+			_time.State.PropertyChanged += OnTimeChanged;
 		}
 
 		public void Dispose() {
-			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+			_time.State.PropertyChanged -= OnTimeChanged;
 		}
 
-		void OnNewHour(Time_NewGameHour e) {
-			_finance.Add(GetTotalIncome());
+		void OnTimeChanged(object sender, PropertyChangedEventArgs e) {
+			if ( e.PropertyName == nameof(TimeModel.Hour) ) {
+				_finance.Add(GetTotalIncome());
+			}
 		}
 
 		public void AddClient(Client client) {

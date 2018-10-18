@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
@@ -15,24 +16,28 @@ namespace Serverfull.Controllers {
 
 		readonly ULogger           _log;
 		readonly IEvent            _event;
+		readonly TimeController    _time;
 		readonly FinanceController _finance;
 
-		public ServerController(ILog log, IEvent events, FinanceController finance) {
+		public ServerController(ILog log, IEvent events, TimeController time, FinanceController finance) {
 			_log     = log.CreateLogger(this);
 			_event   = events;
+			_time    = time;
 			_finance = finance;
 		}
 
 		public void Initialize() {
-			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+			_time.State.PropertyChanged += OnTimeChanged;
 		}
 
 		public void Dispose() {
-			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+			_time.State.PropertyChanged -= OnTimeChanged;
 		}
 
-		void OnNewHour(Time_NewGameHour e) {
-			_finance.Spend(GetTotalMaintenance());
+		void OnTimeChanged(object sender, PropertyChangedEventArgs e) {
+			if ( e.PropertyName == nameof(TimeModel.Hour) ) {
+				_finance.Spend(GetTotalMaintenance());
+			}
 		}
 
 		public void Add(Server server) {

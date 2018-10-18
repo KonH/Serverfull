@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.EventSystem;
@@ -40,16 +41,16 @@ namespace Serverfull.Controllers {
 		}
 
 		public void Initialize() {
+			_time.State.PropertyChanged += OnTimeChanged;
 			_event.Subscribe<Tutorial_Complete>(this, OnTutorialComplete);
-			_event.Subscribe<Time_Started>     (this, OnTimeStarted);
 			_event.Subscribe<Server_New>       (this, OnServerNew);
 			_event.Subscribe<Server_Break>     (this, OnServerBreak);
 			_event.Subscribe<Panel_Open>       (this, OnPanelOpen);
 		}
 
 		public void Dispose() {
+			_time.State.PropertyChanged -= OnTimeChanged;
 			_event.Unsubscribe<Tutorial_Complete>(OnTutorialComplete);
-			_event.Unsubscribe<Time_Started>     (OnTimeStarted);
 			_event.Unsubscribe<Server_New>       (OnServerNew);
 			_event.Unsubscribe<Server_Break>     (OnServerBreak);
 			_event.Unsubscribe<Panel_Open>       (OnPanelOpen);
@@ -62,8 +63,9 @@ namespace Serverfull.Controllers {
 			TriggerNextTutorial();
 		}
 
-		void OnTimeStarted(Time_Started e) {
+		private void OnTimeChanged(object sender, PropertyChangedEventArgs e) {
 			StartTutorials("Clients", "FirstServer");
+			_time.State.PropertyChanged -= OnTimeChanged;
 		}
 
 		void OnServerNew(Server_New e) {

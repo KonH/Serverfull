@@ -1,39 +1,41 @@
 ﻿using System;
-using UDBase.Controllers.EventSystem;
+using System.ComponentModel;
 using Serverfull.Common;
-using Serverfull.Events;
+using Serverfull.Models;
 using Zenject;
 
 namespace Serverfull.Controllers {
 	public class EngineerSpawnController : IInitializable, IDisposable {
-		readonly IEvent             _event;
 		readonly GameSettings       _settings;
+		readonly TimeController     _time;
 		readonly EngineerController _engineer;
 		readonly EngineerGenerator  _generator;
 
 		int _lastHours;
 
-		public EngineerSpawnController(IEvent events, GameSettings settings, EngineerController engineer, EngineerGenerator generator) {
-			_event     = events;
+		public EngineerSpawnController(GameSettings settings, TimeController time, EngineerController engineer, EngineerGenerator generator) {
 			_settings  = settings;
+			_time      = time;
 			_engineer  = engineer;
 			_generator = generator;
 		}
 
 		public void Initialize() {
-			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+			_time.State.PropertyChanged += OnTimeChanged;
 			SpawnEngineers(_settings.FirstEngineerSpawn);
 		}
 
 		public void Dispose() {
-			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+			_time.State.PropertyChanged -= OnTimeChanged;
 		}
 
-		void OnNewHour(Time_NewGameHour e) {
-			var newHours = (int)(e.GameTime - DateTime.MinValue).TotalHours;
-			if ( newHours > _lastHours + _settings.EngineerSpawnInterval ) {
-				_lastHours = newHours;
-				SpawnEngineers(_settings.ClientsPerSpawn);
+		void OnTimeChanged(object sender, PropertyChangedEventArgs e) {
+			if ( e.PropertyName == nameof(TimeModel.Hour) ) {
+				var newHours = _time.State.Hour;
+				if ( newHours > _lastHours + _settings.EngineerSpawnInterval ) {
+					_lastHours = newHours;
+					SpawnEngineers(_settings.ClientsPerSpawn);
+				}
 			}
 		}
 

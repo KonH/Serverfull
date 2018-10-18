@@ -1,39 +1,41 @@
 ﻿using System;
-using UDBase.Controllers.EventSystem;
+using System.ComponentModel;
 using Serverfull.Common;
-using Serverfull.Events;
+using Serverfull.Models;
 using Zenject;
 
 namespace Serverfull.Controllers {
 	public class ClientSpawnController : IInitializable, IDisposable {
-		readonly IEvent           _event;
 		readonly GameSettings     _settings;
+		readonly TimeController   _time;
 		readonly ClientController _client;
 		readonly ClientGenerator  _generator;
 
 		int _lastHours;
 
-		public ClientSpawnController(IEvent events, GameSettings settings, ClientController client, ClientGenerator generator) {
-			_event     = events;
+		public ClientSpawnController(GameSettings settings, TimeController time, ClientController client, ClientGenerator generator) {
 			_settings  = settings;
+			_time      = time;
 			_client    = client;
 			_generator = generator;
 		}
 
 		public void Initialize() {
-			_event.Subscribe<Time_NewGameHour>(this, OnNewHour);
+			_time.State.PropertyChanged += OnTimeChanged;
 			SpawnClients(_settings.FirstClientSpawn);
 		}
 
 		public void Dispose() {
-			_event.Unsubscribe<Time_NewGameHour>(OnNewHour);
+			_time.State.PropertyChanged -= OnTimeChanged;
 		}
 
-		void OnNewHour(Time_NewGameHour e) {
-			var newHours = (int)(e.GameTime - DateTime.MinValue).TotalHours;
-			if ( newHours > _lastHours + _settings.ClientSpawnInterval ) {
-				_lastHours = newHours;
-				SpawnClients(_settings.ClientsPerSpawn);
+		void OnTimeChanged(object sender, PropertyChangedEventArgs e) {
+			if ( e.PropertyName == nameof(TimeModel.Hour) ) {
+				var newHours = _time.State.Hour;
+				if ( newHours > _lastHours + _settings.ClientSpawnInterval ) {
+					_lastHours = newHours;
+					SpawnClients(_settings.ClientsPerSpawn);
+				}
 			}
 		}
 
