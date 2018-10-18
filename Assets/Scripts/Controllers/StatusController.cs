@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.LogSystem;
 using Serverfull.Events;
@@ -7,26 +8,28 @@ using Zenject;
 
 namespace Serverfull.Controllers {
 	public class StatusController : ILogContext, IInitializable, IDisposable {
-		readonly IEvent  _event;
-		readonly ULogger _logger;
+		readonly IEvent            _event;
+		readonly ULogger           _logger;
+		readonly FinanceController _finance;
 
 		bool _ended;
 
-		public StatusController(IEvent events, ILog log) {
-			_event  = events;
-			_logger = log.CreateLogger(this);
+		public StatusController(IEvent events, ILog log, FinanceController finance) {
+			_event   = events;
+			_logger  = log.CreateLogger(this);
+			_finance = finance;
 		}
 
 		public void Initialize() {
-			_event.Subscribe<Balance_Changed>(this, OnBalanceChanged);
+			_finance.State.PropertyChanged += OnBalanceChanged;
 		}
 
 		public void Dispose() {
-			_event.Unsubscribe<Balance_Changed>(OnBalanceChanged);
+			_finance.State.PropertyChanged -= OnBalanceChanged;
 		}
 
-		void OnBalanceChanged(Balance_Changed e) {
-			if ( e.NewBalance < Money.Zero ) {
+		private void OnBalanceChanged(object sender, PropertyChangedEventArgs e) {
+			if ( _finance.Balance < Money.Zero ) {
 				RaiseGameEnd();
 			}
 		}

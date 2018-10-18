@@ -1,3 +1,11 @@
-﻿{
-	"name": "Scripts.Models"
+{
+    "name": "Scripts.Models",
+    "references": [
+        "UDBase.Scripts",
+        "UDBase.Extensions"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }

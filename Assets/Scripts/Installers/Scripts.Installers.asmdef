@@ -6,7 +6,8 @@
         "Scripts.Utils",
         "Scripts.Controllers",
         "UDBase.Extensions",
-        "Scripts.Common"
+        "Scripts.Common",
+        "Scripts.Models"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

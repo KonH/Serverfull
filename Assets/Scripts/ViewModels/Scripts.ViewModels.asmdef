@@ -1,0 +1,14 @@
+{
+    "name": "Scripts.ViewModels",
+    "references": [
+        "Scripts.Models",
+        "UDBase.Extensions",
+        "Scripts.Controllers",
+        "Unity-Weld",
+        "UDBase.Scripts"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

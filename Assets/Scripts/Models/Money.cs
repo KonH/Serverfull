@@ -34,6 +34,14 @@ namespace Serverfull.Models {
 			return a.Value <= b.Value;
 		}
 
+		public static bool operator ==(Money a, Money b) {
+			return a.Equals(b);
+		}
+
+		public static bool operator !=(Money a, Money b) {
+			return !(a == b);
+		}
+
 		public override string ToString() {
 			return string.Format("${0}", Value);
 		}

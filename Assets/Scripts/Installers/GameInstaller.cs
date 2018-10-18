@@ -6,6 +6,7 @@ using UDBase.Controllers.SaveSystem;
 using Serverfull.Game;
 using Serverfull.Utils;
 using Serverfull.Common;
+using Serverfull.Models;
 using Serverfull.Controllers;
 using Zenject;
 
@@ -26,7 +27,7 @@ namespace Serverfull.Installers {
 				PrettyJson = true,
 				Items = new List<Save.SaveItem> {
 					new Save.SaveItem(typeof(TimeController.State), "time"),
-					new Save.SaveItem(typeof(FinanceController.State), "finance"),
+					new Save.SaveItem(typeof(FinanceModel), "finance"),
 					new Save.SaveItem(typeof(TutorialController.State), "tutorial"),
 				},
 				AutoFlush = false,
